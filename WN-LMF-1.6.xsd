@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ~ Copyright (c) 2019. Bernard Bou <1313ou@gmail.com>. -->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ewn='https://github.com/globalwordnet/english-wordnet' xmlns:dc='http://purl.org/dc/elements/1.1/'>
+
+	<xsd:import namespace='http://purl.org/dc/elements/1.1/' schemaLocation='dc.xsd' />
+	<xsd:import namespace='https://github.com/globalwordnet/english-wordnet' schemaLocation='types-1.6.xsd' />
+
+	<!-- E L E M E N T S -->
+
+	<xsd:element name='LexicalResource'>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref='Lexicon' maxOccurs='unbounded' />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='Lexicon'>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref='SyntacticBehaviour' minOccurs='0' maxOccurs='unbounded' />
+				<xsd:element ref='LexicalEntry' minOccurs='0' maxOccurs='unbounded' />
+				<xsd:element ref='Synset' minOccurs='0' maxOccurs='unbounded' />
+			</xsd:sequence>
+
+			<xsd:attribute name='id' type='xsd:ID' use='required' />
+			<xsd:attribute name='label' type='xsd:string' use='required' />
+			<xsd:attribute name='language' type='xsd:string' use='required' />
+			<xsd:attribute name='email' type='xsd:string' use='required' />
+			<xsd:attribute name='license' type='xsd:string' use='required' />
+			<xsd:attribute name='version' type='xsd:string' use='required' />
+			<xsd:attribute name='url' type='xsd:string' use='optional' />
+			<xsd:attribute name='citation' type='xsd:string' use='optional' />
+			<xsd:attributeGroup ref='ewn:Meta' />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='LexicalEntry'>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref='Lemma' minOccurs='1' maxOccurs='1' />
+				<xsd:element ref='Form' minOccurs='0' maxOccurs='unbounded' />
+				<xsd:element ref='Sense' minOccurs='1' maxOccurs='unbounded' />
+			</xsd:sequence>
+
+			<xsd:attribute name='id' type='ewn:LexicalEntryIDType' use='required' />
+			<xsd:attributeGroup ref='ewn:Meta' />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='Lemma'>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref='Tag' minOccurs='0' maxOccurs='unbounded' />
+			</xsd:sequence>
+
+			<xsd:attribute name='writtenForm' type='ewn:WrittenFormType' use='required' />
+			<xsd:attribute name='script' type='ewn:ScriptType' use='optional' />
+			<xsd:attribute name='partOfSpeech' type='ewn:PartOfSpeechType' use='required' />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='Form'>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref='Tag' minOccurs='0' maxOccurs='unbounded' />
+			</xsd:sequence>
+
+			<xsd:attribute name='writtenForm' type='ewn:WrittenFormType' use='required' />
+			<xsd:attribute name='script' type='ewn:ScriptType' use='optional' />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='Tag'>
+		<xsd:complexType mixed='true'>
+			<xsd:attribute name='category' type='xsd:string' use='required' />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='Sense'>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref='SenseRelation' minOccurs='0' maxOccurs='unbounded' />
+				<xsd:element ref='Example' minOccurs='0' maxOccurs='unbounded' />
+				<xsd:element ref='Count' minOccurs='0' maxOccurs='1' />
+			</xsd:sequence>
+
+			<xsd:attribute name='id' type='ewn:SenseIDType' use='required' />
+			<xsd:attribute name='synset' type='ewn:LocalSynsetIDREFType' use='required' />
+			<xsd:attribute name='n' type='ewn:NType' use='optional' />
+			<xsd:attribute name='lexfile' type='ewn:LexFileType' use='optional' />
+			<xsd:attribute name='lexidx' type='ewn:LexIdxType' use='optional' />
+			<xsd:attribute name='lexid' type='ewn:LexIdType' use='optional' />
+			<xsd:attribute name='sensekey' type='ewn:SensekeyType' use='required' />
+			<xsd:attribute name='syntactic_behaviour' type='ewn:LocalSyntacticBehaviourIDREFSType' use='optional' />
+			<xsd:attribute name='sentence_template' type='ewn:LocalSyntacticBehaviourIDREFSType' use='optional' />
+			<xsd:attribute name='adj_position' type='ewn:AdjPositionType' use='optional' />
+			<xsd:attribute name='lexicalized' type='xsd:boolean' default='true' use='optional' />
+			<xsd:attribute ref='dc:identifier' use='optional' /> <!-- sensekey -->
+			<xsd:attributeGroup ref='ewn:Meta' />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='Synset'>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref='Definition' minOccurs='0' maxOccurs='1' />
+				<xsd:element ref='ILIDefinition' minOccurs='0' maxOccurs='1' />
+				<xsd:element ref='SynsetRelation' minOccurs='0' maxOccurs='unbounded' />
+				<xsd:element ref='Example' minOccurs='0' maxOccurs='unbounded' />
+			</xsd:sequence>
+
+			<xsd:attribute name='id' type='ewn:SynsetIDType' use='required' />
+			<xsd:attribute name='ili' type='ewn:ILIType' use='required' />
+			<xsd:attribute name='partOfSpeech' use='optional' type='ewn:PartOfSpeechType' />
+			<xsd:attribute name='lexicalized' type='xsd:boolean' default='true' use='optional' />
+			<xsd:attribute ref='dc:subject' use='required' /> <!-- lex domain -->
+			<xsd:attributeGroup ref='ewn:Meta' />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='Definition'>
+		<xsd:complexType mixed='true'>
+			<xsd:attribute name='language' type='xsd:string' use='optional' />
+			<xsd:attribute name='sourceSense' type='ewn:LocalSynsetIDREFType' use='optional' />
+			<xsd:attributeGroup ref='ewn:Meta' />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='ILIDefinition'>
+		<xsd:complexType mixed='true'>
+			<xsd:attributeGroup ref='ewn:Meta' />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='Example'>
+		<xsd:complexType mixed='true'>
+			<xsd:attribute name='language' type='xsd:string' use='optional' />
+			<xsd:attributeGroup ref='ewn:Meta' />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='SynsetRelation'>
+		<xsd:complexType>
+			<xsd:attribute name='target' type='ewn:SynsetIDREFType' use='required' />
+			<xsd:attribute name='relType' type='ewn:SynsetRelationType' use='required' />
+			<xsd:attributeGroup ref='ewn:Meta' />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='SenseRelation'>
+		<xsd:complexType>
+			<xsd:attribute name='target' type='ewn:SenseIDREFType' use='required' />
+			<xsd:attribute name='relType' type='ewn:SenseRelationType' use='required' />
+			<xsd:attributeGroup ref='ewn:Meta' />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='SyntacticBehaviour'>
+		<xsd:complexType>
+			<xsd:attribute name='id' type='ewn:SyntacticBehaviourIDType' use='optional' />
+			<xsd:attribute name='subcategorizationFrame' type='xsd:string' use='optional' />
+			<xsd:attribute name='sentenceTemplate' type='xsd:string' use='optional' />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='Count'>
+		<xsd:complexType mixed='true'>
+			<xsd:attributeGroup ref='ewn:Meta' />
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
