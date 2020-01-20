@@ -70,7 +70,7 @@ public class TemplateIndexer
 		{
 			ps.println(line);
 		}
-		System.err.println("Senses: " + m);
+		System.err.println("Senses with templates: " + m);
 	}
 
 	public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException, XPathExpressionException

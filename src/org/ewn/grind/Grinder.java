@@ -75,6 +75,7 @@ public class Grinder
 		indexWords(dir, doc, synsetsById, offsets);
 		indexSenses(dir, doc, offsets);
 		morphs(dir, doc);
+		templates(dir, doc);
 
 		// Timing
 		final long endTime = System.currentTimeMillis();
