@@ -60,9 +60,9 @@ public class Grinder
 		Document doc = XmlUtils.getDocument(filename, false);
 
 		// Maps
-		Map<String, List<Element>> sensesBySynsetId = XmlUtils.makeElementMultiMap(doc, SynsetProcessor.SENSE_TAG, SynsetProcessor.SYNSET_ATTR);
-		Map<String, Element> synsetsById = XmlUtils.makeElementMap(doc, SynsetProcessor.SYNSET_TAG, SynsetProcessor.ID_ATTR);
-		Map<String, Element> sensesById = XmlUtils.makeElementMap(doc, SynsetProcessor.SENSE_TAG, SynsetProcessor.ID_ATTR);
+		Map<String, List<Element>> sensesBySynsetId = XmlUtils.makeElementMultiMap(doc, XmlNames.SENSE_TAG, XmlNames.SYNSET_ATTR);
+		Map<String, Element> synsetsById = XmlUtils.makeElementMap(doc, XmlNames.SYNSET_TAG, XmlNames.ID_ATTR);
+		Map<String, Element> sensesById = XmlUtils.makeElementMap(doc, XmlNames.SENSE_TAG, XmlNames.ID_ATTR);
 
 		// Compute synset offsets
 		Map<String, Long> offsets = new OffsetFactory(doc, sensesBySynsetId, synsetsById, sensesById).compute();
@@ -101,22 +101,22 @@ public class Grinder
 	) throws IOException, XPathExpressionException
 	{
 		// Data
-		DataGrinder factory = new DataGrinder(doc, sensesBySynsetId, synsetsById, sensesById, offsets);
+		DataGrinder grinder = new DataGrinder(doc, sensesBySynsetId, synsetsById, sensesById, offsets);
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.noun"))))
 		{
-			factory.makeData(ps, SynsetProcessor.NOUN_SYNSET_XPATH);
+			grinder.makeData(ps, SynsetProcessor.NOUN_SYNSET_XPATH);
 		}
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.verb"))))
 		{
-			factory.makeData(ps, SynsetProcessor.VERB_SYNSET_XPATH);
+			grinder.makeData(ps, SynsetProcessor.VERB_SYNSET_XPATH);
 		}
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.adj"))))
 		{
-			factory.makeData(ps, SynsetProcessor.ADJ_SYNSET_XPATH);
+			grinder.makeData(ps, SynsetProcessor.ADJ_SYNSET_XPATH);
 		}
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.adv"))))
 		{
-			factory.makeData(ps, SynsetProcessor.ADV_SYNSET_XPATH);
+			grinder.makeData(ps, SynsetProcessor.ADV_SYNSET_XPATH);
 		}
 	}
 
@@ -196,6 +196,23 @@ public class Grinder
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "adv.exc"))))
 		{
 			grinder.makeMorph(ps, MorphGrinder.ADV_LEXENTRIES_XPATH);
+		}
+	}
+
+	/**
+	 * Grind sentidx.vrb
+	 * 
+	 * @param dir output directory
+	 * @param doc parsed XML document
+	 * @throws IOException
+	 * @throws XPathExpressionException 
+	 */
+	public static void templates(File dir, Document doc) throws IOException, XPathExpressionException
+	{
+		TemplateIndexer indexer = new TemplateIndexer(doc);
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "sentidx.vrb"))))
+		{
+			indexer.makeIndex(ps);
 		}
 	}
 }

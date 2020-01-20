@@ -14,9 +14,9 @@ public class SenseIndexer
 {
 	// sense_key synset_offset sense_number tag_cnt
 
-	private Document doc;
+	private final Document doc;
 
-	private Map<String, Long> offsets;
+	private final Map<String, Long> offsets;
 
 	public SenseIndexer(Document doc, Map<String, Long> offsets)
 	{
@@ -34,7 +34,7 @@ public class SenseIndexer
 	{
 		ArrayList<String> lines = new ArrayList<>();
 
-		NodeList senseNodes = doc.getElementsByTagName("Sense");
+		NodeList senseNodes = doc.getElementsByTagName(XmlNames.SENSE_TAG);
 		int n = senseNodes.getLength();
 		for (int i = 0; i < n; i++)
 		{

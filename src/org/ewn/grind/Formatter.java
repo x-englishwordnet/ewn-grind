@@ -21,6 +21,28 @@ class Formatter
 	}
 
 	/**
+	 * Join array of items
+	 * 
+	 * @param items array of items of type T
+	 * @param delim delimiter
+	 * @return joined string representation of items
+	 */
+	static <T> Object join(T[] items, char delim)
+	{
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+		for (T item : items)
+		{
+			if (first)
+				first = false;
+			else
+				sb.append(delim);
+			sb.append(item.toString());
+		}
+		return sb.toString();
+	}
+
+	/**
 	 * Join items
 	 * 
 	 * @param items collection of items of type T

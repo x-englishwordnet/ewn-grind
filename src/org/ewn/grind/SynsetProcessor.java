@@ -36,67 +36,24 @@ public abstract class SynsetProcessor
 	// example
 
 	/**
-	 * DC XML namespace
-	 */
-	protected static final String NS_DC = "http://purl.org/dc/elements/1.1/";
-
-	// TAGS AND ATTRIBUTES
-
-	private static final String LEXICALRESOURCE_TAG = "LexicalResource";
-
-	private static final String LEXICON_TAG = "Lexicon";
-
-	static final String SYNSET_TAG = "Synset";
-
-	private static final String DEFINITION_TAG = "Definition";
-
-	private static final String EXAMPLE_TAG = "Example";
-
-	private static final String SYNSETRELATION_TAG = "SynsetRelation";
-
-	private static final String LEMMA_TAG = "Lemma";
-
-	static final String SENSE_TAG = "Sense";
-
-	private static final String SENSERELATION_TAG = "SenseRelation";
-
-	static final String ID_ATTR = "id";
-
-	private static final String POS_ATTR = "partOfSpeech";
-
-	private static final String WRITTENFORM_ATTR = "writtenForm";
-
-	static final String SYNSET_ATTR = "synset";
-
-	private static final String TARGET_ATTR = "target";
-
-	private static final String RELTYPE_ATTR = "relType";
-
-	private static final String LEXID_ATTR = "lexid";
-
-	private static final String LEXFILE_ATTR = "subject";
-
-	private static final String SYNTACTICBEHAVIOUR_ATTR = "syntactic_behaviour";
-
-	/**
 	 * Xpath for noun synset elements
 	 */
-	protected static final String NOUN_SYNSET_XPATH = '/' + LEXICALRESOURCE_TAG + '/' + LEXICON_TAG + '/' + SYNSET_TAG + "[@" + POS_ATTR + "=\"n\"]";
+	protected static final String NOUN_SYNSET_XPATH = '/' + XmlNames.LEXICALRESOURCE_TAG + '/' + XmlNames.LEXICON_TAG + '/' + XmlNames.SYNSET_TAG + "[@" + XmlNames.POS_ATTR + "=\"n\"]";
 
 	/**
 	 * Xpath for verb synset elements
 	 */
-	protected static final String VERB_SYNSET_XPATH = '/' + LEXICALRESOURCE_TAG + '/' + LEXICON_TAG + '/' + SYNSET_TAG + "[@" + POS_ATTR + "=\"v\"]";
+	protected static final String VERB_SYNSET_XPATH = '/' + XmlNames.LEXICALRESOURCE_TAG + '/' + XmlNames.LEXICON_TAG + '/' + XmlNames.SYNSET_TAG + "[@" + XmlNames.POS_ATTR + "=\"v\"]";
 
 	/**
 	 * Xpath for adj synset elements
 	 */
-	protected static final String ADJ_SYNSET_XPATH = '/' + LEXICALRESOURCE_TAG + '/' + LEXICON_TAG + '/' + SYNSET_TAG + "[@" + POS_ATTR + "=\"a\" or @" + POS_ATTR + "=\"s\"]";
+	protected static final String ADJ_SYNSET_XPATH = '/' + XmlNames.LEXICALRESOURCE_TAG + '/' + XmlNames.LEXICON_TAG + '/' + XmlNames.SYNSET_TAG + "[@" + XmlNames.POS_ATTR + "=\"a\" or @" + XmlNames.POS_ATTR + "=\"s\"]";
 
 	/**
 	 * Xpath for adv synset elements
 	 */
-	protected static final String ADV_SYNSET_XPATH = '/' + LEXICALRESOURCE_TAG + '/' + LEXICON_TAG + '/' + SYNSET_TAG + "[@" + POS_ATTR + "=\"r\"]";
+	protected static final String ADV_SYNSET_XPATH = '/' + XmlNames.LEXICALRESOURCE_TAG + '/' + XmlNames.LEXICON_TAG + '/' + XmlNames.SYNSET_TAG + "[@" + XmlNames.POS_ATTR + "=\"r\"]";
 
 	/**
 	 * Document
@@ -158,30 +115,30 @@ public abstract class SynsetProcessor
 		Map<Integer, List<Frame>> frames = new HashMap<>();
 
 		// attribute data
-		String synsetId = synsetElement.getAttribute(ID_ATTR);
-		char pos = synsetElement.getAttribute(POS_ATTR).charAt(0);
+		String synsetId = synsetElement.getAttribute(XmlNames.ID_ATTR);
+		char pos = synsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
 
 		// definition and examples
-		Element definitionElement = XmlUtils.getFirstChildElement(synsetElement, DEFINITION_TAG);
-		List<Element> exampleElements = XmlUtils.getChildElements(synsetElement, EXAMPLE_TAG);
+		Element definitionElement = XmlUtils.getFirstChildElement(synsetElement, XmlNames.DEFINITION_TAG);
+		List<Element> exampleElements = XmlUtils.getChildElements(synsetElement, XmlNames.EXAMPLE_TAG);
 
 		// lexfile num
 		int lexfilenum = buildLexfileNum(synsetElement);
 
 		// synset relations
-		NodeList semRelationNodes = synsetElement.getElementsByTagName(SYNSETRELATION_TAG);
+		NodeList semRelationNodes = synsetElement.getElementsByTagName(XmlNames.SYNSETRELATION_TAG);
 		int nSem = semRelationNodes.getLength();
 		for (int r = 0; r < nSem; r++)
 		{
 			Node semRelationNode = semRelationNodes.item(r);
 			assert semRelationNode.getNodeType() == Node.ELEMENT_NODE;
 			Element semRelationElement = (Element) semRelationNode;
-			String type = semRelationElement.getAttribute(RELTYPE_ATTR);
-			String targetSynsetId = semRelationElement.getAttribute(TARGET_ATTR);
+			String type = semRelationElement.getAttribute(XmlNames.RELTYPE_ATTR);
+			String targetSynsetId = semRelationElement.getAttribute(XmlNames.TARGET_ATTR);
 			Element targetSynsetElement = synsetsById.get(targetSynsetId);
 
 			long targetOffset = this.offsetFunction.applyAsLong(targetSynsetId);
-			char targetPos = targetSynsetElement.getAttribute(POS_ATTR).charAt(0);
+			char targetPos = targetSynsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
 			Relation relation = new Relation(type, pos, targetPos, targetOffset, 0, 0);
 			relations.add(relation);
 		}
@@ -191,7 +148,7 @@ public abstract class SynsetProcessor
 		for (Element senseElement : senseElements)
 		{
 			// lexid attribute
-			int lexid = Integer.parseInt(senseElement.getAttribute(LEXID_ATTR));
+			int lexid = Integer.parseInt(senseElement.getAttribute(XmlNames.LEXID_ATTR));
 
 			// lexical entry element
 			Node lexEntryNode = senseElement.getParentNode();
@@ -199,14 +156,14 @@ public abstract class SynsetProcessor
 			Element lexEntryElement = (Element) lexEntryNode;
 
 			// lemma element
-			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, LEMMA_TAG);
-			String lemma = lemmaElement.getAttribute(WRITTENFORM_ATTR);
+			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
+			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 			lemmas.add(lemma);
 			int lemmaIndex = lemmas.indexOf(lemma) + 1;
 			words.add(new Word(Formatter.escape(lemma), lexid));
 
 			// syntactic behaviour attribute
-			String syntacticBehaviour = senseElement.getAttribute(SYNTACTICBEHAVIOUR_ATTR);
+			String syntacticBehaviour = senseElement.getAttribute(XmlNames.SYNTACTICBEHAVIOUR_ATTR);
 			if (!syntacticBehaviour.isEmpty())
 			{
 				String[] syntacticBehaviours = syntacticBehaviour.split("\\s+");
@@ -225,18 +182,18 @@ public abstract class SynsetProcessor
 			}
 
 			// sense relations
-			NodeList lexRelationNodes = senseElement.getElementsByTagName(SENSERELATION_TAG);
+			NodeList lexRelationNodes = senseElement.getElementsByTagName(XmlNames.SENSERELATION_TAG);
 			int nLex = lexRelationNodes.getLength();
 			for (int r = 0; r < nLex; r++)
 			{
 				Node lexRelationNode = lexRelationNodes.item(r);
 				assert lexRelationNode.getNodeType() == Node.ELEMENT_NODE;
 				Element lexRelationElement = (Element) lexRelationNode;
-				String type = lexRelationElement.getAttribute(RELTYPE_ATTR);
+				String type = lexRelationElement.getAttribute(XmlNames.RELTYPE_ATTR);
 
-				String targetSenseId = lexRelationElement.getAttribute(TARGET_ATTR);
+				String targetSenseId = lexRelationElement.getAttribute(XmlNames.TARGET_ATTR);
 				Element targetSenseElement = sensesById.get(targetSenseId);
-				String targetSynsetId = targetSenseElement.getAttribute(SYNSET_ATTR);
+				String targetSynsetId = targetSenseElement.getAttribute(XmlNames.SYNSET_ATTR);
 				Element targetSynsetElement = synsetsById.get(targetSynsetId);
 
 				Relation relation = buildLexRelation(type, pos, lemmaIndex, targetSenseElement, targetSynsetElement, targetSynsetId);
@@ -264,15 +221,15 @@ public abstract class SynsetProcessor
 	public static List<String> buildLemmas(Element synsetElement, Map<String, List<Element>> sensesBySynsetId)
 	{
 		ArrayList<String> lemmas = new ArrayList<>();
-		String synsetId = synsetElement.getAttribute(ID_ATTR);
+		String synsetId = synsetElement.getAttribute(XmlNames.ID_ATTR);
 		List<Element> senseElements = sensesBySynsetId.get(synsetId);
 		for (Element senseElement : senseElements)
 		{
 			Node lexEntryNode = senseElement.getParentNode();
 			assert lexEntryNode.getNodeType() == Node.ELEMENT_NODE;
 			Element lexEntryElement = (Element) lexEntryNode;
-			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, LEMMA_TAG);
-			String lemma = lemmaElement.getAttribute(WRITTENFORM_ATTR);
+			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
+			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 			lemmas.add(lemma);
 		}
 		return lemmas;
@@ -294,11 +251,11 @@ public abstract class SynsetProcessor
 		Node targetLexEntryNode = targetSenseElement.getParentNode();
 		assert targetLexEntryNode.getNodeType() == Node.ELEMENT_NODE;
 		Element targetLexEntryElement = (Element) targetLexEntryNode;
-		Element targetLemmaElement = XmlUtils.getFirstChildElement(targetLexEntryElement, LEMMA_TAG);
-		String targetLemma = targetLemmaElement.getAttribute(WRITTENFORM_ATTR);
+		Element targetLemmaElement = XmlUtils.getFirstChildElement(targetLexEntryElement, XmlNames.LEMMA_TAG);
+		String targetLemma = targetLemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 
 		List<String> targetLemmas = buildLemmas(targetSynsetElement, sensesBySynsetId);
-		char targetPos = targetSynsetElement.getAttribute(POS_ATTR).charAt(0);
+		char targetPos = targetSynsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
 		long targetOffset = this.offsetFunction.applyAsLong(targetSynsetId);
 		int sourceWordNum = lemmaIndex;
 		int targetWordNum = targetLemmas.indexOf(targetLemma) + 1;
@@ -313,7 +270,7 @@ public abstract class SynsetProcessor
 	 */
 	protected int buildLexfileNum(Element synsetElement)
 	{
-		String lexfile = synsetElement.getAttributeNS(NS_DC, LEXFILE_ATTR);
+		String lexfile = synsetElement.getAttributeNS(XmlNames.NS_DC, XmlNames.LEXFILE_ATTR);
 		return Coder.codeLexFile(lexfile);
 	}
 

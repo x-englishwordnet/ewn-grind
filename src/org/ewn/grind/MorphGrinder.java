@@ -22,7 +22,7 @@ public class MorphGrinder
 
 	public static final String ADV_LEXENTRIES_XPATH = "/LexicalResource/Lexicon/LexicalEntry[Lemma/@partOfSpeech=\"r\" and count(Form)>0]";
 
-	private Document doc;
+	private final Document doc;
 
 	public MorphGrinder(Document doc)
 	{
