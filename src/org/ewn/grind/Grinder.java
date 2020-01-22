@@ -55,6 +55,7 @@ public class Grinder
 		{
 			dir = new File(".");
 		}
+		System.err.println("Output " + dir.getAbsolutePath());
 
 		// XML document
 		Document doc = XmlUtils.getDocument(filename, false);
@@ -165,7 +166,7 @@ public class Grinder
 	public static void indexSenses(File dir, Document doc, //
 			Map<String, Long> offsets) throws IOException
 	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.senses"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense"))))
 		{
 			new SenseIndexer(doc, offsets).makeIndex(ps);
 		}
