@@ -27,21 +27,6 @@ public final class Gloss
 		this.splitGloss = split(gloss.trim());
 	}
 
-	@Override
-	public String toString()
-	{
-		final StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < this.splitGloss.length; i++)
-		{
-			if (i != 0)
-			{
-				sb.append(";");
-			}
-			sb.append(this.splitGloss[i]);
-		}
-		return sb.toString();
-	}
-
 	private String[] split(final String gloss)
 	{
 		final String REGEX = "\\\"[^\\\"]*\\\"";
@@ -98,5 +83,20 @@ public final class Gloss
 	public String[] getSamples()
 	{
 		return Arrays.copyOfRange(this.splitGloss, 1, this.splitGloss.length);
+	}
+
+	@Override
+	public String toString()
+	{
+		final StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < this.splitGloss.length; i++)
+		{
+			if (i != 0)
+			{
+				sb.append(";");
+			}
+			sb.append(this.splitGloss[i]);
+		}
+		return sb.toString();
 	}
 }
