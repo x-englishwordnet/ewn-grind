@@ -113,7 +113,7 @@ public class WordIndexer
 			String ptrs = Formatter.joinNum(relationPointers, "%d");
 			String ofs = String.format("%d %d %s", synsetIds.size(), 0, Formatter.join(synsetIds, ' ', false, s -> String.format("%08d", offsets.get(s))));
 
-			String data = String.format("%s %s %d %s %s", Formatter.escape(lemma), pos, nSenses, ptrs, ofs);
+			String data = String.format("%s %s %d %s %s", Formatter.escape(lemma.toLowerCase()), pos, nSenses, ptrs, ofs);
 			ps.println(data);
 		}
 		System.err.println("Words: " + n + " for " + xpath);
