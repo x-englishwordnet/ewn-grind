@@ -30,7 +30,7 @@ public class IndexParser
 		// Process
 		for (final String posName : new String[] { "noun", "verb", "adj", "adv" })
 		{
-			IndexParser.parseIndex(dir, posName);
+			IndexParser.parseIndexes(dir, posName);
 		}
 
 		// Timing
@@ -38,9 +38,9 @@ public class IndexParser
 		System.err.println("Total execution time: " + (endTime - startTime) / 1000 + "s");
 	}
 
-	private static void parseIndex(String dir, String posName) throws IOException
+	public static void parseIndexes(String dir, String posName) throws IOException
 	{
-		System.out.println(posName.toUpperCase());
+		System.out.println("* Indexes " + posName);
 
 		// iterate on lines
 		final File file = new File(dir, "index." + posName);

@@ -28,7 +28,7 @@ public class DataParser
 		// Process
 		for (final String posName : new String[] { "noun", "verb", "adj", "adv" })
 		{
-			parseData(dir, posName);
+			parseSynsets(dir, posName);
 		}
 
 		// Timing
@@ -36,9 +36,9 @@ public class DataParser
 		System.err.println("Total execution time: " + (endTime - startTime) / 1000 + "s");
 	}
 
-	static void parseData(final String dir, final String posName) throws IOException
+	static void parseSynsets(final String dir, final String posName) throws IOException
 	{
-		System.out.println(posName.toUpperCase());
+		System.out.println("* Synsets " + posName);
 
 		final boolean isAdj = posName.equals("adj");
 

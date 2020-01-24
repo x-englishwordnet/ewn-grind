@@ -15,8 +15,13 @@ public class Parser
 		// Process
 		for (final String posName : new String[] { "noun", "verb", "adj", "adv" })
 		{
-			DataParser.parseData(dir, posName);
+			DataParser.parseSynsets(dir, posName);
 		}
+		for (final String posName : new String[] { "noun", "verb", "adj", "adv" })
+		{
+			IndexParser.parseIndexes(dir, posName);
+		}
+		SenseParser.parseSenses(dir);
 
 		// Timing
 		final long endTime = System.currentTimeMillis();

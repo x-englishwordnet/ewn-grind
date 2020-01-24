@@ -37,6 +37,8 @@ public class SenseParser
 
 	static void parseSenses(final String dir) throws IOException
 	{
+		System.out.println("* Senses");
+
 		// iterate on lines
 		final File file = new File(dir, "index.sense");
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file))))
