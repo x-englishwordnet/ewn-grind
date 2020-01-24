@@ -93,6 +93,7 @@
 			<xsd:attribute name='syntactic_behaviour' type='xsd:string' use='optional' />
 			<xsd:attribute name='sentence_template' type='xsd:string' use='optional' />
 			<xsd:attribute name='adj_position' type='xsd:string' use='optional' />
+			<xsd:attribute name='tagcnt' type='xsd:int' use='optional' />
 			<xsd:attribute name='lexicalized' type='xsd:boolean' default='true' use='optional' />
 			<xsd:attribute ref='dc:identifier' use='optional' /> <!-- sensekey -->
 		</xsd:complexType>

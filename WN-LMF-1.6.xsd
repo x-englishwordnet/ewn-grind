@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ~ Copyright (c) 2019. Bernard Bou <1313ou@gmail.com>. -->
 
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ewn='https://github.com/globalwordnet/english-wordnet' xmlns:dc='http://purl.org/dc/elements/1.1/'>
+<xsd:schema 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:ewn='https://github.com/globalwordnet/english-wordnet'
+ 	xmlns:dc='http://purl.org/dc/elements/1.1/'>
 
 	<xsd:import namespace='http://purl.org/dc/elements/1.1/' schemaLocation='dc.xsd' />
 	<xsd:import namespace='https://github.com/globalwordnet/english-wordnet' schemaLocation='types-1.6.xsd' />
@@ -89,13 +92,14 @@
 			<xsd:attribute name='id' type='ewn:SenseIDType' use='required' />
 			<xsd:attribute name='synset' type='ewn:LocalSynsetIDREFType' use='required' />
 			<xsd:attribute name='n' type='ewn:NType' use='optional' />
+			<xsd:attribute name='senseidx' type='ewn:SenseIdxType' use='optional' />
 			<xsd:attribute name='lexfile' type='ewn:LexFileType' use='optional' />
-			<xsd:attribute name='lexidx' type='ewn:LexIdxType' use='optional' />
 			<xsd:attribute name='lexid' type='ewn:LexIdType' use='optional' />
 			<xsd:attribute name='sensekey' type='ewn:SensekeyType' use='required' />
 			<xsd:attribute name='syntactic_behaviour' type='ewn:LocalSyntacticBehaviourIDREFSType' use='optional' />
 			<xsd:attribute name='sentence_template' type='ewn:LocalSyntacticBehaviourIDREFSType' use='optional' />
 			<xsd:attribute name='adj_position' type='ewn:AdjPositionType' use='optional' />
+			<xsd:attribute name='tagcnt' type='ewn:TagCntType' default='0' use='optional' />
 			<xsd:attribute name='lexicalized' type='xsd:boolean' default='true' use='optional' />
 			<xsd:attribute ref='dc:identifier' use='optional' /> <!-- sensekey -->
 			<xsd:attributeGroup ref='ewn:Meta' />

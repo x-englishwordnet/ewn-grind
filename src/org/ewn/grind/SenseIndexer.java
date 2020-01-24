@@ -45,9 +45,12 @@ public class SenseIndexer
 			String sensekey = senseElement.getAttribute("sensekey");
 			String synsetId = senseElement.getAttribute("synset");
 			String nth = senseElement.getAttribute("n");
+			String tagCountAttr = senseElement.getAttribute("tagcnt");
 			long offset = offsets.get(synsetId);
 			int senseNum = Integer.parseInt(nth);
 			int tagCount = 0;
+			if (!tagCountAttr.isEmpty())
+				tagCount = Integer.parseInt(tagCountAttr);
 
 			String line = String.format("%s %08d %d %d", sensekey, offset, senseNum, tagCount);
 			lines.add(line);
