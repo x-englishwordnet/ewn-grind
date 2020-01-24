@@ -43,6 +43,7 @@ public class SenseIndexer
 			Element senseElement = (Element) senseNode;
 
 			String sensekey = senseElement.getAttribute("sensekey");
+			String sensekeyLower = sensekey.toLowerCase();
 			String synsetId = senseElement.getAttribute("synset");
 			String nth = senseElement.getAttribute("n");
 			String tagCountAttr = senseElement.getAttribute("tagcnt");
@@ -54,6 +55,11 @@ public class SenseIndexer
 
 			String line = String.format("%s %08d %d %d", sensekey, offset, senseNum, tagCount);
 			lines.add(line);
+			if (!sensekey.equals(sensekeyLower))
+			{
+				String line2 = String.format("%s %08d %d %d", sensekeyLower, offset, senseNum, tagCount);
+				lines.add(line2);
+			}
 		}
 		Collections.sort(lines);
 		for (String line : lines)
