@@ -84,7 +84,7 @@ public class TemplateIndexer
 		{
 			ps.println(line);
 		}
-		System.err.println("Senses with templates: " + m);
+		System.err.println("Sentence templates: " + m + " for " + VERB_LEXENTRY_XPATH);
 	}
 
 	/**
