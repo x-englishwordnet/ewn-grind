@@ -15,17 +15,31 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * This class produces the sentidx.vrb file
+ * 
+ * @author Bernard Bou
+ */
 public class TemplateIndexer
 {
 	// sense_key num_template[,num_template]*
 
 	/**
-	 * Xpath for verb sense elements
+	 * XPath for verb lexical entry elements
 	 */
-	protected static final String VERB_LEXENTRY_XPATH = '/' + XmlNames.LEXICALRESOURCE_TAG + '/' + XmlNames.LEXICON_TAG + '/' + XmlNames.LEXICALENTRY_TAG + "[" + XmlNames.LEMMA_TAG + "/@" + XmlNames.POS_ATTR + "=\"v\"]";
+	protected static final String VERB_LEXENTRY_XPATH = String.format("/%s/%s/%s[%s/@%s='v']", //
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR);
 
+	/**
+	 * W3C document
+	 */
 	private Document doc;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param doc W3C document
+	 */
 	public TemplateIndexer(Document doc)
 	{
 		super();
@@ -73,6 +87,15 @@ public class TemplateIndexer
 		System.err.println("Senses with templates: " + m);
 	}
 
+	/**
+	 * Main independent entry point
+	 * 
+	 * @param args arguments
+	 * @throws SAXException
+	 * @throws ParserConfigurationException
+	 * @throws IOException
+	 * @throws XPathExpressionException
+	 */
 	public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException, XPathExpressionException
 	{
 		// Timing

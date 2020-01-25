@@ -13,7 +13,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 /**
- * Main class that generates the WN database in the WNDB format as per wndb(5WN)
+ * Main class that generates one line of the WN database in the WNDB format as per wndb(5WN)
  * 
  * @see https://wordnet.princeton.edu/documentation/wndb5wn
  * @author Bernard Bou
@@ -69,7 +69,7 @@ public class Grinder1
 	 * 
 	 * @param char pos
 	 * @param offset offset
-	 * @param doc parsed XML document
+	 * @param doc parsed XML W3C document
 	 * @param sensesBySynsetId sense elements mapped by synsetId (whose 'synset' attribute = synsetId)
 	 * @param synsetsById synset elements mapped by synsetId
 	 * @param sensesById sense elements mapped by synsetId

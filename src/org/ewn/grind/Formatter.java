@@ -3,6 +3,11 @@ package org.ewn.grind;
 import java.util.Collection;
 import java.util.function.Function;
 
+/**
+ * Format utilities
+ * 
+ * @author Bernard Bou
+ */
 class Formatter
 {
 	private Formatter()

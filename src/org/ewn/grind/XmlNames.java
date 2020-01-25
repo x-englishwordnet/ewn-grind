@@ -1,7 +1,7 @@
 package org.ewn.grind;
 
 /**
- * Tags and attribtues in Xml file
+ * Tags and attributes in XML files
  * 
  * @author Bernard Bou
  */
@@ -37,6 +37,8 @@ public class XmlNames
 	static final String SENSE_TAG = "Sense";
 
 	static final String SENSERELATION_TAG = "SenseRelation";
+	
+	static final String FORM_TAG = "Form";
 	
 
 	static final String ID_ATTR = "id";

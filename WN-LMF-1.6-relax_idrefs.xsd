@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ~ Copyright (c) 2019. Bernard Bou <1313ou@gmail.com>. -->
 
-<xsd:schema 
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:ewn='https://github.com/globalwordnet/english-wordnet'
- 	xmlns:dc='http://purl.org/dc/elements/1.1/'>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ewn='https://github.com/globalwordnet/english-wordnet' xmlns:dc='http://purl.org/dc/elements/1.1/'>
 
 	<xsd:import namespace='http://purl.org/dc/elements/1.1/' schemaLocation='dc.xsd' />
 	<xsd:import namespace='https://github.com/globalwordnet/english-wordnet' schemaLocation='types-1.6-relax_idrefs.xsd' />

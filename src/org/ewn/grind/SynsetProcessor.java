@@ -36,27 +36,31 @@ public abstract class SynsetProcessor
 	// example
 
 	/**
-	 * Xpath for noun synset elements
+	 * XPath for noun synset elements
 	 */
-	protected static final String NOUN_SYNSET_XPATH = '/' + XmlNames.LEXICALRESOURCE_TAG + '/' + XmlNames.LEXICON_TAG + '/' + XmlNames.SYNSET_TAG + "[@" + XmlNames.POS_ATTR + "=\"n\"]";
+	protected static final String NOUN_SYNSET_XPATH = String.format("/%s/%s/%s[@%s='n']", //
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.SYNSET_TAG, XmlNames.POS_ATTR);
 
 	/**
-	 * Xpath for verb synset elements
+	 * XPath for verb synset elements
 	 */
-	protected static final String VERB_SYNSET_XPATH = '/' + XmlNames.LEXICALRESOURCE_TAG + '/' + XmlNames.LEXICON_TAG + '/' + XmlNames.SYNSET_TAG + "[@" + XmlNames.POS_ATTR + "=\"v\"]";
+	protected static final String VERB_SYNSET_XPATH = String.format("/%s/%s/%s[@%s='v']", //
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.SYNSET_TAG, XmlNames.POS_ATTR);
 
 	/**
-	 * Xpath for adj synset elements
+	 * XPath for adj synset elements
 	 */
-	protected static final String ADJ_SYNSET_XPATH = '/' + XmlNames.LEXICALRESOURCE_TAG + '/' + XmlNames.LEXICON_TAG + '/' + XmlNames.SYNSET_TAG + "[@" + XmlNames.POS_ATTR + "=\"a\" or @" + XmlNames.POS_ATTR + "=\"s\"]";
+	protected static final String ADJ_SYNSET_XPATH = String.format("/%s/%s/%s[@%s='a' or @%s='s']", //
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.SYNSET_TAG, XmlNames.POS_ATTR, XmlNames.POS_ATTR);
 
 	/**
-	 * Xpath for adv synset elements
+	 * XPath for adv synset elements
 	 */
-	protected static final String ADV_SYNSET_XPATH = '/' + XmlNames.LEXICALRESOURCE_TAG + '/' + XmlNames.LEXICON_TAG + '/' + XmlNames.SYNSET_TAG + "[@" + XmlNames.POS_ATTR + "=\"r\"]";
+	protected static final String ADV_SYNSET_XPATH = String.format("/%s/%s/%s[@%s='r']", //
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.SYNSET_TAG, XmlNames.POS_ATTR);
 
 	/**
-	 * Document
+	 * W3C document
 	 */
 	protected final Document doc;
 
@@ -83,9 +87,9 @@ public abstract class SynsetProcessor
 	/**
 	 * Constructor
 	 * 
-	 * @param doc document
-	 * @param sensesBySynsetId map of sense elements by synsetid
-	 * @param sensesBySynsetId map of sense elements with key=synsetId
+	 * @param doc W3C document
+	 * @param sensesBySynsetId map of sense elements indexed by synsetid
+	 * @param sensesBySynsetId map of sense elements indexed with key=synsetId
 	 * @param synsetsById synset elements mapped by id
 	 * @param sensesById sense elements mapped by id
 	 * @param offsetFunction function that, when applied to a synsetId, yields the synset offset in the data files. May be dummy constant function.

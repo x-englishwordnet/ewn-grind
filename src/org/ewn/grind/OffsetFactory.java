@@ -24,7 +24,7 @@ public class OffsetFactory extends SynsetProcessor
 	/**
 	 * Constructor
 	 * 
-	 * @param doc document
+	 * @param doc W3C document
 	 * @param sensesBySynsetId map of senses with key=synsetId
 	 * @param sensesById sense elements mapped by id
 	 */
@@ -54,7 +54,7 @@ public class OffsetFactory extends SynsetProcessor
 			Element synsetElement = (Element) synsetNode;
 			String id = synsetElement.getAttribute("id");
 
-			String data = getData(synsetElement, DUMMY_OFS);
+			String data = getData(synsetElement, dummyOfs);
 			offsets.put(id, offset);
 
 			offset += data.length();
@@ -80,7 +80,7 @@ public class OffsetFactory extends SynsetProcessor
 
 	// I M P L E M E N T A T I O N
 
-	private final long DUMMY_OFS = this.offsetFunction.applyAsLong("");
+	private final long dummyOfs = this.offsetFunction.applyAsLong("");
 
 	private static final int DUMMY_NUM = 0;
 
@@ -88,7 +88,7 @@ public class OffsetFactory extends SynsetProcessor
 	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId)
 	{
 		char targetPos = targetSynsetElement.getAttribute("partOfSpeech").charAt(0);
-		return new Relation(type, pos, targetPos, DUMMY_OFS, DUMMY_NUM, DUMMY_NUM);
+		return new Relation(type, pos, targetPos, dummyOfs, DUMMY_NUM, DUMMY_NUM);
 	}
 
 	@Override

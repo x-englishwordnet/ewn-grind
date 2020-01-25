@@ -14,10 +14,22 @@ public class SenseIndexer
 {
 	// sense_key synset_offset sense_number tag_cnt
 
+	/**
+	 * W3C document
+	 */
 	private final Document doc;
 
+	/**
+	 * Synset offsets map indexed by synsetid key
+	 */
 	private final Map<String, Long> offsets;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param doc W3C document
+	 * @param offsets synset offsets map indexed by synsetid key
+	 */
 	public SenseIndexer(Document doc, Map<String, Long> offsets)
 	{
 		super();
@@ -43,7 +55,6 @@ public class SenseIndexer
 			Element senseElement = (Element) senseNode;
 
 			String sensekey = senseElement.getAttribute("sensekey");
-			//String sensekeyLower = sensekey.toLowerCase();
 			String synsetId = senseElement.getAttribute("synset");
 			String nth = senseElement.getAttribute("n");
 			String tagCountAttr = senseElement.getAttribute("tagcnt");
@@ -55,12 +66,16 @@ public class SenseIndexer
 
 			String line = String.format("%s %08d %d %d", sensekey, offset, senseNum, tagCount);
 			lines.add(line);
+
 			/*
+			// @formatter:off
+			String sensekeyLower = sensekey.toLowerCase();
 			if (!sensekey.equals(sensekeyLower))
 			{
 				String line2 = String.format("%s %08d %d %d", sensekeyLower, offset, senseNum, tagCount);
 				lines.add(line2);
 			}
+			// @formatter:on
 			*/
 		}
 		Collections.sort(lines);

@@ -87,7 +87,7 @@ public class Grinder
 	 * Grind data.{noun|verb|adj|adv}
 	 * 
 	 * @param dir output directory
-	 * @param doc parsed XML document
+	 * @param doc parsed XML W3C document
 	 * @param sensesBySynsetId sense elements mapped by synsetId (whose 'synset' attribute = synsetId)
 	 * @param synsetsById synset elements mapped by synsetId
 	 * @param sensesById sense elements mapped by synsetId
@@ -207,7 +207,7 @@ public class Grinder
 	 * @param dir output directory
 	 * @param doc parsed XML document
 	 * @throws IOException
-	 * @throws XPathExpressionException 
+	 * @throws XPathExpressionException
 	 */
 	public static void templates(File dir, Document doc) throws IOException, XPathExpressionException
 	{

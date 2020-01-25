@@ -5,6 +5,11 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+/**
+ * Heap Memory utilities
+ * 
+ * @author Bernard Bou
+ */
 public class Memory
 {
 	private Memory()

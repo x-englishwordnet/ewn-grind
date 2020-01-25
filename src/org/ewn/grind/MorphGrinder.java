@@ -12,23 +12,59 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * This class produces the index.{noun|verb|adj|adv}.exc files
+ * 
+ * @author Bernard Bou
+ */
 public class MorphGrinder
 {
-	public static final String NOUN_LEXENTRIES_XPATH = "/LexicalResource/Lexicon/LexicalEntry[Lemma/@partOfSpeech=\"n\" and count(Form)>0]";
+	/**
+	 * XPath for noun lexical entry elements
+	 */
+	public static final String NOUN_LEXENTRIES_XPATH = String.format("/%s/%s/%s[%s/@%s='n' and count(%s)>0]", //
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.FORM_TAG);
 
-	public static final String VERB_LEXENTRIES_XPATH = "/LexicalResource/Lexicon/LexicalEntry[Lemma/@partOfSpeech=\"v\" and count(Form)>0]";
+	/**
+	 * XPath for verb lexical entry elements
+	 */
+	public static final String VERB_LEXENTRIES_XPATH = String.format("/%s/%s/%s[%s/@%s='v' and count(%s)>0]", //
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.FORM_TAG);
 
-	public static final String ADJ_LEXENTRIES_XPATH = "/LexicalResource/Lexicon/LexicalEntry[(Lemma/@partOfSpeech=\"a\" or Lemma/@partOfSpeech=\"s\") and count(Form)>0]";
+	/**
+	 * XPath for adj lexical entry elements
+	 */
+	public static final String ADJ_LEXENTRIES_XPATH = String.format("/%s/%s/%s[(%s/@%s='a' or %s/@%s='s') and count(%s)>0]", //
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.FORM_TAG);
 
-	public static final String ADV_LEXENTRIES_XPATH = "/LexicalResource/Lexicon/LexicalEntry[Lemma/@partOfSpeech=\"r\" and count(Form)>0]";
+	/**
+	 * XPath for adv lexical entry elements
+	 */
+	public static final String ADV_LEXENTRIES_XPATH = String.format("/%s/%s/%s[%s/@%s='r' and count(%s)>0]", //
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.FORM_TAG);
 
+	/**
+	 * W3C document
+	 */
 	private final Document doc;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param doc W3C document
+	 */
 	public MorphGrinder(Document doc)
 	{
 		this.doc = doc;
 	}
 
+	/**
+	 * Make morph files
+	 * 
+	 * @param ps print stream
+	 * @param xpath xpath selecting lexical entry elements
+	 * @throws XPathExpressionException
+	 */
 	public void makeMorph(PrintStream ps, String xpath) throws XPathExpressionException
 	{
 		ArrayList<String> lines = new ArrayList<>();

@@ -12,11 +12,6 @@ public class Data
 	}
 
 	/**
-	 * Compat mode switch that does not allow lexid to be greater than 16. See grinder source in wnparse.y
-	 */
-	public static final boolean COMPAT = false;
-
-	/**
 	 * Synset member words. Lexid (from lexicographer file should not exceed 15 in compat mode)
 	 */
 	static class Word
@@ -29,7 +24,7 @@ public class Data
 		{
 			super();
 			this.lemma = lemma;
-			if (COMPAT)
+			if (Flags.LEXID_COMPAT)
 			{
 				if (lexid > 16)
 					throw new RuntimeException("Out of range lexid" + lemma + " " + lexid);
@@ -43,7 +38,7 @@ public class Data
 		public String toString()
 		{
 			int lexid2 = lexid % 16;
-			return String.format(COMPAT ? "%s %1X" : "%s %X", lemma, lexid2);
+			return String.format(Flags.LEXID_COMPAT ? "%s %1X" : "%s %X", lemma, lexid2);
 		}
 	}
 

@@ -14,22 +14,59 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * This class produces the index.{noun|verb|adj|adv} files
+ * 
+ * @author Bernard Bou
+ */
 public class WordIndexer
 {
-	public static final String NOUN_LEXENTRIES_XPATH = "/LexicalResource/Lexicon/LexicalEntry[Lemma/@partOfSpeech=\"n\"]";
+	/**
+	 * XPath for noun lexical  entry elements
+	 */
+	public static final String NOUN_LEXENTRIES_XPATH = String.format("/%s/%s/%s[%s/@%s='n']", //
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR);
 
-	public static final String VERB_LEXENTRIES_XPATH = "/LexicalResource/Lexicon/LexicalEntry[Lemma/@partOfSpeech=\"v\"]";
+	/**
+	 * XPath for verb lexical  entry elements
+	 */
+	public static final String VERB_LEXENTRIES_XPATH = String.format("/%s/%s/%s[%s/@%s='v']", //
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR);
 
-	public static final String ADJ_LEXENTRIES_XPATH = "/LexicalResource/Lexicon/LexicalEntry[Lemma/@partOfSpeech=\"a\" or Lemma/@partOfSpeech=\"s\"]";
+	/**
+	 * XPath for adj lexical  entry elements
+	 */
+	public static final String ADJ_LEXENTRIES_XPATH = String.format("/%s/%s/%s[%s/@%s='a' or %s/@%s='s']", //
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR);
 
-	public static final String ADV_LEXENTRIES_XPATH = "/LexicalResource/Lexicon/LexicalEntry[Lemma/@partOfSpeech=\"r\"]";
+	/**
+	 * XPath for adv lexical  entry elements
+	 */
+	public static final String ADV_LEXENTRIES_XPATH = String.format("/%s/%s/%s[%s/@%s='r']", //
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR);
 
+	/**
+	 * W3C document
+	 */
 	private Document doc;
 
+	/**
+	 * Map of synset elements indexed by their synset id key
+	 */
 	private Map<String, Element> synsetsById;
 
+	/**
+	 * Synset offsets indexed by synset id key
+	 */
 	private Map<String, Long> offsets;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param doc W3C document
+	 * @param synsetsById map of synset elements indexed by their synset id key
+	 * @param offsets offsets indexed by synset id key
+	 */
 	public WordIndexer(Document doc, Map<String, Element> synsetsById, Map<String, Long> offsets)
 	{
 		this.doc = doc;

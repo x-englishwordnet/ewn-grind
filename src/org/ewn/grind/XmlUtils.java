@@ -23,12 +23,27 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * XML utilities
+ * 
+ * @author Bernard Bou
+ */
 class XmlUtils
 {
 	private XmlUtils()
 	{
 	}
 
+	/**
+	 * Build W3C Document from file
+	 * 
+	 * @param filePath file path
+	 * @param withSchema whether to validate document when building it (long)
+	 * @return W3C Document
+	 * @throws SAXException
+	 * @throws ParserConfigurationException
+	 * @throws IOException
+	 */
 	static Document getDocument(String filePath, boolean withSchema) throws SAXException, ParserConfigurationException, IOException
 	{
 		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -48,6 +63,14 @@ class XmlUtils
 		return doc;
 	}
 
+	/**
+	 * Make a map of elements tagged 'tag' indexed by 'key' attribute key
+	 * 
+	 * @param doc W3C Document
+	 * @param tag element tag
+	 * @param key element attribute
+	 * @return map of elements tagged 'tag' indexed by 'key' attribute key
+	 */
 	static Map<String, Element> makeElementMap(Document doc, String tag, String key)
 	{
 		System.err.print("Map " + tag + "[@" + key + "] ");
@@ -66,6 +89,14 @@ class XmlUtils
 		return map;
 	}
 
+	/**
+	 * Make a multi-valued map of elements tagged 'tag' indexed by 'key' attribute key
+	 * 
+	 * @param doc W3C Document
+	 * @param tag element tag
+	 * @param key element attribute
+	 * @return multi-valued map of elements tagged 'tag' indexed by 'key' attribute key
+	 */
 	static Map<String, List<Element>> makeElementMultiMap(Document doc, String tag, String key)
 	{
 		System.err.print("MultiMap " + tag + "[@" + key + "] ");
@@ -85,6 +116,13 @@ class XmlUtils
 		return map;
 	}
 
+	/**
+	 * Get first child element
+	 * 
+	 * @param element parent element
+	 * @param tag child tag
+	 * @return first child element having 'tag' tag
+	 */
 	static Element getFirstChildElement(Element element, String tag)
 	{
 		NodeList nodeList = element.getElementsByTagName(tag);
@@ -97,6 +135,13 @@ class XmlUtils
 		return null;
 	}
 
+	/**
+	 * Get child elements
+	 * 
+	 * @param element parent element
+	 * @param tag child tag
+	 * @return list of child elements having 'tag' tag
+	 */
 	static List<Element> getChildElements(Element element, String tag)
 	{
 		NodeList nodeList = element.getElementsByTagName(tag);
@@ -114,6 +159,14 @@ class XmlUtils
 		return null;
 	}
 
+	/**
+	 * Get node list satisfying XPath expression
+	 * 
+	 * @param expr XPath expression
+	 * @param doc W3C Document
+	 * @return node list satisfying XPath expression
+	 * @throws XPathExpressionException
+	 */
 	static NodeList getXPathNodeList(String expr, Document doc) throws XPathExpressionException
 	{
 		return (NodeList) XPathFactory.newInstance().newXPath().compile(expr).evaluate(doc, XPathConstants.NODESET);
