@@ -47,7 +47,7 @@ parse the WNDB database at expected *offset* of *data.{noun|verb|adj|adv}*
 
 If WNHOME20, WNHOME21, WNHOME30, WNHOME31, WNHOMEXX environment variables are defined, you can refer to them by 20, 21, 30, 31, 00 respectively, instead of the full path.
 
-**## ![Warning](images/star.png  "Warning") Lexid
+## ![Warning](images/star.png  "Warning") Lexid
 
 The old specification defined lexids this way:
 
