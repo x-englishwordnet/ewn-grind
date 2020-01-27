@@ -17,7 +17,12 @@
 <!ENTITY ili "i\d+|in">
 ]>
 
-<xsd:schema targetNamespace='https://github.com/globalwordnet/english-wordnet' xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:ewn='https://github.com/globalwordnet/english-wordnet'>
+<xsd:schema 
+	targetNamespace='https://github.com/globalwordnet/english-wordnet'
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:dc='http://purl.org/dc/elements/1.1/'
+	xmlns:ewn='https://github.com/globalwordnet/english-wordnet'
+	>
 
 	<xsd:import namespace='http://purl.org/dc/elements/1.1/' schemaLocation='dc.xsd' />
 
@@ -335,13 +340,13 @@
 			<xsd:minInclusive value='0' />
 		</xsd:restriction>
 	</xsd:simpleType>
-
+	
 	<xsd:simpleType name='LexIdType'>
 		<xsd:restriction base='xsd:string'>
 			<xsd:pattern value='\d+' />
 		</xsd:restriction>
 	</xsd:simpleType>
-
+	
 	<xsd:simpleType name='LexFileType'>
 		<xsd:restriction base='xsd:string'>
 			<xsd:enumeration value='adj.all' />

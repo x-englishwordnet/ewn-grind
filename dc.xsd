@@ -4,7 +4,8 @@
 <!ENTITY lexsense "\d+:\d+:\d+:[a-zA-Z0-9_'/\-\.]*:\d*">
 ]>
 
-<xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:dc='http://purl.org/dc/elements/1.1/' targetNamespace='http://purl.org/dc/elements/1.1/'>
+<xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:dc='http://purl.org/dc/elements/1.1/'
+	targetNamespace='http://purl.org/dc/elements/1.1/'>
 
 	<xsd:attribute name='contributor' type='xsd:string' />
 	<xsd:attribute name='coverage' type='xsd:string' />
