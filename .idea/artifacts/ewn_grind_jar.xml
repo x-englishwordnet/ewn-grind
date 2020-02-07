@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="ewn-grind.jar">
+    <output-path>$PROJECT_DIR$</output-path>
+    <root id="archive" name="ewn-grind.jar">
+      <element id="module-output" name="grind" />
+    </root>
+  </artifact>
+</component>
