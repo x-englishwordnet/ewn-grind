@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="EntryPointsManager">
+    <entry_points version="2.0">
+      <entry_point TYPE="field" FQNAME="org.ewn.pojos.SemRelation fromSynsetId" />
+      <entry_point TYPE="field" FQNAME="org.ewn.grind.Memory.Unit G" />
+      <entry_point TYPE="field" FQNAME="org.ewn.grind.Data.Relation pos" />
+      <entry_point TYPE="field" FQNAME="org.ewn.pojos.Index tagCnt" />
+    </entry_points>
+    <pattern value="org.ewn.pojos.AdjLemma" />
+    <pattern value="org.ewn.pojos.AdjPosition" />
+    <pattern value="org.ewn.grind.Coder" method="codeFrame" />
+    <pattern value="org.ewn.grind.Coder" />
+    <pattern value="org.ewn.pojos.CoreSynset" />
+    <pattern value="org.ewn.grind.Data" />
+    <pattern value="org.ewn.parse.DataParser" />
+    <pattern value="org.ewn.grind.Formatter" />
+    <pattern value="org.ewn.pojos.Gloss" method="getDefinition" />
+    <pattern value="org.ewn.pojos.AdjPosition" method="getDescription" />
+    <pattern value="org.ewn.pojos.Pos" method="getDescription" />
+    <pattern value="org.ewn.pojos.LexDomain" method="getDomain" />
+    <pattern value="org.ewn.pojos.LexDomain" method="getId" />
+    <pattern value="org.ewn.pojos.LexId" method="getId" />
+    <pattern value="org.ewn.pojos.Sensekey" method="getKey" />
+    <pattern value="org.ewn.pojos.Sensekey" method="getLexDomain" />
+    <pattern value="org.ewn.pojos.LexDomain" method="getName" />
+    <pattern value="org.ewn.pojos.Pos" method="getName" />
+    <pattern value="org.ewn.pojos.LexDomain" method="getPosId" />
+    <pattern value="org.ewn.pojos.AdjLemma" method="getPosition" />
+    <pattern value="org.ewn.pojos.RelationType" method="getRecurses" />
+    <pattern value="org.ewn.pojos.Synset" method="getRelations" />
+    <pattern value="org.ewn.pojos.Gloss" method="getSamples" />
+    <pattern value="org.ewn.pojos.TagCnt" method="getTagCount" />
+    <pattern value="org.ewn.pojos.Synset" method="getVerbFrames" />
+    <pattern value="org.ewn.pojos.Gloss" />
+    <pattern value="org.ewn.pojos.Gloss" method="Gloss" />
+    <pattern value="org.ewn.grind.Grinder" />
+    <pattern value="org.ewn.grind.Grinder1" />
+    <pattern value="org.ewn.pojos.Index" />
+    <pattern value="org.ewn.parse.IndexParser" />
+    <pattern value="org.ewn.grind.Formatter" method="join" />
+    <pattern value="org.ewn.pojos.Lemma" />
+    <pattern value="org.ewn.pojos.LexDomain" />
+    <pattern value="org.ewn.pojos.LexId" />
+    <pattern value="org.ewn.pojos.LexRelation" />
+    <pattern value="org.ewn.parse.LineParser" />
+    <pattern value="org.ewn.parse.DataParser" method="main" />
+    <pattern value="org.ewn.grind.Grinder" method="main" />
+    <pattern value="org.ewn.grind.Grinder1" method="main" />
+    <pattern value="org.ewn.parse.IndexParser" method="main" />
+    <pattern value="org.ewn.parse.LineParser" method="main" />
+    <pattern value="org.ewn.parse.Parser" method="main" />
+    <pattern value="org.ewn.parse.SenseParser" method="main" />
+    <pattern value="org.ewn.grind.TemplateIndexer" method="main" />
+    <pattern value="org.ewn.pojos.SynsetId" method="make" />
+    <pattern value="org.ewn.pojos.Lemma" method="make" />
+    <pattern value="org.ewn.grind.Memory" />
+    <pattern value="org.ewn.grind.Memory" method="memoryInfo" />
+    <pattern value="org.ewn.pojos.NormalizedString" />
+    <pattern value="org.ewn.pojos.NormalizedString" method="NormalizedString" />
+    <pattern value="org.ewn.pojos.Index" method="parse" />
+    <pattern value="org.ewn.pojos.CoreSynset" method="parseMembers" />
+    <pattern value="org.ewn.parse.Parser" />
+    <pattern value="org.ewn.pojos.Pos" />
+    <pattern value="org.ewn.grind.Data.Relation" />
+    <pattern value="org.ewn.pojos.RelationType" />
+    <pattern value="org.ewn.pojos.LexRelation" method="resolveToWord" />
+    <pattern value="org.ewn.pojos.SemRelation" />
+    <pattern value="org.ewn.pojos.Sensekey" />
+    <pattern value="org.ewn.parse.SenseParser" />
+    <pattern value="org.ewn.pojos.Synset" />
+    <pattern value="org.ewn.pojos.SynsetId" />
+    <pattern value="org.ewn.pojos.TagCnt" />
+    <pattern value="org.ewn.grind.TemplateIndexer" />
+    <pattern value="org.ewn.pojos.SynsetId" method="toUIDString" />
+    <pattern value="org.ewn.pojos.Sensekey" method="toXString" />
+    <pattern value="org.ewn.grind.Memory.Unit" />
+    <pattern value="org.ewn.grind.Coder" method="Coder" />
+    <pattern value="org.ewn.grind.Data" method="Data" />
+    <pattern value="org.ewn.grind.Formatter" method="Formatter" />
+    <pattern value="org.ewn.grind.Memory" method="Memory" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+</project>
