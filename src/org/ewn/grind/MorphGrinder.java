@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * This class produces the index.{noun|verb|adj|adv}.exc files
- * 
+ *
  * @author Bernard Bou
  */
 public class MorphGrinder
@@ -35,7 +35,8 @@ public class MorphGrinder
 	 * XPath for adj lexical entry elements
 	 */
 	public static final String ADJ_LEXENTRIES_XPATH = String.format("/%s/%s/%s[(%s/@%s='a' or %s/@%s='s') and count(%s)>0]", //
-			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.FORM_TAG);
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.LEMMA_TAG,
+			XmlNames.POS_ATTR, XmlNames.FORM_TAG);
 
 	/**
 	 * XPath for adv lexical entry elements
@@ -50,7 +51,7 @@ public class MorphGrinder
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param doc W3C document
 	 */
 	public MorphGrinder(Document doc)
@@ -60,16 +61,16 @@ public class MorphGrinder
 
 	/**
 	 * Make morph files
-	 * 
-	 * @param ps print stream
+	 *
+	 * @param ps    print stream
 	 * @param xpath xpath selecting lexical entry elements
-	 * @throws XPathExpressionException
+	 * @throws XPathExpressionException xpath
 	 */
 	public void makeMorph(PrintStream ps, String xpath) throws XPathExpressionException
 	{
 		ArrayList<String> lines = new ArrayList<>();
 
-		// iterate synset elements
+		// iterate lex entry elements
 		NodeList lexEntryNodes = XmlUtils.getXPathNodeList(xpath, doc);
 		int n = lexEntryNodes.getLength();
 		for (int i = 0; i < n; i++)
@@ -78,15 +79,19 @@ public class MorphGrinder
 			assert lexEntryNode.getNodeType() == Node.ELEMENT_NODE;
 			Element lexEntryElement = (Element) lexEntryNode;
 
-			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, "Lemma");
-			String lemma = lemmaElement.getAttribute("writtenForm");
+			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
+			assert lemmaElement != null;
+			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 
-			List<Element> formElements = XmlUtils.getChildElements(lexEntryElement, "Form");
-			for (Element formElement : formElements)
+			List<Element> formElements = XmlUtils.getChildElements(lexEntryElement, XmlNames.FORM_TAG);
+			if (formElements != null)
 			{
-				String form = formElement.getAttribute("writtenForm");
-				String line = String.format("%s %s", form, lemma);
-				lines.add(line);
+				for (Element formElement : formElements)
+				{
+					String form = formElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
+					String line = String.format("%s %s", form, lemma);
+					lines.add(line);
+				}
 			}
 		}
 		Collections.sort(lines);

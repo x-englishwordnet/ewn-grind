@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Synset, a core synset extended to include relations and possibly verb frames
- * 
+ *
  * @author Bernard Bou
  */
 public class Synset extends CoreSynset
@@ -13,16 +13,17 @@ public class Synset extends CoreSynset
 
 	/**
 	 * Constructor
-	 * 
-	 * @param synsetId synset id
-	 * @param lemmas lemmas
-	 * @param pos part of speech
-	 * @param lexDomain lex domain
-	 * @param gloss gloss
+	 *
+	 * @param synsetId     synset id
+	 * @param lemmas       lemmas
+	 * @param pos          part of speech
+	 * @param lexDomain    lex domain
+	 * @param gloss        gloss
 	 * @param semRelations relations
-	 * @param verbFrames verb frames
+	 * @param verbFrames   verb frames
 	 */
-	private Synset(final SynsetId synsetId, final Lemma[] lemmas, final Pos pos, final LexDomain lexDomain, final Gloss gloss, final SemRelation[] semRelations, final VerbFrame[] verbFrames)
+	private Synset(final SynsetId synsetId, final Lemma[] lemmas, final Pos pos, final LexDomain lexDomain, final Gloss gloss, final SemRelation[] semRelations,
+			final VerbFrame[] verbFrames)
 	{
 		super(synsetId, lemmas, pos, lexDomain, gloss);
 		this.semRelations = semRelations;
@@ -31,8 +32,8 @@ public class Synset extends CoreSynset
 
 	/**
 	 * Parse from line
-	 * 
-	 * @param line line
+	 *
+	 * @param line  line
 	 * @param isAdj whether adj synsets are being parsed
 	 * @return synset
 	 */
@@ -52,7 +53,7 @@ public class Synset extends CoreSynset
 		int fieldPointer = 0;
 
 		// data
-		SemRelation[] semRelations = null;
+		SemRelation[] semRelations;
 		VerbFrame[] frames = null;
 
 		// offset
@@ -127,7 +128,7 @@ public class Synset extends CoreSynset
 				final int wordIndex = Integer.parseInt(wordIndexField, 16);
 
 				// create
-				Lemma[] frameLemmas = null;
+				Lemma[] frameLemmas;
 				if (wordIndex != 0)
 				{
 					frameLemmas = new Lemma[] { lemmas[wordIndex - 1] };
@@ -152,8 +153,7 @@ public class Synset extends CoreSynset
 		return verbFrames;
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append(super.toString());

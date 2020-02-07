@@ -14,20 +14,20 @@ import org.xml.sax.SAXException;
 
 /**
  * Main class that generates one line of the WN database in the WNDB format as per wndb(5WN)
- * 
- * @see https://wordnet.princeton.edu/documentation/wndb5wn
+ *
  * @author Bernard Bou
+ * @see "https://wordnet.princeton.edu/documentation/wndb5wn"
  */
 public class Grinder1
 {
 	/**
 	 * Main entry point
-	 * 
+	 *
 	 * @param args command-line arguments
-	 * @throws SAXException
-	 * @throws ParserConfigurationException
-	 * @throws IOException
-	 * @throws XPathExpressionException
+	 * @throws SAXException                 sax
+	 * @throws ParserConfigurationException parser configuration
+	 * @throws IOException                  io
+	 * @throws XPathExpressionException     xpath
 	 */
 	public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException, XPathExpressionException
 	{
@@ -46,9 +46,9 @@ public class Grinder1
 		Document doc = XmlUtils.getDocument(filename, false);
 
 		// Maps
-		Map<String, List<Element>> sensesBySynsetId = XmlUtils.makeElementMultiMap(doc, "Sense", "synset");
-		Map<String, Element> synsetsById = XmlUtils.makeElementMap(doc, "Synset", "id");
-		Map<String, Element> sensesById = XmlUtils.makeElementMap(doc, "Sense", "id");
+		Map<String, List<Element>> sensesBySynsetId = XmlUtils.makeElementMultiMap(doc, XmlNames.SENSE_TAG, XmlNames.SYNSET_ATTR);
+		Map<String, Element> synsetsById = XmlUtils.makeElementMap(doc, XmlNames.SYNSET_TAG, XmlNames.ID_ATTR);
+		Map<String, Element> sensesById = XmlUtils.makeElementMap(doc, XmlNames.SENSE_TAG, XmlNames.ID_ATTR);
 
 		// Compute synset offsets
 		Map<String, Long> offsets = new OffsetFactory(doc, sensesBySynsetId, synsetsById, sensesById).compute();
@@ -66,14 +66,14 @@ public class Grinder1
 
 	/**
 	 * Grind data for this synset
-	 * 
-	 * @param char pos
-	 * @param offset offset
-	 * @param doc parsed XML W3C document
+	 *
+	 * @param pos              pos
+	 * @param offset           offset
+	 * @param doc              parsed XML W3C document
 	 * @param sensesBySynsetId sense elements mapped by synsetId (whose 'synset' attribute = synsetId)
-	 * @param synsetsById synset elements mapped by synsetId
-	 * @param sensesById sense elements mapped by synsetId
-	 * @param offsets offsets mapped by synsetId
+	 * @param synsetsById      synset elements mapped by synsetId
+	 * @param sensesById       sense elements mapped by synsetId
+	 * @param offsets          offsets mapped by synsetId
 	 */
 	public static void data(char pos, long offset, Document doc, //
 			Map<String, List<Element>> sensesBySynsetId, //

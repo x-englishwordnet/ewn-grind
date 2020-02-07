@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Pos (part of speech)
- * 
+ *
  * @author Bernard Bou
  */
 public enum Pos
@@ -19,15 +19,14 @@ public enum Pos
 
 	private final String description;
 
-	private Pos(final char id, final String name, final String description)
+	Pos(final char id, final String name, final String description)
 	{
 		this.id = id;
 		this.name = name;
 		this.description = description;
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		return Character.toString(this.id);
 	}

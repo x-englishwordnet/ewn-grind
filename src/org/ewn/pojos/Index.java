@@ -62,8 +62,7 @@ public class Index extends CoreIndex
 		return new Index(lemma, senses, relationTypes, tagCnt);
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append(super.toString());

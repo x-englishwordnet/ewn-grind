@@ -26,8 +26,8 @@ public class SenseIndexer
 
 	/**
 	 * Constructor
-	 * 
-	 * @param doc W3C document
+	 *
+	 * @param doc     W3C document
 	 * @param offsets synset offsets map indexed by synsetid key
 	 */
 	public SenseIndexer(Document doc, Map<String, Long> offsets)
@@ -39,7 +39,7 @@ public class SenseIndexer
 
 	/**
 	 * Make index.sense
-	 * 
+	 *
 	 * @param ps print stream
 	 */
 	public void makeIndex(PrintStream ps)
@@ -54,10 +54,10 @@ public class SenseIndexer
 			assert senseNode.getNodeType() == Node.ELEMENT_NODE;
 			Element senseElement = (Element) senseNode;
 
-			String sensekey = senseElement.getAttribute("sensekey");
-			String synsetId = senseElement.getAttribute("synset");
-			String nth = senseElement.getAttribute("n");
-			String tagCountAttr = senseElement.getAttribute("tagcnt");
+			String sensekey = senseElement.getAttribute(XmlNames.SENSEKEY_ATTR);
+			String synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR);
+			String nth = senseElement.getAttribute(XmlNames.N_ATTR);
+			String tagCountAttr = senseElement.getAttribute(XmlNames.TAGCOUNT_ATTR);
 			long offset = offsets.get(synsetId);
 			int senseNum = Integer.parseInt(nth);
 			int tagCount = 0;

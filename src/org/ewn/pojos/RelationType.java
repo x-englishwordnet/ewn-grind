@@ -5,48 +5,32 @@ import java.util.Map;
 
 /**
  * Relation type
- * 
+ *
  * @author Bernard Bou
  */
 public enum RelationType
 {
 	// @formatter:off
-	HYPERNUM("@", "hypernym",  true),
-	HYPONYM("~", "hyponym",  true),
-	INSTANCE_HYPERNUM("@i", "instance hypernym",  true),
-	INSTANCE_HYPONYM("~i", "instance hyponym",  true),
+	HYPERNYM("@", "hypernym", true), HYPONYM("~", "hyponym", true), INSTANCE_HYPERNYM("@i", "instance hypernym", true), INSTANCE_HYPONYM("~i",
+		"instance hyponym", true),
 
-	PART_HOLONYM("%p", "part holonym",  true),
-	PART_MERONYM("#p", "part meronym",  true),
-	MEMBER_HOLONYM("%m", "member holonym",  true),
-	MEMBER_MERONYM("#m", "member meronym",  true),
-	SUBSTANCE_HOLONYM("%s", "substance holonym",  true),
-	SUBSTANCE_MERONYM("#s", "substance meronym",  true),
+	PART_HOLONYM("%p", "part holonym", true), PART_MERONYM("#p", "part meronym", true), MEMBER_HOLONYM("%m", "member holonym", true), MEMBER_MERONYM("#m",
+		"member meronym", true), SUBSTANCE_HOLONYM("%s", "substance holonym", true), SUBSTANCE_MERONYM("#s", "substance meronym", true),
 
-	ENTAIL("*", "entail", true),
-	CAUSE(">", "cause",  true),
+	ENTAIL("*", "entail", true), CAUSE(">", "cause", true),
 
-	ANTONYM("!", "antonym",  false),
-	SIMILAR("&", "similar",  false),
+	ANTONYM("!", "antonym", false), SIMILAR("&", "similar", false),
 
-	ALSO("^", "also", false),
-	ATTRIBUTE("=", "attribute", false),
+	ALSO("^", "also", false), ATTRIBUTE("=", "attribute", false),
 
-	VERB_GROUP("$", "verb group",  false),
-	PARTICIPLE("<", "participle",  false),
+	VERB_GROUP("$", "verb group", false), PARTICIPLE("<", "participle", false),
 
-	PERTAINYM("\\", "pertainym",  false),
-	DERIVATION("+", "derivation",  false),
+	PERTAINYM("\\", "pertainym", false), DERIVATION("+", "derivation", false),
 
-	DOMAIN_CATEGORY(";c", "domain category",  false),
-	MEMBER_CATEGORY("-c", "domain member category",  false),
-	DOMAIN_REGION(";r", "domain region",  false),
-	MEMBER_REGION("-r", "domain member region",  false),
-	DOMAIN_USAGE(";u", "domain usage",  false),
-	MEMBER_USAGE("-u", "domain member usage",  false),
+	DOMAIN_CATEGORY(";c", "domain category", false), MEMBER_CATEGORY("-c", "domain member category", false), DOMAIN_REGION(";r", "domain region",
+		false), MEMBER_REGION("-r", "domain member region", false), DOMAIN_USAGE(";u", "domain usage", false), MEMBER_USAGE("-u", "domain member usage", false),
 
-	DOMAIN(";", "domain",  false),
-	MEMBER("-", "member",  false);
+	DOMAIN(";", "domain", false), MEMBER("-", "member", false);
 	// @formatter:on
 
 	private static final Map<String, RelationType> MAP = new HashMap<>();
@@ -63,7 +47,7 @@ public enum RelationType
 
 	private final boolean recurses;
 
-	private RelationType(final String symbol, final String name, final boolean recurses)
+	RelationType(final String symbol, final String name, final boolean recurses)
 	{
 		this.symbol = symbol;
 		this.name = name;
@@ -72,10 +56,10 @@ public enum RelationType
 
 	public static RelationType parse(final String str)
 	{
-		final Object value = RelationType.MAP.get(str);
+		final RelationType value = RelationType.MAP.get(str);
 		if (value == null)
 			throw new IllegalArgumentException("Illegal relation type:" + str);
-		return (RelationType) value;
+		return value;
 	}
 
 	public boolean getRecurses()
@@ -88,8 +72,7 @@ public enum RelationType
 		return this.name;
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		return this.name;
 	}

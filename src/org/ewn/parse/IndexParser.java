@@ -10,7 +10,7 @@ import org.ewn.pojos.CoreIndex;
 
 /**
  * Index parser index.{noun|verb|adj|adv}
- * 
+ *
  * @author Bernard Bou
  */
 public class IndexParser

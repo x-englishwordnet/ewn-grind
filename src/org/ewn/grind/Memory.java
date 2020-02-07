@@ -7,7 +7,7 @@ import java.util.Locale;
 
 /**
  * Heap Memory utilities
- * 
+ *
  * @author Bernard Bou
  */
 public class Memory
@@ -22,7 +22,7 @@ public class Memory
 
 		public final long div;
 
-		private Unit(final long div)
+		Unit(final long div)
 		{
 			this.div = div;
 		}

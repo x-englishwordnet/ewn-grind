@@ -2,10 +2,10 @@ package org.ewn.pojos;
 
 /**
  * Normalized string
- * 
+ *
  * @author Bernard Bou
  */
-public class NormalizedString 
+public class NormalizedString
 {
 	protected String normalized;
 
@@ -24,8 +24,7 @@ public class NormalizedString
 		this.normalized = null;
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		return this.normalized;
 	}
@@ -33,10 +32,10 @@ public class NormalizedString
 	private static String normalize(final String rawStr)
 	{
 		// convert underscore to space
-		String result = rawStr.replace('_', ' ');  
+		String result = rawStr.replace('_', ' ');
 
 		// double single quote to single quote
-		result = result.replace("''", "'");  
+		result = result.replace("''", "'");
 		return result;
 	}
 }

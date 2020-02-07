@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Tag
- * 
+ *
  * @author Bernard Bou
  */
 public class TagCnt
@@ -25,8 +25,7 @@ public class TagCnt
 		return this.tagCount;
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		return "tag=" + this.tagCount;
 	}

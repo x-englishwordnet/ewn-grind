@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Lexid
- * 
+ *
  * @author Bernard Bou
  */
 public class LexId
@@ -25,8 +25,7 @@ public class LexId
 		return this.id;
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		return "lexid=" + this.id;
 	}

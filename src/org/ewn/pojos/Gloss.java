@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 /**
  * Gloss
- * 
+ *
  * @author Bernard Bou
  */
 public final class Gloss
@@ -29,11 +29,11 @@ public final class Gloss
 
 	private String[] split(final String gloss)
 	{
-		final String REGEX = "\\\"[^\\\"]*\\\"";
+		final String REGEX = "\"[^\"]*\"";
 		final Pattern thePattern = Pattern.compile(REGEX);
 
 		int quoteCount = 0;
-		for (int p = 0; (p = gloss.indexOf('"', p + 1)) != -1;)
+		for (int p = 0; (p = gloss.indexOf('"', p + 1)) != -1; )
 		{
 			quoteCount++;
 		}
@@ -85,8 +85,7 @@ public final class Gloss
 		return Arrays.copyOfRange(this.splitGloss, 1, this.splitGloss.length);
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < this.splitGloss.length; i++)

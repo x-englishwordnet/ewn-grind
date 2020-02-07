@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Index
- * 
+ *
  * @author Bernard Bou
  */
 
@@ -61,8 +61,7 @@ public class CoreIndex
 		return new CoreIndex(lemma, senses);
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append(this.lemma.toString());

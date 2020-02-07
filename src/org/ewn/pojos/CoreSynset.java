@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Core Synset (without relations and frames)
- * 
+ *
  * @author Bernard Bou
  */
 public class CoreSynset
@@ -19,12 +19,12 @@ public class CoreSynset
 
 	/**
 	 * Constructor
-	 * 
-	 * @param synsetId synset id
-	 * @param lemmas lemmas
-	 * @param pos part of speech
+	 *
+	 * @param synsetId  synset id
+	 * @param lemmas    lemmas
+	 * @param pos       part of speech
 	 * @param lexDomain lex domain
-	 * @param gloss gloss
+	 * @param gloss     gloss
 	 */
 	protected CoreSynset(final SynsetId synsetId, final Lemma[] lemmas, final Pos pos, final LexDomain lexDomain, final Gloss gloss)
 	{
@@ -37,10 +37,10 @@ public class CoreSynset
 
 	/**
 	 * Parse from line
-	 * 
+	 *
 	 * @param line line
 	 * @return synset
-	 * @throws NumberFormatException
+	 * @throws NumberFormatException number format
 	 */
 	public static NormalizedString[] parseMembers(final String line)
 	{
@@ -51,8 +51,8 @@ public class CoreSynset
 
 	/**
 	 * Parse from line
-	 * 
-	 * @param line line
+	 *
+	 * @param line  line
 	 * @param isAdj whether adj synsets are being parsed
 	 * @return synset
 	 */
@@ -94,7 +94,7 @@ public class CoreSynset
 
 	/**
 	 * Parse members from fields
-	 * 
+	 *
 	 * @param fields fields
 	 * @return array of normalized strings
 	 */
@@ -145,8 +145,7 @@ public class CoreSynset
 		return this.gloss;
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append("id=");

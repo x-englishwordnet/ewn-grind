@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 
 /**
  * This class produces the sentidx.vrb file
- * 
+ *
  * @author Bernard Bou
  */
 public class TemplateIndexer
@@ -33,11 +33,11 @@ public class TemplateIndexer
 	/**
 	 * W3C document
 	 */
-	private Document doc;
+	private final Document doc;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param doc W3C document
 	 */
 	public TemplateIndexer(Document doc)
@@ -48,9 +48,9 @@ public class TemplateIndexer
 
 	/**
 	 * Make index.sense
-	 * 
+	 *
 	 * @param ps print stream
-	 * @throws XPathExpressionException
+	 * @throws XPathExpressionException xpath
 	 */
 	public void makeIndex(PrintStream ps) throws XPathExpressionException
 	{
@@ -66,6 +66,7 @@ public class TemplateIndexer
 			Element lexEntryElement = (Element) lexEntryNode;
 
 			List<Element> senseElements = XmlUtils.getChildElements(lexEntryElement, XmlNames.SENSE_TAG);
+			assert senseElements != null;
 			for (Element senseElement : senseElements)
 			{
 				String sensekey = senseElement.getAttribute(XmlNames.SENSEKEY_ATTR);
@@ -89,12 +90,12 @@ public class TemplateIndexer
 
 	/**
 	 * Main independent entry point
-	 * 
+	 *
 	 * @param args arguments
-	 * @throws SAXException
-	 * @throws ParserConfigurationException
-	 * @throws IOException
-	 * @throws XPathExpressionException
+	 * @throws SAXException                 sax
+	 * @throws ParserConfigurationException parser configuration
+	 * @throws IOException                  io
+	 * @throws XPathExpressionException     xpath
 	 */
 	public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException, XPathExpressionException
 	{

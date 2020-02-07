@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * This class maps information into a documented numerical code
- * 
+ *
  * @author Bernard Bou
  */
 public class Coder
@@ -70,16 +70,16 @@ public class Coder
 
 	/**
 	 * Code relation
-	 * 
+	 *
 	 * @param type relation type
-	 * @param pos part-of-speech
+	 * @param pos  part-of-speech
 	 * @return code
 	 */
 	static String codeRelation(String type, char pos)
 	{
 		switch (pos)
 		{
-		case 'n':
+			case 'n':
 			/* 
 			@formatter:off
 			!    Antonym 
@@ -103,35 +103,56 @@ public class Coder
 			-u    Member of this domain - USAGE
 			@formatter:on
 			*/
-			switch (type)
-			//@formatter:off
-			{
-				case ANTONYM: return "!";
-				case HYPERNYM: return "@";
-				case INSTANCE_HYPERNYM: return "@i";
-				case HYPONYM: return "~";
-				case INSTANCE_HYPONYM: return "~i";
-				case HOLO_MEMBER: return "#m";
-				case HOLO_SUBSTANCE: return "#s";
-				case HOLO_PART: return "#p";
-				case MERO_MEMBER: return "%m";
-				case MERO_SUBSTANCE: return "%s";
-				case MERO_PART: return "%p";
-				case ATTRIBUTE: return "=";
-				case PERTAINYM: return "\\"; //NS
-				case DERIVATION: return "+";
-				case DOMAIN_TOPIC: return ";c";
-				case HAS_DOMAIN_TOPIC: return "-c";
-				case DOMAIN_REGION: return ";r";
-				case HAS_DOMAIN_REGION: return "-r";
-				case DOMAIN_USAGE: return ";u";
-				case HAS_DOMAIN_USAGE: return "-u";
-				default: break;
-			}
-			//@formatter:on
-			break;
+				switch (type)
+				//@formatter:off
+				{
+					case ANTONYM:
+						return "!";
+					case HYPERNYM:
+						return "@";
+					case INSTANCE_HYPERNYM:
+						return "@i";
+					case HYPONYM:
+						return "~";
+					case INSTANCE_HYPONYM:
+						return "~i";
+					case HOLO_MEMBER:
+						return "#m";
+					case HOLO_SUBSTANCE:
+						return "#s";
+					case HOLO_PART:
+						return "#p";
+					case MERO_MEMBER:
+						return "%m";
+					case MERO_SUBSTANCE:
+						return "%s";
+					case MERO_PART:
+						return "%p";
+					case ATTRIBUTE:
+						return "=";
+					case PERTAINYM:
+						return "\\"; //NS
+					case DERIVATION:
+						return "+";
+					case DOMAIN_TOPIC:
+						return ";c";
+					case HAS_DOMAIN_TOPIC:
+						return "-c";
+					case DOMAIN_REGION:
+						return ";r";
+					case HAS_DOMAIN_REGION:
+						return "-r";
+					case DOMAIN_USAGE:
+						return ";u";
+					case HAS_DOMAIN_USAGE:
+						return "-u";
+					default:
+						break;
+				}
+				//@formatter:on
+				break;
 
-		case 'v':
+			case 'v':
 			/*
 			@formatter:off
 			!    Antonym 
@@ -147,27 +168,39 @@ public class Coder
 			;u    Domain of synset - USAGE 
 			@formatter:on
 			*/
-			switch (type)
-			//@formatter:off
-			{
-				case ANTONYM: return "!";
-				case HYPERNYM: return "@";
-				case HYPONYM: return "~";
-				case ENTAILS: return "*";
-				case CAUSES: return ">";
-				case ALSO: return "^";	
-				case VERB_GROUP: return "$"; // verb group
-				case DERIVATION: return "+";
-				case DOMAIN_TOPIC: return ";c";
-				case DOMAIN_REGION: return ";r";
-				case DOMAIN_USAGE: return ";u";
-				default: break;
-			}
-			//@formatter:on
-			break;
+				switch (type)
+				//@formatter:off
+				{
+					case ANTONYM:
+						return "!";
+					case HYPERNYM:
+						return "@";
+					case HYPONYM:
+						return "~";
+					case ENTAILS:
+						return "*";
+					case CAUSES:
+						return ">";
+					case ALSO:
+						return "^";
+					case VERB_GROUP:
+						return "$"; // verb group
+					case DERIVATION:
+						return "+";
+					case DOMAIN_TOPIC:
+						return ";c";
+					case DOMAIN_REGION:
+						return ";r";
+					case DOMAIN_USAGE:
+						return ";u";
+					default:
+						break;
+				}
+				//@formatter:on
+				break;
 
-		case 'a':
-		case 's':
+			case 'a':
+			case 's':
 			/*
 			@formatter:off
 			!    Antonym 
@@ -181,30 +214,44 @@ public class Coder
 			;u    Domain of synset - USAGE
 			@formatter:on			
 			*/
-			switch (type)
-			//@formatter:off
-			{
-				case ANTONYM: return "!";
-				case SIMILAR: return "&";
-				case PARTICIPLE: return "<";
-				case PERTAINYM: return "\\";
-				case ATTRIBUTE: return "=";
-				case ALSO: return "^";
-				case DERIVATION: return "+"; //NS
-				
-				case DOMAIN_TOPIC: return ";c";
-				case DOMAIN_REGION: return ";r";
-				case DOMAIN_USAGE: return ";u";
-				
-				case HAS_DOMAIN_TOPIC: return "-c"; //NS
-				case HAS_DOMAIN_REGION: return "-r"; //NS
-				case HAS_DOMAIN_USAGE: return "-u"; //NS
-				default: break;
-			}
-			//@formatter:on
-			break;
+				switch (type)
+				//@formatter:off
+				{
+					case ANTONYM:
+						return "!";
+					case SIMILAR:
+						return "&";
+					case PARTICIPLE:
+						return "<";
+					case PERTAINYM:
+						return "\\";
+					case ATTRIBUTE:
+						return "=";
+					case ALSO:
+						return "^";
+					case DERIVATION:
+						return "+"; //NS
 
-		case 'r':
+					case DOMAIN_TOPIC:
+						return ";c";
+					case DOMAIN_REGION:
+						return ";r";
+					case DOMAIN_USAGE:
+						return ";u";
+
+					case HAS_DOMAIN_TOPIC:
+						return "-c"; //NS
+					case HAS_DOMAIN_REGION:
+						return "-r"; //NS
+					case HAS_DOMAIN_USAGE:
+						return "-u"; //NS
+					default:
+						break;
+				}
+				//@formatter:on
+				break;
+
+			case 'r':
 			/*
 			 @formatter:off
 			 !    Antonym 
@@ -214,27 +261,37 @@ public class Coder
 			 ;u    Domain of synset - USAGE 
 			 @formatter:on
 			 */
-			switch (type)
-			//@formatter:off
-			{
-				case ANTONYM: return "!";
-				case PERTAINYM: return "\\"; // NS
-				case DERIVATION: return ";c";
-				
-				case DOMAIN_TOPIC: return ";c";
-				case DOMAIN_REGION: return ";r";
-				case DOMAIN_USAGE: return ";u";
-				
-				case HAS_DOMAIN_TOPIC: return "-c"; //NS
-				case HAS_DOMAIN_REGION: return "-r"; //NS
-				case HAS_DOMAIN_USAGE: return "-u"; //NS
-				default: break;
-			}
-			//@formatter:on
-			break;
+				switch (type)
+				//@formatter:off
+				{
+					case ANTONYM:
+						return "!";
+					case PERTAINYM:
+						return "\\"; // NS
+					case DERIVATION:
+						return "+";
 
-		default:
-			break;
+					case DOMAIN_TOPIC:
+						return ";c";
+					case DOMAIN_REGION:
+						return ";r";
+					case DOMAIN_USAGE:
+						return ";u";
+
+					case HAS_DOMAIN_TOPIC:
+						return "-c"; //NS
+					case HAS_DOMAIN_REGION:
+						return "-r"; //NS
+					case HAS_DOMAIN_USAGE:
+						return "-u"; //NS
+					default:
+						break;
+				}
+				//@formatter:on
+				break;
+
+			default:
+				break;
 		}
 		throw new IllegalArgumentException("pos=" + pos + " relType=" + type);
 	}
@@ -284,7 +341,7 @@ public class Coder
 
 	/**
 	 * Code verb frame
-	 * 
+	 *
 	 * @param frame frame text
 	 * @return code
 	 */
@@ -348,7 +405,7 @@ public class Coder
 
 	/**
 	 * Code lexfile
-	 * 
+	 *
 	 * @param name name of lex file
 	 * @return code
 	 */

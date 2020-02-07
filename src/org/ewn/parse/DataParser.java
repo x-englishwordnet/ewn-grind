@@ -8,7 +8,7 @@ import org.ewn.pojos.Synset;
 
 /**
  * Synset Parser data.{noun|verb|adj|adv}
- * 
+ *
  * @author Bernard Bou
  */
 public class DataParser

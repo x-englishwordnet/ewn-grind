@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 /**
  * Format utilities
- * 
+ *
  * @author Bernard Bou
  */
 class Formatter
@@ -16,7 +16,7 @@ class Formatter
 
 	/**
 	 * Escape string
-	 * 
+	 *
 	 * @param item string to escape
 	 * @return escaped string
 	 */
@@ -27,12 +27,12 @@ class Formatter
 
 	/**
 	 * Join array of items
-	 * 
+	 *
 	 * @param items array of items of type T
 	 * @param delim delimiter
 	 * @return joined string representation of items
 	 */
-	static <T> Object join(T[] items, char delim)
+	static <T> Object join(T[] items, @SuppressWarnings("SameParameterValue") char delim)
 	{
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
@@ -49,9 +49,9 @@ class Formatter
 
 	/**
 	 * Join items
-	 * 
-	 * @param items collection of items of type T
-	 * @param delim delimiter
+	 *
+	 * @param items  collection of items of type T
+	 * @param delim  delimiter
 	 * @param escape whether to escape
 	 * @return joined string representation of items
 	 */
@@ -62,11 +62,11 @@ class Formatter
 
 	/**
 	 * Join items
-	 * 
-	 * @param items collection of items of type T
-	 * @param delim delimiter
+	 *
+	 * @param items  collection of items of type T
+	 * @param delim  delimiter
 	 * @param escape whether to escape
-	 * @param f string function to represent item
+	 * @param f      string function to represent item
 	 * @return joined string representation of items
 	 */
 	static <T> String join(Collection<T> items, char delim, boolean escape, Function<T, String> f)
@@ -87,8 +87,8 @@ class Formatter
 
 	/**
 	 * Join items, prefix with count
-	 * 
-	 * @param items collection of items of type T
+	 *
+	 * @param items       collection of items of type T
 	 * @param countFormat format of count field
 	 * @return joined string representation of items preceded by count
 	 */
@@ -99,10 +99,10 @@ class Formatter
 
 	/**
 	 * Join items, prefix with count
-	 * 
-	 * @param items collection of items of type T
+	 *
+	 * @param items       collection of items of type T
 	 * @param countFormat format of count field
-	 * @param f collection of items of type T
+	 * @param f           collection of items of type T
 	 * @return joined string representation of items preceded by count
 	 */
 	static <T> String joinNum(Collection<T> items, String countFormat, Function<T, String> f)

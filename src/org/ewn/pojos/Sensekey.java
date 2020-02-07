@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Sensekey
- * 
+ *
  * @author Bernard Bou
  */
 public class Sensekey
@@ -30,7 +30,7 @@ public class Sensekey
 	{
 		if (skString == null)
 			return null;
-		final String[] fields = skString.split("(%|:)");
+		final String[] fields = skString.split("([%:])");
 		if (fields.length < 4)
 			throw new IllegalArgumentException(skString);
 		try
@@ -72,8 +72,7 @@ public class Sensekey
 		return this.key;
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		return this.key;
 	}

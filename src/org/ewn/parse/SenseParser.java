@@ -10,7 +10,7 @@ import org.ewn.pojos.Sense;
 
 /**
  * Sense Parser (index.sense)
- * 
+ *
  * @author Bernard Bou
  */
 public class SenseParser

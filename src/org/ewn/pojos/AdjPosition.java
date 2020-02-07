@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Adjective Position
- * 
+ *
  * @author Bernard Bou
  */
 public enum AdjPosition
@@ -17,13 +17,13 @@ public enum AdjPosition
 
 	/**
 	 * Constructor
-	 * 
-	 * @param tag position tag
+	 *
+	 * @param tag         position tag
 	 * @param description position description
 	 */
-	private AdjPosition(final String name, final String description)
+	AdjPosition(final String tag, final String description)
 	{
-		this.tag = name;
+		this.tag = tag;
 		this.description = description;
 	}
 
@@ -51,8 +51,7 @@ public enum AdjPosition
 		return this.description;
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		return "(" + this.tag + "}";
 	}

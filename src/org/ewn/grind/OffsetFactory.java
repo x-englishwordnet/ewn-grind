@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.ewn.grind.Data.Relation;
@@ -16,17 +15,17 @@ import org.w3c.dom.NodeList;
 /**
  * This class computes file offsets that serve as synset id in the WNDB format. It does so by iterating over synset elements and yielding a dummy line string of
  * the same length as the final string. The offset counter is moved by the line's length.
- * 
+ *
  * @author Bernard Bou
  */
 public class OffsetFactory extends SynsetProcessor
 {
 	/**
 	 * Constructor
-	 * 
-	 * @param doc W3C document
+	 *
+	 * @param doc              W3C document
 	 * @param sensesBySynsetId map of senses with key=synsetId
-	 * @param sensesById sense elements mapped by id
+	 * @param sensesById       sense elements mapped by id
 	 */
 	public OffsetFactory(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById)
 	{
@@ -35,10 +34,10 @@ public class OffsetFactory extends SynsetProcessor
 
 	/**
 	 * Compute synset offsets
-	 * 
-	 * @param xpath selection of synset elements
+	 *
+	 * @param xpath   selection of synset elements
 	 * @param offsets result map
-	 * @throws ParserConfigurationException
+	 * @throws XPathExpressionException xpath
 	 */
 	public void compute(String xpath, Map<String, Long> offsets) throws XPathExpressionException
 	{
@@ -52,7 +51,7 @@ public class OffsetFactory extends SynsetProcessor
 			Node synsetNode = synsetNodes.item(i);
 			assert synsetNode.getNodeType() == Node.ELEMENT_NODE;
 			Element synsetElement = (Element) synsetNode;
-			String id = synsetElement.getAttribute("id");
+			String id = synsetElement.getAttribute(XmlNames.ID_ATTR);
 
 			String data = getData(synsetElement, dummyOfs);
 			offsets.put(id, offset);
@@ -64,9 +63,9 @@ public class OffsetFactory extends SynsetProcessor
 
 	/**
 	 * Compute offsets mapped by synsetId
-	 * 
+	 *
 	 * @return map of offsets by synsetId
-	 * @throws XPathExpressionException
+	 * @throws XPathExpressionException xpath
 	 */
 	Map<String, Long> compute() throws XPathExpressionException
 	{
@@ -84,15 +83,14 @@ public class OffsetFactory extends SynsetProcessor
 
 	private static final int DUMMY_NUM = 0;
 
-	@Override
-	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId)
+	@Override protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement,
+			String targetSynsetId)
 	{
-		char targetPos = targetSynsetElement.getAttribute("partOfSpeech").charAt(0);
+		char targetPos = targetSynsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
 		return new Relation(type, pos, targetPos, dummyOfs, DUMMY_NUM, DUMMY_NUM);
 	}
 
-	@Override
-	protected int buildLexfileNum(Element synsetElement)
+	@Override protected int buildLexfileNum(Element synsetElement)
 	{
 		return DUMMY_NUM;
 	}

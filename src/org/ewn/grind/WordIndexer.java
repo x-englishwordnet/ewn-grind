@@ -16,7 +16,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * This class produces the index.{noun|verb|adj|adv} files
- * 
+ *
  * @author Bernard Bou
  */
 public class WordIndexer
@@ -37,7 +37,8 @@ public class WordIndexer
 	 * XPath for adj lexical  entry elements
 	 */
 	public static final String ADJ_LEXENTRIES_XPATH = String.format("/%s/%s/%s[%s/@%s='a' or %s/@%s='s']", //
-			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR);
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.LEMMA_TAG,
+			XmlNames.POS_ATTR);
 
 	/**
 	 * XPath for adv lexical  entry elements
@@ -48,24 +49,24 @@ public class WordIndexer
 	/**
 	 * W3C document
 	 */
-	private Document doc;
+	private final Document doc;
 
 	/**
 	 * Map of synset elements indexed by their synset id key
 	 */
-	private Map<String, Element> synsetsById;
+	private final Map<String, Element> synsetsById;
 
 	/**
 	 * Synset offsets indexed by synset id key
 	 */
-	private Map<String, Long> offsets;
+	private final Map<String, Long> offsets;
 
 	/**
 	 * Constructor
-	 * 
-	 * @param doc W3C document
+	 *
+	 * @param doc         W3C document
 	 * @param synsetsById map of synset elements indexed by their synset id key
-	 * @param offsets offsets indexed by synset id key
+	 * @param offsets     offsets indexed by synset id key
 	 */
 	public WordIndexer(Document doc, Map<String, Element> synsetsById, Map<String, Long> offsets)
 	{
@@ -76,10 +77,10 @@ public class WordIndexer
 
 	/**
 	 * Make index
-	 * 
-	 * @param ps print stream
+	 *
+	 * @param ps    print stream
 	 * @param xpath xpath for lexical entry nodes
-	 * @throws XPathExpressionException
+	 * @throws XPathExpressionException xpath
 	 */
 	public void makeIndex(PrintStream ps, String xpath) throws XPathExpressionException
 	{
@@ -94,16 +95,17 @@ public class WordIndexer
 			Element lexEntryElement = (Element) lexEntryNode;
 
 			// lemma, pos
-			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, "Lemma");
-			String lemma = lemmaElement.getAttribute("writtenForm");
-			String pos = lemmaElement.getAttribute("partOfSpeech");
+			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
+			assert lemmaElement != null;
+			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
+			String pos = lemmaElement.getAttribute(XmlNames.POS_ATTR);
 
 			// init
 			List<String> synsetIds = new ArrayList<>();
 			Set<String> relationPointers = new TreeSet<>();
 
 			// senses
-			NodeList senseNodes = lexEntryElement.getElementsByTagName("Sense");
+			NodeList senseNodes = lexEntryElement.getElementsByTagName(XmlNames.SYNSET_ATTR);
 			int nSenses = senseNodes.getLength();
 			for (int j = 0; j < nSenses; j++)
 			{
@@ -112,14 +114,14 @@ public class WordIndexer
 				Element senseElement = (Element) senseNode;
 
 				// synsetid
-				String synsetId = senseElement.getAttribute("synset");
+				String synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR);
 				synsetIds.add(synsetId);
 
 				// target synset element
 				Element synsetElement = synsetsById.get(synsetId);
 
 				// synset relations
-				NodeList synsetRelationNodes = synsetElement.getElementsByTagName("SynsetRelation");
+				NodeList synsetRelationNodes = synsetElement.getElementsByTagName(XmlNames.SYNSETRELATION_TAG);
 				int nSynsetRelations = synsetRelationNodes.getLength();
 				for (int k = 0; k < nSynsetRelations; k++)
 				{
@@ -127,14 +129,14 @@ public class WordIndexer
 					assert synsetRelationNode.getNodeType() == Node.ELEMENT_NODE;
 					Element synsetRelationElement = (Element) synsetRelationNode;
 
-					String type = synsetRelationElement.getAttribute("relType");
+					String type = synsetRelationElement.getAttribute(XmlNames.RELTYPE_ATTR);
 					String pointer = Coder.codeRelation(type, pos.charAt(0));
 					relationPointers.add(pointer);
 				}
 			}
 
 			// sense relations
-			NodeList senseRelationNodes = lexEntryElement.getElementsByTagName("SenseRelation");
+			NodeList senseRelationNodes = lexEntryElement.getElementsByTagName(XmlNames.SENSERELATION_TAG);
 			int nSenseRelations = senseRelationNodes.getLength();
 			for (int k = 0; k < nSenseRelations; k++)
 			{
@@ -142,7 +144,7 @@ public class WordIndexer
 				assert senseRelationNode.getNodeType() == Node.ELEMENT_NODE;
 				Element senseRelationElement = (Element) senseRelationNode;
 
-				String type = senseRelationElement.getAttribute("relType");
+				String type = senseRelationElement.getAttribute(XmlNames.RELTYPE_ATTR);
 				String pointer = Coder.codeRelation(type, pos.charAt(0));
 				relationPointers.add(pointer);
 			}

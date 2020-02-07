@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 /**
  * Adjective Lemma
- * 
+ *
  * @author Bernard Bou
  */
 public class AdjLemma extends Lemma
@@ -18,7 +18,7 @@ public class AdjLemma extends Lemma
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param normString normalized string
 	 */
 	public AdjLemma(final NormalizedString normString)
@@ -40,7 +40,7 @@ public class AdjLemma extends Lemma
 
 	/**
 	 * Get position
-	 * 
+	 *
 	 * @return position
 	 */
 	public AdjPosition getPosition()
@@ -50,7 +50,7 @@ public class AdjLemma extends Lemma
 
 	/**
 	 * Get position tag (to append to lemma)
-	 * 
+	 *
 	 * @return position string
 	 */
 	public String toPositionSuffix()

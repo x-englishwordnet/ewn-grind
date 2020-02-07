@@ -18,9 +18,9 @@ public class Sense extends CoreSense
 		// line from index.sense
 		// read line into fields
 		// [0] sensekey
-		// [1] synsetoffset
-		// [2] sensenumber
-		// [3] tagcount
+		// [1] synset offset
+		// [2] sense number
+		// [3] tag count
 		final String[] fields = line.split("\\s+");
 
 		// core fields
@@ -37,8 +37,7 @@ public class Sense extends CoreSense
 		return new Sense(synsetId, lemma, sensenum, sensekey, lexId, tagCnt);
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		return super.toString() + "l" + this.lexId + "t" + this.tagCnt;
 	}

@@ -2,7 +2,7 @@ package org.ewn.grind;
 
 /**
  * This class groups settings flags that affect the grinder's behaviour.
- * 
+ *
  * @author Bernard Bou
  */
 public class Flags

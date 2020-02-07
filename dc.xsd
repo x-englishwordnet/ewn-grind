@@ -22,7 +22,7 @@
 
 	<xsd:simpleType name='SenseKeyType'>
 		<xsd:restriction base='xsd:string'>
-			<xsd:pattern value='&lemma;\%&lexsense;' />
+			<xsd:pattern value='&lemma;%&lexsense;' />
 		</xsd:restriction>
 	</xsd:simpleType>
 

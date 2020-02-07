@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Verb Frame
- * 
+ *
  * @author Bernard Bou
  */
 public class VerbFrame
@@ -17,8 +17,7 @@ public class VerbFrame
 		this.frameId = frameId;
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append("{");

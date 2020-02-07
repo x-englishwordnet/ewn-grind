@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Lemma
- * 
+ *
  * @author Bernard Bou
  */
 public class Lemma extends NormalizedString
@@ -16,7 +16,7 @@ public class Lemma extends NormalizedString
 	}
 
 	// factory
-	
+
 	public static Lemma make(final NormalizedString normString, final boolean isAdj)
 	{
 		return isAdj ? new AdjLemma(normString) : new Lemma(normString);

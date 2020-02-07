@@ -17,20 +17,20 @@ import org.xml.sax.SAXException;
 
 /**
  * Main class that generates the WN database in the WNDB format as per wndb(5WN)
- * 
- * @see https://wordnet.princeton.edu/documentation/wndb5wn
+ *
  * @author Bernard Bou
+ * @see "https://wordnet.princeton.edu/documentation/wndb5wn"
  */
 public class Grinder
 {
 	/**
 	 * Main entry point
-	 * 
+	 *
 	 * @param args command-line arguments
-	 * @throws SAXException
-	 * @throws ParserConfigurationException
-	 * @throws IOException
-	 * @throws XPathExpressionException
+	 * @throws SAXException                 sax
+	 * @throws ParserConfigurationException parser configuration
+	 * @throws IOException                  io
+	 * @throws XPathExpressionException     xpath
 	 */
 	public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException, XPathExpressionException
 	{
@@ -49,6 +49,7 @@ public class Grinder
 		{
 			dir = new File(args[1]);
 			if (!dir.exists())
+				//noinspection ResultOfMethodCallIgnored
 				dir.mkdirs();
 		}
 		else
@@ -85,15 +86,15 @@ public class Grinder
 
 	/**
 	 * Grind data.{noun|verb|adj|adv}
-	 * 
-	 * @param dir output directory
-	 * @param doc parsed XML W3C document
+	 *
+	 * @param dir              output directory
+	 * @param doc              parsed XML W3C document
 	 * @param sensesBySynsetId sense elements mapped by synsetId (whose 'synset' attribute = synsetId)
-	 * @param synsetsById synset elements mapped by synsetId
-	 * @param sensesById sense elements mapped by synsetId
-	 * @param offsets offsets mapped by synsetId
-	 * @throws IOException
-	 * @throws XPathExpressionException
+	 * @param synsetsById      synset elements mapped by synsetId
+	 * @param sensesById       sense elements mapped by synsetId
+	 * @param offsets          offsets mapped by synsetId
+	 * @throws IOException              io
+	 * @throws XPathExpressionException xpath
 	 */
 	public static void data(File dir, Document doc, //
 			Map<String, List<Element>> sensesBySynsetId, //
@@ -123,12 +124,12 @@ public class Grinder
 	}
 
 	/**
-	 * @param dir output directory
-	 * @param doc parsed XML document
+	 * @param dir         output directory
+	 * @param doc         parsed XML document
 	 * @param synsetsById synset elements mapped by synsetId
-	 * @param offsets offsets mapped by synsetId
-	 * @throws IOException
-	 * @throws XPathExpressionException
+	 * @param offsets     offsets mapped by synsetId
+	 * @throws IOException              io
+	 * @throws XPathExpressionException xpath
 	 */
 	public static void indexWords(File dir, Document doc, //
 			Map<String, Element> synsetsById, //
@@ -157,11 +158,11 @@ public class Grinder
 
 	/**
 	 * Grind index.sense
-	 * 
-	 * @param dir output directory
-	 * @param doc parsed XML document
+	 *
+	 * @param dir     output directory
+	 * @param doc     parsed XML document
 	 * @param offsets offsets mapped by synsetId
-	 * @throws IOException
+	 * @throws IOException io
 	 */
 	public static void indexSenses(File dir, Document doc, //
 			Map<String, Long> offsets) throws IOException
@@ -174,11 +175,11 @@ public class Grinder
 
 	/**
 	 * Grind {noun|verb|adj|adv}.exc
-	 * 
+	 *
 	 * @param dir output directory
 	 * @param doc parsed XML document
-	 * @throws IOException
-	 * @throws XPathExpressionException
+	 * @throws IOException              io
+	 * @throws XPathExpressionException xpath
 	 */
 	public static void morphs(File dir, Document doc) throws IOException, XPathExpressionException
 	{
@@ -203,11 +204,11 @@ public class Grinder
 
 	/**
 	 * Grind sentidx.vrb
-	 * 
+	 *
 	 * @param dir output directory
 	 * @param doc parsed XML document
-	 * @throws IOException
-	 * @throws XPathExpressionException
+	 * @throws IOException              io
+	 * @throws XPathExpressionException xpath
 	 */
 	public static void templates(File dir, Document doc) throws IOException, XPathExpressionException
 	{

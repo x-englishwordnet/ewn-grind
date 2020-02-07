@@ -17,7 +17,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * This abstract class iterates over the synset elements to produce a line of data. The real classes implement some functions differently.
- * 
+ *
  * @author Bernard Bou
  */
 public abstract class SynsetProcessor
@@ -86,15 +86,15 @@ public abstract class SynsetProcessor
 
 	/**
 	 * Constructor
-	 * 
-	 * @param doc W3C document
-	 * @param sensesBySynsetId map of sense elements indexed by synsetid
+	 *
+	 * @param doc              W3C document
 	 * @param sensesBySynsetId map of sense elements indexed with key=synsetId
-	 * @param synsetsById synset elements mapped by id
-	 * @param sensesById sense elements mapped by id
-	 * @param offsetFunction function that, when applied to a synsetId, yields the synset offset in the data files. May be dummy constant function.
+	 * @param synsetsById      synset elements mapped by id
+	 * @param sensesById       sense elements mapped by id
+	 * @param offsetFunction   function that, when applied to a synsetId, yields the synset offset in the data files. May be dummy constant function.
 	 */
-	public SynsetProcessor(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById, ToLongFunction<String> offsetFunction)
+	public SynsetProcessor(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById,
+			ToLongFunction<String> offsetFunction)
 	{
 		this.doc = doc;
 		this.sensesBySynsetId = sensesBySynsetId;
@@ -105,9 +105,9 @@ public abstract class SynsetProcessor
 
 	/**
 	 * Get data and yield line
-	 * 
+	 *
 	 * @param synsetElement synset element
-	 * @param offset allocated offset for the synset
+	 * @param offset        allocated offset for the synset
 	 * @return line
 	 */
 	protected String getData(Element synsetElement, long offset)
@@ -161,6 +161,7 @@ public abstract class SynsetProcessor
 
 			// lemma element
 			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
+			assert lemmaElement != null;
 			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 			lemmas.add(lemma);
 			int lemmaIndex = lemmas.indexOf(lemma) + 1;
@@ -175,12 +176,7 @@ public abstract class SynsetProcessor
 				{
 					String frameNum = syntacticBehaviourId.substring(7);
 					Frame frame = new Frame(Integer.parseInt(frameNum), lemmaIndex);
-					List<Frame> frames2 = frames.get(frame.frameNum);
-					if (frames2 == null)
-					{
-						frames2 = new ArrayList<>();
-						frames.put(frame.frameNum, frames2);
-					}
+					List<Frame> frames2 = frames.computeIfAbsent(frame.frameNum, k -> new ArrayList<>());
 					frames2.add(frame);
 				}
 			}
@@ -209,16 +205,18 @@ public abstract class SynsetProcessor
 		String members = Formatter.joinNum(words, "%02x");
 		String related = Formatter.joinNum(relations, "%03d");
 		String verbframes = frames.size() < 1 ? "" : ' ' + joinFrames(frames, words.size());
+		assert definitionElement != null;
 		String definition = definitionElement.getTextContent();
-		String examples = exampleElements == null || exampleElements.isEmpty() ? "" : "; " + Formatter.join(exampleElements, ' ', false, Element::getTextContent);
+		assert exampleElements != null;
+		String examples = exampleElements.isEmpty() ? "" : "; " + Formatter.join(exampleElements, ' ', false, Element::getTextContent);
 
 		return String.format(SYNSET_FORMAT, offset, lexfilenum, pos, members, related, verbframes, definition, examples);
 	}
 
 	/**
-	 * Collect lemmas mthat are member of this synset
-	 * 
-	 * @param synsetElement synset element
+	 * Collect lemmas that are member of this synset
+	 *
+	 * @param synsetElement    synset element
 	 * @param sensesBySynsetId senses by synsetId
 	 * @return array of lemmas
 	 */
@@ -233,6 +231,7 @@ public abstract class SynsetProcessor
 			assert lexEntryNode.getNodeType() == Node.ELEMENT_NODE;
 			Element lexEntryElement = (Element) lexEntryNode;
 			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
+			assert lemmaElement != null;
 			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 			lemmas.add(lemma);
 		}
@@ -241,13 +240,13 @@ public abstract class SynsetProcessor
 
 	/**
 	 * Build relation
-	 * 
-	 * @param type relation type
-	 * @param pos part of speech
-	 * @param lemmaIndex lemmaIndex
-	 * @param targetSenseElement target sense element
+	 *
+	 * @param type                relation type
+	 * @param pos                 part of speech
+	 * @param lemmaIndex          lemmaIndex
+	 * @param targetSenseElement  target sense element
 	 * @param targetSynsetElement target synset element
-	 * @param targetSynsetId target synsetid
+	 * @param targetSynsetId      target synsetid
 	 * @return relation
 	 */
 	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId)
@@ -256,19 +255,19 @@ public abstract class SynsetProcessor
 		assert targetLexEntryNode.getNodeType() == Node.ELEMENT_NODE;
 		Element targetLexEntryElement = (Element) targetLexEntryNode;
 		Element targetLemmaElement = XmlUtils.getFirstChildElement(targetLexEntryElement, XmlNames.LEMMA_TAG);
+		assert targetLemmaElement != null;
 		String targetLemma = targetLemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 
 		List<String> targetLemmas = buildLemmas(targetSynsetElement, sensesBySynsetId);
 		char targetPos = targetSynsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
 		long targetOffset = this.offsetFunction.applyAsLong(targetSynsetId);
-		int sourceWordNum = lemmaIndex;
 		int targetWordNum = targetLemmas.indexOf(targetLemma) + 1;
-		return new Relation(type, pos, targetPos, targetOffset, sourceWordNum, targetWordNum);
+		return new Relation(type, pos, targetPos, targetOffset, lemmaIndex, targetWordNum);
 	}
 
 	/**
 	 * Build lexfile num (result does not matter in terms of output format length)
-	 * 
+	 *
 	 * @param synsetElement synset element
 	 * @return lexfile num
 	 */
@@ -280,8 +279,8 @@ public abstract class SynsetProcessor
 
 	/**
 	 * Join frames, if a frame applies to all words, then wordCount is zeroed
-	 * 
-	 * @param frames list of frames mapped per given frameNum
+	 *
+	 * @param frames    list of frames mapped per given frameNum
 	 * @param wordCount word count in synset
 	 * @return formatted verb frames
 	 */
@@ -291,11 +290,11 @@ public abstract class SynsetProcessor
 		for (Entry<Integer, List<Frame>> entry : frames.entrySet())
 		{
 			Integer frameNum = entry.getKey();
-			List<Frame> framesWithframeNum = entry.getValue();
-			if (framesWithframeNum.size() == wordCount)
+			List<Frame> framesWithFrameNum = entry.getValue();
+			if (framesWithFrameNum.size() == wordCount)
 				resultFrames.add(new Frame(frameNum, 0));
 			else
-				resultFrames.addAll(framesWithframeNum);
+				resultFrames.addAll(framesWithFrameNum);
 		}
 		return Formatter.joinNum(resultFrames, "%02d");
 	}
