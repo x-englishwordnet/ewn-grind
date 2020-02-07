@@ -2,23 +2,23 @@ package org.ewn.pojos;
 
 /**
  * Semantical Relation (a lexical relation is an extended semantical relation)
- *
+ * 
  * @author Bernard Bou
  */
 public class SemRelation
 {
-	protected final RelationType type;
+	public final RelationType type;
 
-	protected final SynsetId fromSynsetId;
+	public final SynsetId fromSynsetId;
 
-	protected final SynsetId toSynsetId;
+	public final SynsetId toSynsetId;
 
 	/**
 	 * Constructor
-	 *
-	 * @param type         relation type
+	 * 
+	 * @param type relation type
 	 * @param fromSynsetId source synset id
-	 * @param toSynsetId   target synset id
+	 * @param toSynsetId target synset id
 	 */
 	public SemRelation(final RelationType type, final SynsetId fromSynsetId, final SynsetId toSynsetId)
 	{
@@ -27,7 +27,8 @@ public class SemRelation
 		this.toSynsetId = toSynsetId;
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return this.type.getName() + ":" + this.toSynsetId.toString();
 	}

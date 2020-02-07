@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Lex Domain
- *
+ * 
  * @author Bernard Bou
  */
 public class LexDomain
@@ -100,7 +100,13 @@ public class LexDomain
 		return this.pos;
 	}
 
-	@Override public String toString()
+	public static LexDomain[] values()
+	{
+		return LEX_DOMAINS;
+	}
+
+	@Override
+	public String toString()
 	{
 		return Integer.toString(this.id);
 	}

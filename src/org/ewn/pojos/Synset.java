@@ -2,38 +2,37 @@ package org.ewn.pojos;
 
 /**
  * Synset, a core synset extended to include relations and possibly verb frames
- *
+ * 
  * @author Bernard Bou
  */
 public class Synset extends CoreSynset
 {
-	private final SemRelation[] semRelations;
+	public final SemRelation[] semRelations;
 
-	private final VerbFrame[] verbFrames;
+	public final VerbFrameRef[] verbFrameRefs;
 
 	/**
 	 * Constructor
-	 *
-	 * @param synsetId     synset id
-	 * @param lemmas       lemmas
-	 * @param pos          part of speech
-	 * @param lexDomain    lex domain
-	 * @param gloss        gloss
+	 * 
+	 * @param synsetId synset id
+	 * @param lemmas lemmas
+	 * @param pos part of speech
+	 * @param lexDomain lex domain
+	 * @param gloss gloss
 	 * @param semRelations relations
-	 * @param verbFrames   verb frames
+	 * @param verbFrames verb frames
 	 */
-	private Synset(final SynsetId synsetId, final Lemma[] lemmas, final Pos pos, final LexDomain lexDomain, final Gloss gloss, final SemRelation[] semRelations,
-			final VerbFrame[] verbFrames)
+	private Synset(final SynsetId synsetId, final Lemma[] lemmas, final Pos pos, final LexDomain lexDomain, final Gloss gloss, final SemRelation[] semRelations, final VerbFrameRef[] verbFrames)
 	{
 		super(synsetId, lemmas, pos, lexDomain, gloss);
 		this.semRelations = semRelations;
-		this.verbFrames = verbFrames;
+		this.verbFrameRefs = verbFrames;
 	}
 
 	/**
 	 * Parse from line
-	 *
-	 * @param line  line
+	 * 
+	 * @param line line
 	 * @param isAdj whether adj synsets are being parsed
 	 * @return synset
 	 */
@@ -54,7 +53,7 @@ public class Synset extends CoreSynset
 
 		// data
 		SemRelation[] semRelations;
-		VerbFrame[] frames = null;
+		VerbFrameRef[] frames = null;
 
 		// offset
 		fieldPointer++;
@@ -115,7 +114,7 @@ public class Synset extends CoreSynset
 			fieldPointer++;
 
 			// frames
-			frames = new VerbFrame[frameCount];
+			frames = new VerbFrameRef[frameCount];
 			for (int i = 0; i < frameCount; i++)
 			{
 				// read data
@@ -137,7 +136,7 @@ public class Synset extends CoreSynset
 				{
 					frameLemmas = lemmas;
 				}
-				frames[i] = new VerbFrame(frameLemmas, frameId);
+				frames[i] = new VerbFrameRef(frameLemmas, frameId);
 			}
 		}
 		return new Synset(synsetId, lemmas, pos, lexDomain, gloss, semRelations, frames);
@@ -148,12 +147,13 @@ public class Synset extends CoreSynset
 		return semRelations;
 	}
 
-	public VerbFrame[] getVerbFrames()
+	public VerbFrameRef[] getVerbFrames()
 	{
-		return verbFrames;
+		return verbFrameRefs;
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append(super.toString());
@@ -170,16 +170,16 @@ public class Synset extends CoreSynset
 			}
 			sb.append("}");
 		}
-		if (this.verbFrames != null)
+		if (this.verbFrameRefs != null)
 		{
 			sb.append(" frames={");
-			for (int i = 0; i < this.verbFrames.length; i++)
+			for (int i = 0; i < this.verbFrameRefs.length; i++)
 			{
 				if (i != 0)
 				{
 					sb.append(",");
 				}
-				sb.append(this.verbFrames[i].toString());
+				sb.append(this.verbFrameRefs[i].toString());
 			}
 			sb.append("}");
 		}

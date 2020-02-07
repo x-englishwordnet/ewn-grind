@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Sensekey
- *
+ * 
  * @author Bernard Bou
  */
 public class Sensekey
@@ -17,7 +17,7 @@ public class Sensekey
 
 	private final int lexId;
 
-	private Sensekey(final Lemma lemma, final Pos pos, final LexDomain lexDomain, final int lexId, final String key)
+	protected Sensekey(final Lemma lemma, final Pos pos, final LexDomain lexDomain, final int lexId, final String key)
 	{
 		this.key = key.trim();
 		this.lemma = lemma;
@@ -35,7 +35,7 @@ public class Sensekey
 			throw new IllegalArgumentException(skString);
 		try
 		{
-			final Lemma lemma = Lemma.make(fields[0]);
+			final Lemma lemma = Lemma.make(fields[0].replace('#',':'));
 			final Pos pos = Pos.parse(Integer.parseInt(fields[1]));
 			final LexDomain lexDomain = LexDomain.parse(fields[2]);
 			final int lexid = Integer.parseInt(fields[3]);
@@ -72,7 +72,8 @@ public class Sensekey
 		return this.key;
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return this.key;
 	}

@@ -2,14 +2,14 @@ package org.ewn.pojos;
 
 /**
  * Tag
- *
+ * 
  * @author Bernard Bou
  */
 public class TagCnt
 {
 	private final int tagCount;
 
-	private TagCnt(final int tagCount)
+	public TagCnt(final int tagCount)
 	{
 		this.tagCount = tagCount;
 	}
@@ -25,8 +25,14 @@ public class TagCnt
 		return this.tagCount;
 	}
 
-	@Override public String toString()
+	public String toXString()
 	{
-		return "tag=" + this.tagCount;
+		return "tag=" + this.tagCount; 
+	}
+
+	@Override
+	public String toString()
+	{
+		return Integer.toString(this.tagCount); 
 	}
 }

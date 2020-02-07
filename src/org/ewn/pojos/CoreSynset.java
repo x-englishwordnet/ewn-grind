@@ -2,29 +2,29 @@ package org.ewn.pojos;
 
 /**
  * Core Synset (without relations and frames)
- *
+ * 
  * @author Bernard Bou
  */
 public class CoreSynset
 {
-	private final SynsetId synsetId;
+	public final SynsetId synsetId;
 
-	private final Lemma[] lemmas;
+	public final Lemma[] lemmas;
 
-	private final Pos pos;
+	public final Pos pos;
 
-	private final LexDomain lexDomain;
+	public final LexDomain lexDomain;
 
-	private final Gloss gloss;
+	public final Gloss gloss;
 
 	/**
 	 * Constructor
-	 *
-	 * @param synsetId  synset id
-	 * @param lemmas    lemmas
-	 * @param pos       part of speech
+	 * 
+	 * @param synsetId synset id
+	 * @param lemmas lemmas
+	 * @param pos part of speech
 	 * @param lexDomain lex domain
-	 * @param gloss     gloss
+	 * @param gloss gloss
 	 */
 	protected CoreSynset(final SynsetId synsetId, final Lemma[] lemmas, final Pos pos, final LexDomain lexDomain, final Gloss gloss)
 	{
@@ -37,10 +37,9 @@ public class CoreSynset
 
 	/**
 	 * Parse from line
-	 *
+	 * 
 	 * @param line line
 	 * @return synset
-	 * @throws NumberFormatException number format
 	 */
 	public static NormalizedString[] parseMembers(final String line)
 	{
@@ -51,8 +50,8 @@ public class CoreSynset
 
 	/**
 	 * Parse from line
-	 *
-	 * @param line  line
+	 * 
+	 * @param line line
 	 * @param isAdj whether adj synsets are being parsed
 	 * @return synset
 	 */
@@ -94,7 +93,7 @@ public class CoreSynset
 
 	/**
 	 * Parse members from fields
-	 *
+	 * 
 	 * @param fields fields
 	 * @return array of normalized strings
 	 */
@@ -145,7 +144,8 @@ public class CoreSynset
 		return this.gloss;
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append("id=");
@@ -159,9 +159,9 @@ public class CoreSynset
 				sb.append(",");
 			}
 			sb.append(lemma.toString());
-			if (lemma instanceof AdjLemma)
+			if (lemma instanceof Lemma.AdjLemma)
 			{
-				final AdjLemma adjLemma = (AdjLemma) lemma;
+				final Lemma.AdjLemma adjLemma = (Lemma.AdjLemma) lemma;
 				sb.append(adjLemma.toPositionSuffix());
 			}
 			i++;

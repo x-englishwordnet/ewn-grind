@@ -3,11 +3,13 @@
     <words>
       <w>adjsat</w>
       <w>affero</w>
+      <w>auspex</w>
       <w>classpathentry</w>
       <w>compat</w>
       <w>dataflow</w>
       <w>delim</w>
       <w>derivationally</w>
+      <w>framestext</w>
       <w>globalwordnet</w>
       <w>holo</w>
       <w>holonym</w>
@@ -52,6 +54,7 @@
       <w>sensenum</w>
       <w>senserelation</w>
       <w>sentidx</w>
+      <w>sents</w>
       <w>stative</w>
       <w>subcategorization</w>
       <w>sublicenses</w>

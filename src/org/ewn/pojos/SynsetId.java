@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Synset Id
- *
+ * 
  * @author Bernard Bou
  */
 public class SynsetId
@@ -19,8 +19,8 @@ public class SynsetId
 
 	/**
 	 * Constructor
-	 *
-	 * @param pos    part of speech
+	 * 
+	 * @param pos part of speech
 	 * @param offset offset in file
 	 */
 	public SynsetId(final Pos pos, final long offset)
@@ -31,7 +31,7 @@ public class SynsetId
 
 	/**
 	 * Get file offset
-	 *
+	 * 
 	 * @return file offset
 	 */
 	public long getOffset()
@@ -41,7 +41,7 @@ public class SynsetId
 
 	/**
 	 * Get part of speech
-	 *
+	 * 
 	 * @return part of speech
 	 */
 	public Pos getPos()
@@ -49,7 +49,8 @@ public class SynsetId
 		return this.pos;
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return this.getPos().toTag() + '-' + this.getOffset();
 	}
@@ -58,7 +59,7 @@ public class SynsetId
 
 	/**
 	 * Constructor from unique id
-	 *
+	 * 
 	 * @param uniqueId unique id
 	 */
 	private SynsetId(final long uniqueId)
@@ -78,7 +79,7 @@ public class SynsetId
 
 	/**
 	 * Make synset id fri unique id
-	 *
+	 * 
 	 * @param uniqueId unique id
 	 * @return synset
 	 */
@@ -89,7 +90,7 @@ public class SynsetId
 
 	/**
 	 * Get unique id
-	 *
+	 * 
 	 * @return unique id
 	 */
 	public long toUID()
@@ -100,7 +101,7 @@ public class SynsetId
 
 	/**
 	 * Get unique id string
-	 *
+	 * 
 	 * @return unique id string
 	 */
 	public String toUIDString()
@@ -111,7 +112,7 @@ public class SynsetId
 
 	/**
 	 * Get base UID for pos
-	 *
+	 * 
 	 * @param pos part of speech
 	 * @return base uid for given pos
 	 */
@@ -119,24 +120,24 @@ public class SynsetId
 	{
 		switch (pos)
 		{
-			case 'n':
-				return 100000000;
-			case 'v':
-				return 200000000;
-			case 'a':
-			case 's':
-				return 300000000;
-			case 'r':
-				return 400000000;
-			default:
-				break;
+		case 'n':
+			return 100000000;
+		case 'v':
+			return 200000000;
+		case 'a':
+		case 's':
+			return 300000000;
+		case 'r':
+			return 400000000;
+		default:
+			break;
 		}
 		return 900000000; // invalid value
 	}
 
 	/**
 	 * Get ceiling UID for pos
-	 *
+	 * 
 	 * @param pos part of speech
 	 * @return ceiling uid for given pos
 	 */

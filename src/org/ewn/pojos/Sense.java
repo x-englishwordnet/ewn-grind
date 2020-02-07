@@ -2,9 +2,9 @@ package org.ewn.pojos;
 
 public class Sense extends CoreSense
 {
-	private final LexId lexId;
+	public final LexId lexId;
 
-	private final TagCnt tagCnt;
+	public final TagCnt tagCnt;
 
 	public Sense(final SynsetId synsetId, final Lemma lemma, final int sensenum, final Sensekey sensekey, final LexId lexId, final TagCnt tagCnt)
 	{
@@ -37,9 +37,9 @@ public class Sense extends CoreSense
 		return new Sense(synsetId, lemma, sensenum, sensekey, lexId, tagCnt);
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
-		return super.toString() + "l" + this.lexId + "t" + this.tagCnt;
+		return super.toString() + " l" + this.lexId + " t" + this.tagCnt;
 	}
-
 }

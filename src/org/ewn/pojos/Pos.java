@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Pos (part of speech)
- *
+ * 
  * @author Bernard Bou
  */
 public enum Pos
@@ -24,11 +24,6 @@ public enum Pos
 		this.id = id;
 		this.name = name;
 		this.description = description;
-	}
-
-	@Override public String toString()
-	{
-		return Character.toString(this.id);
 	}
 
 	public char toChar()
@@ -77,5 +72,11 @@ public enum Pos
 		if (index >= 0 && index < Pos.values().length)
 			return Pos.values()[index];
 		throw new IllegalArgumentException(Integer.toString(index));
+	}
+
+	@Override
+	public String toString()
+	{
+		return Character.toString(this.id);
 	}
 }

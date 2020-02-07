@@ -6,21 +6,21 @@ public class Index extends CoreIndex
 
 	final TagCnt tagCnt;
 
-	public Index(final Lemma lemma, final BaseSense[] senses, RelationType[] relationTypes, TagCnt tagCnt)
+	public Index(final Lemma lemma, final BaseSense[] senses, final RelationType[] relationTypes, final TagCnt tagCnt)
 	{
 		super(lemma, senses);
 		this.relationTypes = relationTypes;
 		this.tagCnt = tagCnt;
 	}
 
-	public static CoreIndex parse(final String line)
+	public static Index parse(final String line)
 	{
 		// split into fields
 		final String[] fields = line.split("\\s+");
 
 		int fieldPointer = 0;
 
-		// lemma/word
+		// lemma
 		final String lemmaString = fields[fieldPointer];
 		final Lemma lemma = Lemma.make(lemmaString);
 		fieldPointer++;
@@ -33,19 +33,21 @@ public class Index extends CoreIndex
 		final int senseCount = Integer.parseInt(fields[fieldPointer]);
 		fieldPointer++;
 
-		// relation count
-		final int relationCount = Integer.parseInt(fields[fieldPointer], 10);
+		// relation types count
+		final int relationTypesCount = Integer.parseInt(fields[fieldPointer], 10);
 		fieldPointer++;
 
-		// relations
-		final RelationType[] relationTypes = new RelationType[relationCount];
-		for (int i = 0; i < relationCount; i++)
+		// relation types
+		final RelationType[] relationTypes = new RelationType[relationTypesCount];
+		for (int i = 0; i < relationTypesCount; i++)
 		{
 			relationTypes[i] = RelationType.parse(fields[fieldPointer + i]);
 		}
-		fieldPointer += relationCount;
+		fieldPointer += relationTypesCount;
 
 		// polysemy count 2
+		final int senseCount2 = Integer.parseInt(fields[fieldPointer]);
+		assert senseCount == senseCount2;
 		fieldPointer++;
 
 		// tag count
@@ -62,7 +64,8 @@ public class Index extends CoreIndex
 		return new Index(lemma, senses, relationTypes, tagCnt);
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append(super.toString());
@@ -76,6 +79,8 @@ public class Index extends CoreIndex
 			sb.append(this.relationTypes[i].toString());
 		}
 		sb.append("}");
+		sb.append(" tagcnt=");
+		sb.append(this.tagCnt);
 		return sb.toString();
 	}
 

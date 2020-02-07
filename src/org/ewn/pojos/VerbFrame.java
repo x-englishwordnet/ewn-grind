@@ -1,38 +1,54 @@
 package org.ewn.pojos;
 
 /**
- * Verb Frame
- *
+ * Verb Frame (in verb.Framestext)
+ * 
  * @author Bernard Bou
  */
 public class VerbFrame
 {
-	private final Lemma[] lemmas;
+	/**
+	 * Frame id
+	 */
+	public final int id;
 
-	private final int frameId;
+	/**
+	 * Frame text
+	 */
+	public final String frame;
 
-	public VerbFrame(final Lemma[] lemmas, final int frameId)
+	/**
+	 * Constructor
+	 * 
+	 * @param id
+	 *            frame id
+	 * @param frame
+	 *            frame text
+	 */
+	private VerbFrame(final int id, final String frame)
 	{
-		this.lemmas = lemmas;
-		this.frameId = frameId;
+		super();
+		this.id = id;
+		this.frame = frame;
 	}
 
-	@Override public String toString()
+	/**
+	 * Parse from line
+	 * 
+	 * @param line
+	 *            line
+	 * @return verb frame
+	 */
+	public static VerbFrame parse(final String line)
 	{
-		final StringBuilder sb = new StringBuilder();
-		sb.append("{");
-		int i = 0;
-		for (final Lemma lemma : this.lemmas)
-		{
-			if (i != 0)
-			{
-				sb.append(",");
-			}
-			sb.append(lemma.toString());
-			i++;
-		}
-		sb.append("}:");
-		sb.append(this.frameId);
-		return sb.toString();
+		final int id = Integer.parseInt(line.split("\\s+")[0]);
+		final String text = line.substring(3);
+		return new VerbFrame(id, text);
+	}
+
+	@Override
+	public String toString()
+	{
+		return "id=" + this.id + " frame=" + this.frame;
 	}
 }

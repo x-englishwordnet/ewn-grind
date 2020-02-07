@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Adjective Position
- *
+ * 
  * @author Bernard Bou
  */
 public enum AdjPosition
@@ -17,9 +17,11 @@ public enum AdjPosition
 
 	/**
 	 * Constructor
-	 *
-	 * @param tag         position tag
-	 * @param description position description
+	 * 
+	 * @param tag
+	 *            position tag
+	 * @param description
+	 *            position description
 	 */
 	AdjPosition(final String tag, final String description)
 	{
@@ -27,6 +29,28 @@ public enum AdjPosition
 		this.description = description;
 	}
 
+	/**
+	 * Find adj position from tag
+	 * 
+	 * @param tag
+	 *            tag
+	 * @return adj position
+	 */
+	public static AdjPosition find(final String tag)
+	{
+		for (AdjPosition position : values())
+			if (position.tag.equals(tag))
+				return position;
+		return null;
+	}
+
+	/**
+	 * Parse adj position from
+	 * 
+	 * @param suffix
+	 *            suffix = '(tag)'
+	 * @return adj position
+	 */
 	public static AdjPosition parse(final String suffix)
 	{
 		// remove parentheses
@@ -51,7 +75,8 @@ public enum AdjPosition
 		return this.description;
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return "(" + this.tag + "}";
 	}

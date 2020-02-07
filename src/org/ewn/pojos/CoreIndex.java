@@ -1,16 +1,15 @@
 package org.ewn.pojos;
 
 /**
- * Index
- *
+ * Core Index
+ * 
  * @author Bernard Bou
  */
-
 public class CoreIndex
 {
 	private final Lemma lemma;
 
-	private final BaseSense[] senses;
+	public final BaseSense[] senses;
 
 	protected CoreIndex(final Lemma lemma, final BaseSense[] senses)
 	{
@@ -61,7 +60,8 @@ public class CoreIndex
 		return new CoreIndex(lemma, senses);
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append(this.lemma.toString());

@@ -79,6 +79,25 @@
     <pattern value="org.ewn.grind.Data" method="Data" />
     <pattern value="org.ewn.grind.Formatter" method="Formatter" />
     <pattern value="org.ewn.grind.Memory" method="Memory" />
+    <pattern value="org.ewn.pojos.Lemma.AdjLemma" />
+    <pattern value="org.ewn.pojos.BareNormalizedString" />
+    <pattern value="org.ewn.pojos.BareNormalizedString" method="BareNormalizedString" />
+    <pattern value="org.ewn.pojos.AdjPosition" method="find" />
+    <pattern value="org.ewn.pojos.NormalizedString" method="getNormalized" />
+    <pattern value="org.ewn.pojos.Lemma.AdjLemma" method="getPosition" />
+    <pattern value="org.ewn.pojos.MorphMapping" />
+    <pattern value="org.ewn.pojos.VerbFrame" method="parse" />
+    <pattern value="org.ewn.pojos.VerbTemplate" method="parse" />
+    <pattern value="org.ewn.pojos.VerbTemplateRef" method="parse" />
+    <pattern value="org.ewn.pojos.MorphMapping" method="parse" />
+    <pattern value="org.ewn.pojos.LexId" method="toXString" />
+    <pattern value="org.ewn.pojos.TagCnt" method="toXString" />
+    <pattern value="org.ewn.pojos.LexDomain" method="values" />
+    <pattern value="org.ewn.pojos.VerbFrame" />
+    <pattern value="org.ewn.pojos.VerbFrame" method="VerbFrame" />
+    <pattern value="org.ewn.pojos.VerbTemplate" />
+    <pattern value="org.ewn.pojos.VerbTemplate" method="VerbTemplate" />
+    <pattern value="org.ewn.pojos.VerbTemplateRef" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

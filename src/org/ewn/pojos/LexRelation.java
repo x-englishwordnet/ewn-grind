@@ -4,12 +4,12 @@ import java.util.function.Function;
 
 /**
  * Lexical Relation (a lexical relation is an extended semantical relation)
- *
+ * 
  * @author Bernard Bou
  */
 public class LexRelation extends SemRelation
 {
-	private final Lemma fromWord;
+	public final Lemma fromWord;
 
 	private final LemmaRef toWord;
 
@@ -20,12 +20,13 @@ public class LexRelation extends SemRelation
 		this.toWord = toWord;
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return this.type.getName() + "-[" + this.fromWord + "]:" + this.toWord;
 	}
 
-	public Lemma resolveToWord(Function<SynsetId, Synset> f)
+	public Lemma resolveToWord(Function<SynsetId, CoreSynset> f)
 	{
 		return this.toWord.resolve(f);
 	}

@@ -2,16 +2,16 @@ package org.ewn.pojos;
 
 /**
  * Base Sense
- *
+ * 
  * @author Bernard Bou
  */
 public class BaseSense
 {
-	protected final Lemma lemma;
+	public final Lemma lemma;
 
-	protected final SynsetId synsetId;
+	public final SynsetId synsetId;
 
-	protected final int senseNum;
+	public final int senseNum;
 
 	protected BaseSense(final SynsetId synsetId, final Lemma word, final int senseNum)
 	{
@@ -25,8 +25,9 @@ public class BaseSense
 		return new BaseSense(new SynsetId(pos, Long.parseLong(synsetIdString)), lemma, senseNum);
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
-		return "(w" + this.lemma.toString() + "s" + this.synsetId.toString() + "n" + this.senseNum + ")";
+		return "(w=" + this.lemma.toString() + "-s=" + this.synsetId.toString() + "-n=" + this.senseNum + ")";
 	}
 }
