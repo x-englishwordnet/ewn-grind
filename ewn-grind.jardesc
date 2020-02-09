@@ -11,6 +11,8 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <javaElement handleIdentifier="=ewn-grind/src=/optional=/true=/=/maven.pomderived=/true=/"/>
+        <javaElement handleIdentifier="=ewn-grind/src=/optional=/true=/=/maven.pomderived=/true=/&lt;org.ewn.pojos"/>
+        <javaElement handleIdentifier="=ewn-grind/src=/optional=/true=/=/maven.pomderived=/true=/&lt;org.ewn.grind"/>
+        <javaElement handleIdentifier="=ewn-grind/src=/optional=/true=/=/maven.pomderived=/true=/&lt;org.ewn.parse"/>
     </selectedElements>
 </jardesc>
