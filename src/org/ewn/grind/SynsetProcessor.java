@@ -207,7 +207,7 @@ public abstract class SynsetProcessor
 		assert definitionElement != null;
 		String definition = definitionElement.getTextContent();
 		assert exampleElements != null;
-		String examples = exampleElements.isEmpty() ? "" : "; " + Formatter.join(exampleElements, ' ', false, Element::getTextContent);
+		String examples = exampleElements == null || exampleElements.isEmpty() ? "" : "; " + Formatter.join(exampleElements, ' ', false, Element::getTextContent);
 
 		return String.format(SYNSET_FORMAT, offset, lexfilenum, pos, members, related, verbframes, definition, examples);
 	}
