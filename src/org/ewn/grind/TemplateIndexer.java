@@ -66,18 +66,20 @@ public class TemplateIndexer
 			Element lexEntryElement = (Element) lexEntryNode;
 
 			List<Element> senseElements = XmlUtils.getChildElements(lexEntryElement, XmlNames.SENSE_TAG);
-			assert senseElements != null;
-			for (Element senseElement : senseElements)
+			if (senseElements != null)
 			{
-				String sensekey = senseElement.getAttribute(XmlNames.SENSEKEY_ATTR);
-				String templateList = senseElement.getAttribute(XmlNames.SENTENCE_TEMPLATE_ATTR);
-				if (templateList.isEmpty())
-					continue;
-				templateList = templateList.replace("ewn-st-", "");
-				String[] templates = templateList.split("\\s+");
-				String line = String.format("%s %s", sensekey, Formatter.join(templates, ','));
-				lines.add(line);
-				m++;
+				for (Element senseElement : senseElements)
+				{
+					String sensekey = senseElement.getAttribute(XmlNames.SENSEKEY_ATTR);
+					String templateList = senseElement.getAttribute(XmlNames.SENTENCE_TEMPLATE_ATTR);
+					if (templateList.isEmpty())
+						continue;
+					templateList = templateList.replace("ewn-st-", "");
+					String[] templates = templateList.split("\\s+");
+					String line = String.format("%s %s", sensekey, Formatter.join(templates, ','));
+					lines.add(line);
+					m++;
+				}
 			}
 		}
 		Collections.sort(lines);
