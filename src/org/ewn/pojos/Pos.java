@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Pos (part of speech)
- * 
+ *
  * @author Bernard Bou
  */
 public enum Pos
@@ -46,24 +46,24 @@ public enum Pos
 		return this.description;
 	}
 
-	public static Pos parse(final char id)
+	public static Pos parse(final char id) throws ParsePojoException
 	{
 		for (final Pos pos : Pos.values())
 		{
 			if (id == pos.id)
 				return pos;
 		}
-		throw new IllegalArgumentException(Character.toString(id));
+		throw new ParsePojoException("Pos:" + id);
 	}
 
-	public static Pos parse(final String name)
+	public static Pos parse(final String name) throws ParsePojoException
 	{
 		for (final Pos pos : Pos.values())
 		{
 			if (name.equals(pos.name))
 				return pos;
 		}
-		throw new IllegalArgumentException(name);
+		throw new ParsePojoException("Pos:" + name);
 	}
 
 	public static Pos parse(final int index0)
@@ -71,7 +71,17 @@ public enum Pos
 		final int index = index0 - 1;
 		if (index >= 0 && index < Pos.values().length)
 			return Pos.values()[index];
-		throw new IllegalArgumentException(Integer.toString(index));
+		throw new IllegalArgumentException("Pos:" + index);
+	}
+
+	public static Pos toPos(final String name)
+	{
+		for (final Pos pos : Pos.values())
+		{
+			if (name.equals(pos.name))
+				return pos;
+		}
+		return null;
 	}
 
 	@Override

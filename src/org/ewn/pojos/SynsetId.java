@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Synset Id
- * 
+ *
  * @author Bernard Bou
  */
 public class SynsetId
@@ -19,7 +19,7 @@ public class SynsetId
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param pos part of speech
 	 * @param offset offset in file
 	 */
@@ -31,7 +31,7 @@ public class SynsetId
 
 	/**
 	 * Get file offset
-	 * 
+	 *
 	 * @return file offset
 	 */
 	public long getOffset()
@@ -41,7 +41,7 @@ public class SynsetId
 
 	/**
 	 * Get part of speech
-	 * 
+	 *
 	 * @return part of speech
 	 */
 	public Pos getPos()
@@ -52,14 +52,14 @@ public class SynsetId
 	@Override
 	public String toString()
 	{
-		return this.getPos().toTag() + '-' + this.getOffset();
+		return getPos().toTag() + '-' + getOffset();
 	}
 
 	// U N I Q U E N E S S E X T E N S I O N
 
 	/**
 	 * Constructor from unique id
-	 * 
+	 *
 	 * @param uniqueId unique id
 	 */
 	private SynsetId(final long uniqueId)
@@ -74,12 +74,14 @@ public class SynsetId
 				return;
 			}
 		}
-		throw new IllegalArgumentException("Illegal synset unique id : " + uniqueId);
+		// never reached
+		this.pos = null;
+		this.offset = 0;
 	}
 
 	/**
 	 * Make synset id fri unique id
-	 * 
+	 *
 	 * @param uniqueId unique id
 	 * @return synset
 	 */
@@ -90,7 +92,7 @@ public class SynsetId
 
 	/**
 	 * Get unique id
-	 * 
+	 *
 	 * @return unique id
 	 */
 	public long toUID()
@@ -101,7 +103,7 @@ public class SynsetId
 
 	/**
 	 * Get unique id string
-	 * 
+	 *
 	 * @return unique id string
 	 */
 	public String toUIDString()
@@ -112,7 +114,7 @@ public class SynsetId
 
 	/**
 	 * Get base UID for pos
-	 * 
+	 *
 	 * @param pos part of speech
 	 * @return base uid for given pos
 	 */
@@ -137,7 +139,7 @@ public class SynsetId
 
 	/**
 	 * Get ceiling UID for pos
-	 * 
+	 *
 	 * @param pos part of speech
 	 * @return ceiling uid for given pos
 	 */

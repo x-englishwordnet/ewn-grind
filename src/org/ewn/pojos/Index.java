@@ -13,7 +13,7 @@ public class Index extends CoreIndex
 		this.tagCnt = tagCnt;
 	}
 
-	public static Index parse(final String line)
+	public static Index parse(final String line) throws ParsePojoException
 	{
 		// split into fields
 		final String[] fields = line.split("\\s+");

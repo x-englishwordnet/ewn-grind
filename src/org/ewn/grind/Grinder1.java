@@ -24,10 +24,10 @@ public class Grinder1
 	 * Main entry point
 	 *
 	 * @param args command-line arguments
-	 * @throws SAXException                 sax
+	 * @throws SAXException sax
 	 * @throws ParserConfigurationException parser configuration
-	 * @throws IOException                  io
-	 * @throws XPathExpressionException     xpath
+	 * @throws IOException io
+	 * @throws XPathExpressionException xpath
 	 */
 	public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException, XPathExpressionException
 	{
@@ -67,13 +67,13 @@ public class Grinder1
 	/**
 	 * Grind data for this synset
 	 *
-	 * @param pos              pos
-	 * @param offset           offset
-	 * @param doc              parsed XML W3C document
+	 * @param pos pos
+	 * @param offset offset
+	 * @param doc parsed XML W3C document
 	 * @param sensesBySynsetId sense elements mapped by synsetId (whose 'synset' attribute = synsetId)
-	 * @param synsetsById      synset elements mapped by synsetId
-	 * @param sensesById       sense elements mapped by synsetId
-	 * @param offsets          offsets mapped by synsetId
+	 * @param synsetsById synset elements mapped by synsetId
+	 * @param sensesById sense elements mapped by synsetId
+	 * @param offsets offsets mapped by synsetId
 	 */
 	public static void data(char pos, long offset, Document doc, //
 			Map<String, List<Element>> sensesBySynsetId, //

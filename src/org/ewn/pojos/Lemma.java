@@ -1,122 +1,92 @@
 package org.ewn.pojos;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Lemma (normalized, lower-cased)
- * 
+ *
  * @author Bernard Bou
  */
-public class Lemma extends NormalizedString
+public class Lemma /* extends NormalizedString */ implements Comparable<Lemma>
 {
-	/**
-	 * Adjective Lemma (suffix-stripped)
-	 * 
-	 * @author Bernard Bou
-	 */
-	public static class AdjLemma extends Lemma
-	{
-		private static final String REGEX = "\\((a|p|ip)\\)";
-
-		private static final Pattern PATTERN = Pattern.compile(AdjLemma.REGEX);
-
-		protected final AdjPosition adjPosition;
-
-		/**
-		 * Constructor
-		 * 
-		 * @param normString
-		 *            normalized string
-		 */
-		private AdjLemma(final NormalizedString normString)
-		{
-			super(normString);
-
-			// trailing adjective position
-			final Matcher matcher = AdjLemma.PATTERN.matcher(this.entry);
-			if (matcher.find())
-			{
-				// parse position
-				this.adjPosition = AdjPosition.parse(matcher.group());
-				// strip position
-				this.entry = this.entry.substring(0, matcher.start());
-			}
-			else
-				this.adjPosition = null;
-		}
-
-		/**
-		 * Get position
-		 * 
-		 * @return position
-		 */
-		public AdjPosition getPosition()
-		{
-			return this.adjPosition;
-		}
-
-		/**
-		 * Get position tag (to append to lemma)
-		 * 
-		 * @return position string
-		 */
-		public String toPositionSuffix()
-		{
-			if (this.adjPosition == null)
-				return "";
-			return "(" + this.adjPosition.getTag() + ")";
-		}
-
-		@Override
-		public boolean equals(Object obj)
-		{
-			// ignore position
-			return super.equals(obj);
-		}
-
-		@SuppressWarnings("EmptyMethod")
-		@Override
-		public int hashCode()
-		{
-			// ignore position
-			return super.hashCode();
-		}
-	}
+	private final String entry;
 
 	/**
 	 * Constructor from normalized string
-	 * 
-	 * @param normString
-	 *            normalized string
+	 *
+	 * @param normString normalized string
 	 */
-	private Lemma(final NormalizedString normString)
+	protected Lemma(final NormalizedString normString)
 	{
-		this.entry = normString.toString();
-
 		// to lower case
-		this.entry = this.entry.toLowerCase();
+		this.entry = normString.entry.toLowerCase();
 	}
 
 	// factory
 
-	public static Lemma make(final NormalizedString normString, final boolean isAdj)
+	/**
+	 * Make from bare normalized string
+	 * 
+	 * @param bareNormalized normalized bare normalized string
+	 * @return lemma
+	 */
+	public static Lemma make(final BareNormalizedString bareNormalized)
 	{
-		return isAdj ? new AdjLemma(normString) : new Lemma(normString);
+		return new Lemma(bareNormalized);
 	}
 
-	public static Lemma make(final BareNormalizedString bareString)
+	/**
+	 * Make from normalized string
+	 * 
+	 * @param normalized normalized string
+	 * @return lemma
+	 */
+	public static Lemma make(final NormalizedString normalized)
 	{
-		return new Lemma(bareString);
+		return new Lemma(normalized);
 	}
 
-	public static Lemma make(final String rawString, final boolean isAdj)
-	{
-		return Lemma.make(new NormalizedString(rawString), isAdj);
-	}
-
+	/**
+	 * Make from rawString
+	 * 
+	 * @param rawString raw string
+	 * @return lemma
+	 */
 	public static Lemma make(final String rawString)
 	{
-		return Lemma.make(new NormalizedString(rawString), false);
+		// normalize spaces then lowercase
+		return new Lemma(new NormalizedString(rawString));
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return this.entry.hashCode();
+	}
+
+	@Override
+	public boolean equals(final Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof NormalizedString))
+			return false;
+		final NormalizedString other = (NormalizedString) obj;
+		if (this.entry == null)
+			return other.entry == null;
+		else
+			return this.entry.equals(other.entry);
+	}
+
+	@Override
+	public int compareTo(final Lemma other)
+	{
+		return this.entry.compareTo(other.entry);
+	}
+
+	@Override
+	public String toString()
+	{
+		return this.entry;
 	}
 }

@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 /**
  * Gloss
- * 
+ *
  * @author Bernard Bou
  */
 public final class Gloss

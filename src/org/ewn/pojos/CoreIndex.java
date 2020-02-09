@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Core Index
- * 
+ *
  * @author Bernard Bou
  */
 public class CoreIndex
@@ -17,7 +17,7 @@ public class CoreIndex
 		this.senses = senses;
 	}
 
-	public static CoreIndex parse(final String line)
+	public static CoreIndex parse(final String line) throws ParsePojoException
 	{
 		// split into fields
 		final String[] fields = line.split("\\s+");

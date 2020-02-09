@@ -27,7 +27,7 @@ public class SenseIndexer
 	/**
 	 * Constructor
 	 *
-	 * @param doc     W3C document
+	 * @param doc W3C document
 	 * @param offsets synset offsets map indexed by synsetid key
 	 */
 	public SenseIndexer(Document doc, Map<String, Long> offsets)

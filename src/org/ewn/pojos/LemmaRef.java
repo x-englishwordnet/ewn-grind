@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 /**
  * Lemma Reference (nth word in synset)
- * 
+ *
  * @author Bernard Bou
  */
 public class LemmaRef
@@ -21,7 +21,7 @@ public class LemmaRef
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param synsetId synsetId of the synset the lemma is member of
 	 * @param wordNum 1-based number of the word in the lemma list
 	 */
@@ -39,13 +39,13 @@ public class LemmaRef
 
 	/**
 	 * Dereference / Resolve
-	 * 
+	 *
 	 * @param f functions that when applied to synsetId yields synset
 	 * @return lemma referred to by reference
 	 */
-	public Lemma resolve(Function<SynsetId, CoreSynset> f)
+	public Lemma resolve(final Function<SynsetId, CoreSynset> f)
 	{
-		CoreSynset synset = f.apply(this.synsetId);
+		final CoreSynset synset = f.apply(this.synsetId);
 		return synset.getLemmas()[this.wordNum - 1];
 	}
 }

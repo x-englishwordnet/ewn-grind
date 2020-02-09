@@ -23,9 +23,9 @@ public class OffsetFactory extends SynsetProcessor
 	/**
 	 * Constructor
 	 *
-	 * @param doc              W3C document
+	 * @param doc W3C document
 	 * @param sensesBySynsetId map of senses with key=synsetId
-	 * @param sensesById       sense elements mapped by id
+	 * @param sensesById sense elements mapped by id
 	 */
 	public OffsetFactory(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById)
 	{
@@ -35,7 +35,7 @@ public class OffsetFactory extends SynsetProcessor
 	/**
 	 * Compute synset offsets
 	 *
-	 * @param xpath   selection of synset elements
+	 * @param xpath selection of synset elements
 	 * @param offsets result map
 	 * @throws XPathExpressionException xpath
 	 */
@@ -83,14 +83,15 @@ public class OffsetFactory extends SynsetProcessor
 
 	private static final int DUMMY_NUM = 0;
 
-	@Override protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement,
-			String targetSynsetId)
+	@Override
+	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId)
 	{
 		char targetPos = targetSynsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
 		return new Relation(type, pos, targetPos, dummyOfs, DUMMY_NUM, DUMMY_NUM);
 	}
 
-	@Override protected int buildLexfileNum(Element synsetElement)
+	@Override
+	protected int buildLexfileNum(Element synsetElement)
 	{
 		return DUMMY_NUM;
 	}

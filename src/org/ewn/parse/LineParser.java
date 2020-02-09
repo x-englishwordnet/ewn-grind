@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import org.ewn.pojos.ParsePojoException;
 import org.ewn.pojos.Synset;
 
 public class LineParser
 {
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws IOException, ParsePojoException
 	{
 		// Timing
 		final long startTime = System.currentTimeMillis();
@@ -40,7 +41,7 @@ public class LineParser
 		}
 	}
 
-	private static Synset parseSynset(String line, boolean isAdj)
+	private static Synset parseSynset(String line, boolean isAdj) throws ParsePojoException
 	{
 		return Synset.parseSynset(line, isAdj);
 	}

@@ -92,10 +92,10 @@ public class TemplateIndexer
 	 * Main independent entry point
 	 *
 	 * @param args arguments
-	 * @throws SAXException                 sax
+	 * @throws SAXException sax
 	 * @throws ParserConfigurationException parser configuration
-	 * @throws IOException                  io
-	 * @throws XPathExpressionException     xpath
+	 * @throws IOException io
+	 * @throws XPathExpressionException xpath
 	 */
 	public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException, XPathExpressionException
 	{

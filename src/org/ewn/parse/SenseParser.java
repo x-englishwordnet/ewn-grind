@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.ewn.pojos.ParsePojoException;
 import org.ewn.pojos.Sense;
 
 /**
@@ -19,7 +20,7 @@ public class SenseParser
 
 	private static final boolean DUMP = false;
 
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws IOException, ParsePojoException
 	{
 		// Timing
 		final long startTime = System.currentTimeMillis();
@@ -35,7 +36,7 @@ public class SenseParser
 		System.err.println("Total execution time: " + (endTime - startTime) / 1000 + "s");
 	}
 
-	static void parseSenses(final String dir) throws IOException
+	static void parseSenses(final String dir) throws IOException, ParsePojoException
 	{
 		System.out.println("* Senses");
 
@@ -57,7 +58,7 @@ public class SenseParser
 					if (DUMP)
 						System.out.println(sense);
 				}
-				catch (final Exception e)
+				catch (final ParsePojoException e)
 				{
 					System.err.printf("%n%s:%d line=[%s] except=%s", file.getName(), lineCount, line, e);
 					if (THROW)

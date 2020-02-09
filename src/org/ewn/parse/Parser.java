@@ -1,10 +1,13 @@
 package org.ewn.parse;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import org.ewn.pojos.ParsePojoException;
 
 public class Parser
 {
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws FileNotFoundException, IOException, ParsePojoException
 	{
 		// Timing
 		final long startTime = System.currentTimeMillis();

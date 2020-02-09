@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Adjective Position
- * 
+ *
  * @author Bernard Bou
  */
 public enum AdjPosition
@@ -17,11 +17,9 @@ public enum AdjPosition
 
 	/**
 	 * Constructor
-	 * 
-	 * @param tag
-	 *            position tag
-	 * @param description
-	 *            position description
+	 *
+	 * @param tag position tag
+	 * @param description position description
 	 */
 	AdjPosition(final String tag, final String description)
 	{
@@ -31,14 +29,13 @@ public enum AdjPosition
 
 	/**
 	 * Find adj position from tag
-	 * 
-	 * @param tag
-	 *            tag
+	 *
+	 * @param tag tag
 	 * @return adj position
 	 */
 	public static AdjPosition find(final String tag)
 	{
-		for (AdjPosition position : values())
+		for (final AdjPosition position : AdjPosition.values())
 			if (position.tag.equals(tag))
 				return position;
 		return null;
@@ -46,12 +43,12 @@ public enum AdjPosition
 
 	/**
 	 * Parse adj position from
-	 * 
-	 * @param suffix
-	 *            suffix = '(tag)'
+	 *
+	 * @param suffix suffix = '(tag)'
 	 * @return adj position
+	 * @throws ParsePojoException parse exception
 	 */
-	public static AdjPosition parse(final String suffix)
+	public static AdjPosition parse(final String suffix) throws ParsePojoException
 	{
 		// remove parentheses
 		final String name = suffix.substring(1, suffix.length() - 1);
@@ -62,7 +59,7 @@ public enum AdjPosition
 			if (name.equals(adjPosition.tag))
 				return adjPosition;
 		}
-		throw new IllegalArgumentException(name);
+		throw new ParsePojoException("AdjPosition:" + name);
 	}
 
 	public String getTag()

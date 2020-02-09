@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Sense reference to verb template
- * 
+ *
  * @author Bernard Bou
  */
 public class VerbTemplateRef
@@ -19,11 +19,9 @@ public class VerbTemplateRef
 
 	/**
 	 * Constructor
-	 * 
-	 * @param sensekey
-	 *            sensekey
-	 * @param id
-	 *            verb template id
+	 *
+	 * @param sensekey sensekey
+	 * @param id verb template id
 	 */
 	private VerbTemplateRef(final Sensekey sensekey, final int id)
 	{
@@ -33,12 +31,12 @@ public class VerbTemplateRef
 
 	/**
 	 * Parse from line
-	 * 
-	 * @param line
-	 *            line
+	 *
+	 * @param line line
 	 * @return array of verb template references
+	 * @throws ParsePojoException parse exception
 	 */
-	public static VerbTemplateRef[] parse(final String line)
+	public static VerbTemplateRef[] parse(final String line) throws ParsePojoException
 	{
 		final String[] fields = line.split("\\s+");
 		if (fields.length <= 1)

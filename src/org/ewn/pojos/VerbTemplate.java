@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Verb template (sents.vrb)
- * 
+ *
  * @author Bernard Bou
  */
 public class VerbTemplate
@@ -19,11 +19,9 @@ public class VerbTemplate
 
 	/**
 	 * Constructor
-	 * 
-	 * @param id
-	 *            template id
-	 * @param template
-	 *            template text
+	 *
+	 * @param id template id
+	 * @param template template text
 	 */
 	private VerbTemplate(final int id, final String template)
 	{
@@ -33,9 +31,8 @@ public class VerbTemplate
 
 	/**
 	 * Parse from line
-	 * 
-	 * @param line
-	 *            line
+	 *
+	 * @param line line
 	 * @return verb template
 	 */
 	public static VerbTemplate parse(final String line)

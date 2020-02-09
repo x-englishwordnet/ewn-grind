@@ -13,7 +13,7 @@ public class Sense extends CoreSense
 		this.tagCnt = tagCnt;
 	}
 
-	public static Sense parse(final String line)
+	public static Sense parse(final String line) throws ParsePojoException
 	{
 		// line from index.sense
 		// read line into fields

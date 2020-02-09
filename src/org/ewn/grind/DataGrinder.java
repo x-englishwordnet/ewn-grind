@@ -21,14 +21,13 @@ public class DataGrinder extends SynsetProcessor
 	/**
 	 * Constructor
 	 *
-	 * @param doc              document
+	 * @param doc document
 	 * @param sensesBySynsetId map of senses with key=synsetId
-	 * @param synsetsById      synset elements mapped by id
-	 * @param sensesById       sense elements mapped by id
-	 * @param offsetMap        offsets by synset id
+	 * @param synsetsById synset elements mapped by id
+	 * @param sensesById sense elements mapped by id
+	 * @param offsetMap offsets by synset id
 	 */
-	public DataGrinder(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById,
-			Map<String, Long> offsetMap)
+	public DataGrinder(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById, Map<String, Long> offsetMap)
 	{
 		super(doc, sensesBySynsetId, synsetsById, sensesById, offsetMap::get);
 	}
@@ -36,7 +35,7 @@ public class DataGrinder extends SynsetProcessor
 	/**
 	 * Make data
 	 *
-	 * @param ps    print stream
+	 * @param ps print stream
 	 * @param xpath xpath of selected sense elements
 	 */
 	public void makeData(PrintStream ps, String xpath) throws XPathExpressionException

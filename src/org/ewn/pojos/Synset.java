@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Synset, a core synset extended to include relations and possibly verb frames
- * 
+ *
  * @author Bernard Bou
  */
 public class Synset extends CoreSynset
@@ -11,34 +11,43 @@ public class Synset extends CoreSynset
 
 	public final VerbFrameRef[] verbFrameRefs;
 
+	public final BareNormalizedString[] members;
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param synsetId synset id
 	 * @param lemmas lemmas
+	 * @param members cased members
 	 * @param pos part of speech
 	 * @param lexDomain lex domain
 	 * @param gloss gloss
 	 * @param semRelations relations
 	 * @param verbFrames verb frames
 	 */
-	private Synset(final SynsetId synsetId, final Lemma[] lemmas, final Pos pos, final LexDomain lexDomain, final Gloss gloss, final SemRelation[] semRelations, final VerbFrameRef[] verbFrames)
+	private Synset(final SynsetId synsetId, final Lemma[] lemmas, final BareNormalizedString[] members, final Pos pos, final LexDomain lexDomain, final Gloss gloss, final SemRelation[] semRelations, final VerbFrameRef[] verbFrames)
 	{
 		super(synsetId, lemmas, pos, lexDomain, gloss);
+		this.members = members;
 		this.semRelations = semRelations;
 		this.verbFrameRefs = verbFrames;
 	}
 
 	/**
 	 * Parse from line
-	 * 
+	 *
 	 * @param line line
 	 * @param isAdj whether adj synsets are being parsed
 	 * @return synset
+	 * @throws ParsePojoException parse exception
 	 */
-	public static Synset parseSynset(final String line, final boolean isAdj)
+	public static Synset parseSynset(final String line, final boolean isAdj) throws ParsePojoException
 	{
+		// core subparse
 		final CoreSynset protoSynset = CoreSynset.parse(line, isAdj);
+
+		// members subparse
+		final BareNormalizedString[] members = CoreSynset.parseMembers(line);
 
 		// copy data from proto
 		final Pos pos = protoSynset.getPos();
@@ -139,17 +148,17 @@ public class Synset extends CoreSynset
 				frames[i] = new VerbFrameRef(frameLemmas, frameId);
 			}
 		}
-		return new Synset(synsetId, lemmas, pos, lexDomain, gloss, semRelations, frames);
+		return new Synset(synsetId, lemmas, members, pos, lexDomain, gloss, semRelations, frames);
 	}
 
 	public SemRelation[] getRelations()
 	{
-		return semRelations;
+		return this.semRelations;
 	}
 
 	public VerbFrameRef[] getVerbFrames()
 	{
-		return verbFrameRefs;
+		return this.verbFrameRefs;
 	}
 
 	@Override

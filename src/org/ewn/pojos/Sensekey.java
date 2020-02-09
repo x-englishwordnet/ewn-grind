@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Sensekey
- * 
+ *
  * @author Bernard Bou
  */
 public class Sensekey
@@ -26,24 +26,24 @@ public class Sensekey
 		this.lexId = lexId;
 	}
 
-	public static Sensekey parse(final String skString)
+	public static Sensekey parse(final String skString) throws ParsePojoException
 	{
 		if (skString == null)
 			return null;
 		final String[] fields = skString.split("([%:])");
 		if (fields.length < 4)
-			throw new IllegalArgumentException(skString);
+			throw new ParsePojoException("Sensekey:" + skString);
 		try
 		{
-			final Lemma lemma = Lemma.make(fields[0].replace('#',':'));
+			final Lemma lemma = Lemma.make(fields[0].replace('#', ':'));
 			final Pos pos = Pos.parse(Integer.parseInt(fields[1]));
 			final LexDomain lexDomain = LexDomain.parse(fields[2]);
 			final int lexid = Integer.parseInt(fields[3]);
 			return new Sensekey(lemma, pos, lexDomain, lexid, skString);
 		}
-		catch (final Exception e)
+		catch (Exception e)
 		{
-			throw new IllegalArgumentException(skString);
+			throw new ParsePojoException("Sensekey:" + skString);
 		}
 	}
 

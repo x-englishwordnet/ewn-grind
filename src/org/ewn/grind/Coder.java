@@ -72,14 +72,14 @@ public class Coder
 	 * Code relation
 	 *
 	 * @param type relation type
-	 * @param pos  part-of-speech
+	 * @param pos part-of-speech
 	 * @return code
 	 */
 	static String codeRelation(String type, char pos)
 	{
 		switch (pos)
 		{
-			case 'n':
+		case 'n':
 			/* 
 			@formatter:off
 			!    Antonym 
@@ -103,8 +103,8 @@ public class Coder
 			-u    Member of this domain - USAGE
 			@formatter:on
 			*/
-				switch (type)
-				//@formatter:off
+			switch (type)
+			//@formatter:off
 				{
 					case ANTONYM:
 						return "!";
@@ -150,9 +150,9 @@ public class Coder
 						break;
 				}
 				//@formatter:on
-				break;
+			break;
 
-			case 'v':
+		case 'v':
 			/*
 			@formatter:off
 			!    Antonym 
@@ -168,8 +168,8 @@ public class Coder
 			;u    Domain of synset - USAGE 
 			@formatter:on
 			*/
-				switch (type)
-				//@formatter:off
+			switch (type)
+			//@formatter:off
 				{
 					case ANTONYM:
 						return "!";
@@ -197,10 +197,10 @@ public class Coder
 						break;
 				}
 				//@formatter:on
-				break;
+			break;
 
-			case 'a':
-			case 's':
+		case 'a':
+		case 's':
 			/*
 			@formatter:off
 			!    Antonym 
@@ -214,8 +214,8 @@ public class Coder
 			;u    Domain of synset - USAGE
 			@formatter:on			
 			*/
-				switch (type)
-				//@formatter:off
+			switch (type)
+			//@formatter:off
 				{
 					case ANTONYM:
 						return "!";
@@ -249,9 +249,9 @@ public class Coder
 						break;
 				}
 				//@formatter:on
-				break;
+			break;
 
-			case 'r':
+		case 'r':
 			/*
 			 @formatter:off
 			 !    Antonym 
@@ -261,8 +261,8 @@ public class Coder
 			 ;u    Domain of synset - USAGE 
 			 @formatter:on
 			 */
-				switch (type)
-				//@formatter:off
+			switch (type)
+			//@formatter:off
 				{
 					case ANTONYM:
 						return "!";
@@ -288,10 +288,10 @@ public class Coder
 						break;
 				}
 				//@formatter:on
-				break;
+			break;
 
-			default:
-				break;
+		default:
+			break;
 		}
 		throw new IllegalArgumentException("pos=" + pos + " relType=" + type);
 	}

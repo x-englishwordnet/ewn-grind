@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Core Sense with sensekey
- * 
+ *
  * @author Bernard Bou
  */
 public class CoreSense extends BaseSense

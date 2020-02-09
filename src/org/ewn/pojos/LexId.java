@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Lexid
- * 
+ *
  * @author Bernard Bou
  */
 public class LexId

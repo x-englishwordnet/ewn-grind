@@ -1,9 +1,11 @@
 package org.ewn.parse;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import org.ewn.pojos.ParsePojoException;
 import org.ewn.pojos.Synset;
 
 /**
@@ -17,7 +19,7 @@ public class DataParser
 
 	private static final boolean DUMP = false;
 
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws FileNotFoundException, ParsePojoException, IOException
 	{
 		// Timing
 		final long startTime = System.currentTimeMillis();
@@ -36,7 +38,7 @@ public class DataParser
 		System.err.println("Total execution time: " + (endTime - startTime) / 1000 + "s");
 	}
 
-	static void parseSynsets(final String dir, final String posName) throws IOException
+	static void parseSynsets(final String dir, final String posName) throws ParsePojoException, FileNotFoundException, IOException
 	{
 		System.out.println("* Synsets " + posName);
 
@@ -84,7 +86,7 @@ public class DataParser
 					if (DUMP)
 						System.out.println(synset);
 				}
-				catch (final Exception e)
+				catch (final ParsePojoException e)
 				{
 					parseErrorCount++;
 					System.err.printf("%n%s:%d offset=%08d line=[%s] except=%s", file.getName(), lineCount, fileOffset, line, e.getMessage());
@@ -99,7 +101,7 @@ public class DataParser
 		}
 	}
 
-	private static Synset parseSynset(String line, boolean isAdj)
+	private static Synset parseSynset(String line, boolean isAdj) throws ParsePojoException
 	{
 		return Synset.parseSynset(line, isAdj);
 	}

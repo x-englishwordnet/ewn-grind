@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Verb Frame (in verb.Framestext)
- * 
+ *
  * @author Bernard Bou
  */
 public class VerbFrame
@@ -19,11 +19,9 @@ public class VerbFrame
 
 	/**
 	 * Constructor
-	 * 
-	 * @param id
-	 *            frame id
-	 * @param frame
-	 *            frame text
+	 *
+	 * @param id frame id
+	 * @param frame frame text
 	 */
 	private VerbFrame(final int id, final String frame)
 	{
@@ -34,9 +32,8 @@ public class VerbFrame
 
 	/**
 	 * Parse from line
-	 * 
-	 * @param line
-	 *            line
+	 *
+	 * @param line line
 	 * @return verb frame
 	 */
 	public static VerbFrame parse(final String line)

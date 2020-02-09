@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Semantical Relation (a lexical relation is an extended semantical relation)
- * 
+ *
  * @author Bernard Bou
  */
 public class SemRelation
@@ -15,7 +15,7 @@ public class SemRelation
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param type relation type
 	 * @param fromSynsetId source synset id
 	 * @param toSynsetId target synset id

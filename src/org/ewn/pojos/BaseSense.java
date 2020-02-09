@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Base Sense
- * 
+ *
  * @author Bernard Bou
  */
 public class BaseSense

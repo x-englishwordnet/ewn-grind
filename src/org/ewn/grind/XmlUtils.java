@@ -37,15 +37,14 @@ class XmlUtils
 	/**
 	 * Build W3C Document from file
 	 *
-	 * @param filePath   file path
+	 * @param filePath file path
 	 * @param withSchema whether to validate document when building it (long)
 	 * @return W3C Document
-	 * @throws SAXException                 sax
+	 * @throws SAXException sax
 	 * @throws ParserConfigurationException parser configuration
-	 * @throws IOException                  io
+	 * @throws IOException io
 	 */
-	static Document getDocument(String filePath, @SuppressWarnings("SameParameterValue") boolean withSchema)
-			throws SAXException, ParserConfigurationException, IOException
+	static Document getDocument(String filePath, @SuppressWarnings("SameParameterValue") boolean withSchema) throws SAXException, ParserConfigurationException, IOException
 	{
 		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 		builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
@@ -98,8 +97,7 @@ class XmlUtils
 	 * @param key element attribute
 	 * @return multi-valued map of elements tagged 'tag' indexed by 'key' attribute key
 	 */
-	static Map<String, List<Element>> makeElementMultiMap(Document doc, @SuppressWarnings("SameParameterValue") String tag,
-			@SuppressWarnings("SameParameterValue") String key)
+	static Map<String, List<Element>> makeElementMultiMap(Document doc, @SuppressWarnings("SameParameterValue") String tag, @SuppressWarnings("SameParameterValue") String key)
 	{
 		System.err.print("MultiMap " + tag + "[@" + key + "] ");
 		Map<String, List<Element>> map = new HashMap<>();
@@ -122,10 +120,10 @@ class XmlUtils
 	 * Get first child element
 	 *
 	 * @param element parent element
-	 * @param tag     child tag
+	 * @param tag child tag
 	 * @return first child element having 'tag' tag
 	 */
-	//@Nullable
+	// @Nullable
 	static Element getFirstChildElement(Element element, String tag)
 	{
 		NodeList nodeList = element.getElementsByTagName(tag);
@@ -142,10 +140,10 @@ class XmlUtils
 	 * Get child elements
 	 *
 	 * @param element parent element
-	 * @param tag     child tag
+	 * @param tag child tag
 	 * @return list of child elements having 'tag' tag
 	 */
-	//@Nullable
+	// @Nullable
 	static List<Element> getChildElements(Element element, String tag)
 	{
 		NodeList nodeList = element.getElementsByTagName(tag);
@@ -167,7 +165,7 @@ class XmlUtils
 	 * Get node list satisfying XPath expression
 	 *
 	 * @param expr XPath expression
-	 * @param doc  W3C Document
+	 * @param doc W3C Document
 	 * @return node list satisfying XPath expression
 	 * @throws XPathExpressionException xpath
 	 */

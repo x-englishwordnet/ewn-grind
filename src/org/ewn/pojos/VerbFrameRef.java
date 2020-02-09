@@ -1,8 +1,8 @@
 package org.ewn.pojos;
 
-/** 
+/**
  * Verb Frame reference
- * 
+ *
  * @author Bernard Bou
  */
 public class VerbFrameRef

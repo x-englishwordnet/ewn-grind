@@ -87,14 +87,13 @@ public abstract class SynsetProcessor
 	/**
 	 * Constructor
 	 *
-	 * @param doc              W3C document
+	 * @param doc W3C document
 	 * @param sensesBySynsetId map of sense elements indexed with key=synsetId
-	 * @param synsetsById      synset elements mapped by id
-	 * @param sensesById       sense elements mapped by id
-	 * @param offsetFunction   function that, when applied to a synsetId, yields the synset offset in the data files. May be dummy constant function.
+	 * @param synsetsById synset elements mapped by id
+	 * @param sensesById sense elements mapped by id
+	 * @param offsetFunction function that, when applied to a synsetId, yields the synset offset in the data files. May be dummy constant function.
 	 */
-	public SynsetProcessor(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById,
-			ToLongFunction<String> offsetFunction)
+	public SynsetProcessor(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById, ToLongFunction<String> offsetFunction)
 	{
 		this.doc = doc;
 		this.sensesBySynsetId = sensesBySynsetId;
@@ -107,7 +106,7 @@ public abstract class SynsetProcessor
 	 * Get data and yield line
 	 *
 	 * @param synsetElement synset element
-	 * @param offset        allocated offset for the synset
+	 * @param offset allocated offset for the synset
 	 * @return line
 	 */
 	protected String getData(Element synsetElement, long offset)
@@ -216,7 +215,7 @@ public abstract class SynsetProcessor
 	/**
 	 * Collect lemmas that are member of this synset
 	 *
-	 * @param synsetElement    synset element
+	 * @param synsetElement synset element
 	 * @param sensesBySynsetId senses by synsetId
 	 * @return array of lemmas
 	 */
@@ -241,12 +240,12 @@ public abstract class SynsetProcessor
 	/**
 	 * Build relation
 	 *
-	 * @param type                relation type
-	 * @param pos                 part of speech
-	 * @param lemmaIndex          lemmaIndex
-	 * @param targetSenseElement  target sense element
+	 * @param type relation type
+	 * @param pos part of speech
+	 * @param lemmaIndex lemmaIndex
+	 * @param targetSenseElement target sense element
 	 * @param targetSynsetElement target synset element
-	 * @param targetSynsetId      target synsetid
+	 * @param targetSynsetId target synsetid
 	 * @return relation
 	 */
 	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId)
@@ -280,7 +279,7 @@ public abstract class SynsetProcessor
 	/**
 	 * Join frames, if a frame applies to all words, then wordCount is zeroed
 	 *
-	 * @param frames    list of frames mapped per given frameNum
+	 * @param frames list of frames mapped per given frameNum
 	 * @param wordCount word count in synset
 	 * @return formatted verb frames
 	 */

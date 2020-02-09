@@ -34,7 +34,8 @@ public class Data
 				this.lexid = lexid;
 		}
 
-		@Override public String toString()
+		@Override
+		public String toString()
 		{
 			int lexid2 = lexid % 16;
 			return String.format(Flags.LEXID_COMPAT ? "%s %1X" : "%s %X", lemma, lexid2);
@@ -61,10 +62,10 @@ public class Data
 		/**
 		 * Constructor
 		 *
-		 * @param type          type of relation @see Coder.codeRelation
-		 * @param pos           source part of speech
-		 * @param targetPos     target part of speech
-		 * @param targetOffset  relation target offset
+		 * @param type type of relation @see Coder.codeRelation
+		 * @param pos source part of speech
+		 * @param targetPos target part of speech
+		 * @param targetOffset relation target offset
 		 * @param sourceWordNum word number in source synset
 		 * @param targetWordNum word number in target synset
 		 */
@@ -79,7 +80,8 @@ public class Data
 			this.targetWordNum = targetWordNum;
 		}
 
-		@Override public String toString()
+		@Override
+		public String toString()
 		{
 			return String.format("%s %08d %c %02x%02x", ptrSymbol, targetOffset, targetPos, sourceWordNum, targetWordNum);
 		}
@@ -98,7 +100,7 @@ public class Data
 		 * Constructor
 		 *
 		 * @param frameNum frame number
-		 * @param wordNum  1-based word number in synset this frame applies to
+		 * @param wordNum 1-based word number in synset this frame applies to
 		 */
 		public Frame(int frameNum, int wordNum)
 		{
@@ -107,7 +109,8 @@ public class Data
 			this.wordNum = wordNum;
 		}
 
-		@Override public String toString()
+		@Override
+		public String toString()
 		{
 			return String.format("+ %02d %02x", frameNum, wordNum);
 		}

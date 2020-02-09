@@ -2,7 +2,7 @@ package org.ewn.pojos;
 
 /**
  * Core Synset (without relations and frames)
- * 
+ *
  * @author Bernard Bou
  */
 public class CoreSynset
@@ -19,7 +19,7 @@ public class CoreSynset
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param synsetId synset id
 	 * @param lemmas lemmas
 	 * @param pos part of speech
@@ -37,11 +37,11 @@ public class CoreSynset
 
 	/**
 	 * Parse from line
-	 * 
+	 *
 	 * @param line line
-	 * @return synset
+	 * @return members
 	 */
-	public static NormalizedString[] parseMembers(final String line)
+	public static BareNormalizedString[] parseMembers(final String line)
 	{
 		// split into fields
 		final String[] fields = line.split("\\s+");
@@ -50,12 +50,13 @@ public class CoreSynset
 
 	/**
 	 * Parse from line
-	 * 
+	 *
 	 * @param line line
 	 * @param isAdj whether adj synsets are being parsed
 	 * @return synset
+	 * @throws ParsePojoException parse exception
 	 */
-	public static CoreSynset parse(final String line, final boolean isAdj)
+	public static CoreSynset parse(final String line, final boolean isAdj) throws ParsePojoException
 	{
 		// split into fields
 		final String[] fields = line.split("\\s+");
@@ -71,7 +72,7 @@ public class CoreSynset
 
 		// part-of-speech
 		final Pos pos = Pos.parse(fields[fieldPointer].charAt(0));
-		//fieldPointer++;
+		// fieldPointer++;
 
 		// id
 		final SynsetId synsetId = new SynsetId(pos, offset);
@@ -81,9 +82,9 @@ public class CoreSynset
 		final Lemma[] lemmas = new Lemma[members.length];
 		for (int i = 0; i < members.length; i++)
 		{
-			lemmas[i] = Lemma.make(members[i], isAdj);
+			lemmas[i] = isAdj ? AdjLemma.makeAdj(members[i]) : Lemma.make(members[i]);
 		}
-		//fieldPointer += 1 + 2 * members.length;
+		// fieldPointer += 1 + 2 * members.length;
 
 		// glossary
 		final Gloss gloss = new Gloss(line.substring(line.indexOf('|') + 1), synsetId);
@@ -93,11 +94,11 @@ public class CoreSynset
 
 	/**
 	 * Parse members from fields
-	 * 
+	 *
 	 * @param fields fields
-	 * @return array of normalized strings
+	 * @return array of bare normalized strings
 	 */
-	private static NormalizedString[] parseMembers(final String[] fields)
+	private static BareNormalizedString[] parseMembers(final String[] fields)
 	{
 		// data
 		int fieldPointer = 3;
@@ -107,10 +108,10 @@ public class CoreSynset
 		fieldPointer++;
 
 		// members
-		final NormalizedString[] members = new NormalizedString[count];
+		final BareNormalizedString[] members = new BareNormalizedString[count];
 		for (int i = 0; i < count; i++)
 		{
-			members[i] = new NormalizedString(fields[fieldPointer]);
+			members[i] = new BareNormalizedString(fields[fieldPointer]);
 			fieldPointer++;
 
 			// lexid skipped
@@ -159,9 +160,9 @@ public class CoreSynset
 				sb.append(",");
 			}
 			sb.append(lemma.toString());
-			if (lemma instanceof Lemma.AdjLemma)
+			if (lemma instanceof AdjLemma)
 			{
-				final Lemma.AdjLemma adjLemma = (Lemma.AdjLemma) lemma;
+				final AdjLemma adjLemma = (AdjLemma) lemma;
 				sb.append(adjLemma.toPositionSuffix());
 			}
 			i++;
