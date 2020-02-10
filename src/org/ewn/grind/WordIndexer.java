@@ -104,8 +104,9 @@ public class WordIndexer
 			Set<String> relationPointers = new TreeSet<>();
 
 			// senses
-			NodeList senseNodes = lexEntryElement.getElementsByTagName(XmlNames.SYNSET_ATTR);
+			NodeList senseNodes = lexEntryElement.getElementsByTagName(XmlNames.SENSE_TAG);
 			int nSenses = senseNodes.getLength();
+			assert nSenses >= 1;
 			for (int j = 0; j < nSenses; j++)
 			{
 				Node senseNode = senseNodes.item(j);

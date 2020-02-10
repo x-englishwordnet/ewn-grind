@@ -148,6 +148,7 @@ public abstract class SynsetProcessor
 
 		// iterate sense elements that have this synset element as target in "synset" attribute
 		List<Element> senseElements = sensesBySynsetId.get(synsetId);
+		assert !senseElements.isEmpty();
 		for (Element senseElement : senseElements)
 		{
 			// lexid attribute
@@ -224,6 +225,7 @@ public abstract class SynsetProcessor
 		ArrayList<String> lemmas = new ArrayList<>();
 		String synsetId = synsetElement.getAttribute(XmlNames.ID_ATTR);
 		List<Element> senseElements = sensesBySynsetId.get(synsetId);
+		assert !senseElements.isEmpty();
 		for (Element senseElement : senseElements)
 		{
 			Node lexEntryNode = senseElement.getParentNode();
@@ -234,6 +236,7 @@ public abstract class SynsetProcessor
 			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 			lemmas.add(lemma);
 		}
+		assert !lemmas.isEmpty();
 		return lemmas;
 	}
 

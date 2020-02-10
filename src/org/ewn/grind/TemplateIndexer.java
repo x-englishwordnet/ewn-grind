@@ -59,6 +59,7 @@ public class TemplateIndexer
 		NodeList lexEntryNodes = XmlUtils.getXPathNodeList(VERB_LEXENTRY_XPATH, doc);
 		int m = 0;
 		int n = lexEntryNodes.getLength();
+		assert n >= 1;
 		for (int i = 0; i < n; i++)
 		{
 			Node lexEntryNode = lexEntryNodes.item(i);
@@ -66,20 +67,18 @@ public class TemplateIndexer
 			Element lexEntryElement = (Element) lexEntryNode;
 
 			List<Element> senseElements = XmlUtils.getChildElements(lexEntryElement, XmlNames.SENSE_TAG);
-			if (senseElements != null)
+			assert senseElements != null;
+			for (Element senseElement : senseElements)
 			{
-				for (Element senseElement : senseElements)
-				{
-					String sensekey = senseElement.getAttribute(XmlNames.SENSEKEY_ATTR);
-					String templateList = senseElement.getAttribute(XmlNames.SENTENCE_TEMPLATE_ATTR);
-					if (templateList.isEmpty())
-						continue;
-					templateList = templateList.replace("ewn-st-", "");
-					String[] templates = templateList.split("\\s+");
-					String line = String.format("%s %s", sensekey, Formatter.join(templates, ','));
-					lines.add(line);
-					m++;
-				}
+				String sensekey = senseElement.getAttribute(XmlNames.SENSEKEY_ATTR);
+				String templateList = senseElement.getAttribute(XmlNames.SENTENCE_TEMPLATE_ATTR);
+				if (templateList.isEmpty())
+					continue;
+				templateList = templateList.replace("ewn-st-", "");
+				String[] templates = templateList.split("\\s+");
+				String line = String.format("%s %s", sensekey, Formatter.join(templates, ','));
+				lines.add(line);
+				m++;
 			}
 		}
 		Collections.sort(lines);

@@ -46,6 +46,7 @@ public class OffsetFactory extends SynsetProcessor
 		// iterate synset elements
 		NodeList synsetNodes = XmlUtils.getXPathNodeList(xpath, doc);
 		int n = synsetNodes.getLength();
+		assert n >= 1;
 		for (int i = 0; i < n; i++)
 		{
 			Node synsetNode = synsetNodes.item(i);

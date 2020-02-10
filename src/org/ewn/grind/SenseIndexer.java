@@ -48,6 +48,7 @@ public class SenseIndexer
 
 		NodeList senseNodes = doc.getElementsByTagName(XmlNames.SENSE_TAG);
 		int n = senseNodes.getLength();
+		assert n >= 1;
 		for (int i = 0; i < n; i++)
 		{
 			Node senseNode = senseNodes.item(i);

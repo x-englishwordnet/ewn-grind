@@ -72,6 +72,7 @@ public class MorphGrinder
 		// iterate lex entry elements
 		NodeList lexEntryNodes = XmlUtils.getXPathNodeList(xpath, doc);
 		int n = lexEntryNodes.getLength();
+		assert n >= 1;
 		for (int i = 0; i < n; i++)
 		{
 			Node lexEntryNode = lexEntryNodes.item(i);
