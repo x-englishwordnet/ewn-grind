@@ -23,7 +23,11 @@ public class Grinder1
 	/**
 	 * Main entry point
 	 *
-	 * @param args command-line arguments
+	 * @param args command-line arguments ([0] merged XML filename,[1] pos, [2] offset)
+	 * # 1 input XML file
+	 * # 2 SYNSETID | -sense | -offset
+	 * # 3 SENSEID | POS (n|v|a|r|s)
+	 * # 4 OFFSET (ie 1740)
 	 * @throws SAXException sax
 	 * @throws ParserConfigurationException parser configuration
 	 * @throws IOException io
@@ -39,8 +43,11 @@ public class Grinder1
 
 		// Input
 		String filename = args[0];
-		char pos = args[1].charAt(0);
-		long offset = Long.parseLong(args[2]);
+		String extraArg1 = args[1];
+		boolean isOffset = extraArg1.equals("-offset");
+		boolean isSense = extraArg1.equals("-sense");
+		String extraArg2 = isOffset || isSense ? args[2] : null;
+		String extraArg3 = isOffset ? args[3] : null;
 
 		// XML document
 		Document doc = XmlUtils.getDocument(filename, false);
@@ -53,11 +60,31 @@ public class Grinder1
 		// Compute synset offsets
 		Map<String, Long> offsets = new OffsetFactory(doc, sensesBySynsetId, synsetsById, sensesById).compute();
 
+		// SynsetId, SenseId, w31 offset
+		String synsetId;
+		if (isSense)
+		{
+			Element senseElement = sensesById.get(extraArg2);
+			synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR);
+		}
+		else if (isOffset)
+		{
+			char pos = extraArg2.charAt(0);
+			long offset31 = Long.parseLong(extraArg3);
+			synsetId = String.format("ewn-%08d-%c", offset31, pos);
+		}
+		else
+		{
+			synsetId = extraArg1;
+		}
+
 		// Heap
 		System.err.println(Memory.heapInfo("after maps", Unit.M));
 
 		// Process
-		data(pos, offset, doc, sensesBySynsetId, synsetsById, sensesById, offsets);
+		Element synsetElement = synsetsById.get(synsetId);
+		long offset = offsets.get(synsetId);
+		data(synsetElement, offset, doc, sensesBySynsetId, synsetsById, sensesById, offsets);
 
 		// Timing
 		final long endTime = System.currentTimeMillis();
@@ -67,7 +94,7 @@ public class Grinder1
 	/**
 	 * Grind data for this synset
 	 *
-	 * @param pos pos
+	 * @param synsetElement synset element
 	 * @param offset offset
 	 * @param doc parsed XML W3C document
 	 * @param sensesBySynsetId sense elements mapped by synsetId (whose 'synset' attribute = synsetId)
@@ -75,7 +102,7 @@ public class Grinder1
 	 * @param sensesById sense elements mapped by synsetId
 	 * @param offsets offsets mapped by synsetId
 	 */
-	public static void data(char pos, long offset, Document doc, //
+	public static void data(Element synsetElement, long offset, Document doc, //
 			Map<String, List<Element>> sensesBySynsetId, //
 			Map<String, Element> synsetsById, //
 			Map<String, Element> sensesById, //
@@ -84,8 +111,6 @@ public class Grinder1
 	{
 		// Data
 		DataGrinder factory = new DataGrinder(doc, sensesBySynsetId, synsetsById, sensesById, offsets);
-		String id = String.format("ewn-%08d-%c", offset, pos);
-		Element synsetElement = synsetsById.get(id);
 		String line = factory.getData(synsetElement, offset);
 		System.out.println(line);
 	}

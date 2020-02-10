@@ -62,7 +62,9 @@ public class XmlNames
 
 	static final String SYNTACTICBEHAVIOUR_ATTR = "syntactic_behaviour";
 
-	static final String SENTENCE_TEMPLATE_ATTR = "sentence_template";
+	static final String SENTENCETEMPLATE_ATTR = "sentence_template";
+
+	static final String ADJPOSITION_ATTR = "adj_position";
 
 	static final String TAGCOUNT_ATTR = "tagcnt";
 }

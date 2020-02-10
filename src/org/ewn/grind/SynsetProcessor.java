@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.ToLongFunction;
 
+import org.ewn.grind.Data.AdjWord;
 import org.ewn.grind.Data.Frame;
 import org.ewn.grind.Data.Relation;
 import org.ewn.grind.Data.Word;
@@ -153,6 +154,7 @@ public abstract class SynsetProcessor
 		{
 			// lexid attribute
 			int lexid = Integer.parseInt(senseElement.getAttribute(XmlNames.LEXID_ATTR));
+			String adjPosition = senseElement.getAttribute(XmlNames.ADJPOSITION_ATTR);
 
 			// lexical entry element
 			Node lexEntryNode = senseElement.getParentNode();
@@ -165,7 +167,9 @@ public abstract class SynsetProcessor
 			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 			lemmas.add(lemma);
 			int lemmaIndex = lemmas.indexOf(lemma) + 1;
-			words.add(new Word(Formatter.escape(lemma), lexid));
+			String escaped = Formatter.escape(lemma);
+			Word word = adjPosition.isEmpty() ? new Word(escaped, lexid) : new AdjWord(escaped, lexid, adjPosition);
+			words.add(word);
 
 			// syntactic behaviour attribute
 			String syntacticBehaviour = senseElement.getAttribute(XmlNames.SYNTACTICBEHAVIOUR_ATTR);

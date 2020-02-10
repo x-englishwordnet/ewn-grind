@@ -16,9 +16,9 @@ public class Data
 	 */
 	static class Word
 	{
-		private final String lemma;
+		protected final String lemma;
 
-		private final int lexid;
+		protected final int lexid;
 
 		public Word(String lemma, int lexid)
 		{
@@ -39,6 +39,27 @@ public class Data
 		{
 			int lexid2 = lexid % 16;
 			return String.format(Flags.LEXID_COMPAT ? "%s %1X" : "%s %X", lemma, lexid2);
+		}
+	}
+
+	/**
+	 * Adjective synset member words with position constraint expressed (ip,p,a).
+	 */
+	static class AdjWord extends Word
+	{
+		private final String position;
+
+		public AdjWord(String lemma, int lexid, String position)
+		{
+			super(lemma, lexid);
+			this.position = position;
+		}
+
+		@Override
+		public String toString()
+		{
+			int lexid2 = lexid % 16;
+			return String.format(Flags.LEXID_COMPAT ? "%s(%s) %1X" : "%s(%s) %X", lemma, position, lexid2);
 		}
 	}
 

@@ -33,7 +33,11 @@ parse the WNDB database word index
 
 parse the WNDB database sense index
 
-`parse1.sh [WNDBDIR] [POS] [OFS]`
+`parse1.sh [WNDBDIR] [SYNSETID]`
+
+`parse1.sh [WNDBDIR] -sense [SENSEID]`
+
+`parse1.sh [WNDBDIR] -offset [POS] [OFS]`
 
 parse the WNDB database at expected *offset* of *data.{noun|verb|adj|adv}*
 

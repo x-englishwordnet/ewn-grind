@@ -102,7 +102,7 @@ class Formatter
 	 *
 	 * @param items collection of items of type T
 	 * @param countFormat format of count field
-	 * @param f collection of items of type T
+	 * @param f string function to represent item
 	 * @return joined string representation of items preceded by count
 	 */
 	static <T> String joinNum(Collection<T> items, String countFormat, Function<T, String> f)
