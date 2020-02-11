@@ -1,9 +1,9 @@
 package org.ewn.grind;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.xml.xpath.XPathExpressionException;
 
@@ -67,7 +67,7 @@ public class MorphGrinder
 	 */
 	public void makeMorph(PrintStream ps, String xpath) throws XPathExpressionException
 	{
-		ArrayList<String> lines = new ArrayList<>();
+		Set<String> lines = new TreeSet<>();
 
 		// iterate lex entry elements
 		NodeList lexEntryNodes = XmlUtils.getXPathNodeList(xpath, doc);
@@ -94,7 +94,6 @@ public class MorphGrinder
 				}
 			}
 		}
-		Collections.sort(lines);
 		for (String line : lines)
 		{
 			ps.println(line);
