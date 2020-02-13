@@ -1,10 +1,10 @@
 package org.ewn.grind;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.xml.xpath.XPathExpressionException;
@@ -74,6 +74,15 @@ public class WordIndexer
 		this.offsets = offsets;
 	}
 
+	private static class IndexData
+	{
+		String pos;
+
+		Set<String> synsetIds = new LinkedHashSet<>();
+
+		Set<String> relationPointers = new TreeSet<>();
+	}
+
 	/**
 	 * Make index
 	 *
@@ -86,7 +95,7 @@ public class WordIndexer
 		ps.print(Formatter.PRINCETON_HEADER);
 
 		// collect lines in a set to avoid duplicate lines that arise from lowercasing of lemma
-		Set<String> lines = new TreeSet<>();
+		Map<String, IndexData> indexEntries = new TreeMap<>();
 
 		NodeList lexEntryNodes = XmlUtils.getXPathNodeList(xpath, doc);
 		int n = lexEntryNodes.getLength();
@@ -99,12 +108,15 @@ public class WordIndexer
 			// lemma, pos
 			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
 			assert lemmaElement != null;
-			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
+			String form = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
+			String key = Formatter.escape(form.toLowerCase());
 			String pos = lemmaElement.getAttribute(XmlNames.POS_ATTR);
 
 			// init
-			List<String> synsetIds = new ArrayList<>();
-			Set<String> relationPointers = new TreeSet<>();
+			IndexData data = indexEntries.computeIfAbsent(key, k -> new IndexData());
+
+			// pos
+			data.pos = pos;
 
 			// senses
 			NodeList senseNodes = lexEntryElement.getElementsByTagName(XmlNames.SENSE_TAG);
@@ -118,7 +130,7 @@ public class WordIndexer
 
 				// synsetid
 				String synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR);
-				synsetIds.add(synsetId);
+				data.synsetIds.add(synsetId);
 
 				// target synset element
 				Element synsetElement = synsetsById.get(synsetId);
@@ -134,7 +146,7 @@ public class WordIndexer
 
 					String type = synsetRelationElement.getAttribute(XmlNames.RELTYPE_ATTR);
 					String pointer = Coder.codeRelation(type, pos.charAt(0));
-					relationPointers.add(pointer);
+					data.relationPointers.add(pointer);
 				}
 			}
 
@@ -149,18 +161,20 @@ public class WordIndexer
 
 				String type = senseRelationElement.getAttribute(XmlNames.RELTYPE_ATTR);
 				String pointer = Coder.codeRelation(type, pos.charAt(0));
-				relationPointers.add(pointer);
+				data.relationPointers.add(pointer);
 			}
-
-			String ptrs = Formatter.joinNum(relationPointers, "%d");
-			String ofs = String.format("%d %d %s", synsetIds.size(), 0, Formatter.join(synsetIds, ' ', false, s -> String.format("%08d", offsets.get(s))));
-
-			String data = String.format("%s %s %d %s %s", Formatter.escape(lemma.toLowerCase()), pos, nSenses, ptrs, ofs);
-			lines.add(data);
 		}
+
 		int count = 0;
-		for (String line : lines)
+		for (Map.Entry<String, IndexData> indexEntry : indexEntries.entrySet())
 		{
+			String key = indexEntry.getKey();
+			IndexData data = indexEntry.getValue();
+			int nSenses = data.synsetIds.size();
+
+			String ptrs = Formatter.joinNum(data.relationPointers, "%d");
+			String ofs = String.format("%d %d %s", nSenses, 0, Formatter.join(data.synsetIds, ' ', false, s -> String.format("%08d", offsets.get(s))));
+			String line = String.format("%s %s %d %s %s", key, data.pos, nSenses, ptrs, ofs);
 			ps.println(line);
 			count++;
 		}
