@@ -85,6 +85,9 @@ public class WordIndexer
 	{
 		ps.print(Formatter.PRINCETON_HEADER);
 
+		// collect lines in a set to avoid duplicate lines that arise from lowercasing of lemma
+		Set<String> lines = new TreeSet<>();
+
 		NodeList lexEntryNodes = XmlUtils.getXPathNodeList(xpath, doc);
 		int n = lexEntryNodes.getLength();
 		for (int i = 0; i < n; i++)
@@ -153,8 +156,14 @@ public class WordIndexer
 			String ofs = String.format("%d %d %s", synsetIds.size(), 0, Formatter.join(synsetIds, ' ', false, s -> String.format("%08d", offsets.get(s))));
 
 			String data = String.format("%s %s %d %s %s", Formatter.escape(lemma.toLowerCase()), pos, nSenses, ptrs, ofs);
-			ps.println(data);
+			lines.add(data);
 		}
-		System.err.println("Words: " + n + " for " + xpath);
+		int count = 0;
+		for (String line : lines)
+		{
+			ps.println(line);
+			count++;
+		}
+		System.err.println("Words: " + count + '/' + n + " lexentries for " + xpath);
 	}
 }
