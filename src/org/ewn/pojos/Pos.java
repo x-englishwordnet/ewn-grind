@@ -46,17 +46,35 @@ public enum Pos
 		return this.description;
 	}
 
-	public static Pos parse(final char id) throws ParsePojoException
+	/**
+	 * Parse pos from character id
+	 * 
+	 * @param id
+	 *            character id
+	 * @return pos
+	 * @throws ParsePojoException
+	 *             parse exception
+	 */
+	public static Pos parsePos(final char id) throws ParsePojoException
 	{
 		for (final Pos pos : Pos.values())
 		{
 			if (id == pos.id)
 				return pos;
 		}
-		throw new ParsePojoException("Pos:" + id);
+		throw new ParsePojoException("Pos:" + Character.toString(id));
 	}
 
-	public static Pos parse(final String name) throws ParsePojoException
+	/**
+	 * Parse pos from name
+	 * 
+	 * @param name
+	 *            name
+	 * @return pos
+	 * @throws ParsePojoException
+	 *             parse exception
+	 */
+	public static Pos parsePos(final String name) throws ParsePojoException
 	{
 		for (final Pos pos : Pos.values())
 		{
@@ -66,15 +84,29 @@ public enum Pos
 		throw new ParsePojoException("Pos:" + name);
 	}
 
-	public static Pos parse(final int index0)
+	/**
+	 * Make pos from pos index
+	 * 
+	 * @param index0
+	 *            index
+	 * @return pos
+	 */
+	public static Pos fromIndex(final int index0)
 	{
 		final int index = index0 - 1;
 		if (index >= 0 && index < Pos.values().length)
 			return Pos.values()[index];
-		throw new IllegalArgumentException("Pos:" + index);
+		throw new IllegalArgumentException("Pos:" + Integer.toString(index));
 	}
 
-	public static Pos toPos(final String name)
+	/**
+	 * Make pos from name
+	 * 
+	 * @param name
+	 *            name
+	 * @return pos
+	 */
+	public static Pos fromName(final String name)
 	{
 		for (final Pos pos : Pos.values())
 		{
@@ -82,6 +114,11 @@ public enum Pos
 				return pos;
 		}
 		return null;
+	}
+
+	public boolean isAdj()
+	{
+		return this.equals(Pos.ADJ) || this.equals(Pos.ADJSAT);
 	}
 
 	@Override

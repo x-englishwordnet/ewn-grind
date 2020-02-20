@@ -8,4 +8,14 @@ public class ParsePojoException extends Exception
 	{
 		super(message);
 	}
+
+	public ParsePojoException(String message, Throwable cause)
+	{
+		super(message, cause);
+	}
+
+	public ParsePojoException(Throwable cause)
+	{
+		super(cause);
+	}
 }

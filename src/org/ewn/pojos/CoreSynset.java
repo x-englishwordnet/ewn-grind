@@ -20,11 +20,16 @@ public class CoreSynset
 	/**
 	 * Constructor
 	 *
-	 * @param synsetId synset id
-	 * @param lemmas lemmas
-	 * @param pos part of speech
-	 * @param lexDomain lex domain
-	 * @param gloss gloss
+	 * @param synsetId
+	 *            synset id
+	 * @param lemmas
+	 *            lemmas
+	 * @param pos
+	 *            part of speech
+	 * @param lexDomain
+	 *            lex domain
+	 * @param gloss
+	 *            gloss
 	 */
 	protected CoreSynset(final SynsetId synsetId, final Lemma[] lemmas, final Pos pos, final LexDomain lexDomain, final Gloss gloss)
 	{
@@ -38,10 +43,103 @@ public class CoreSynset
 	/**
 	 * Parse from line
 	 *
-	 * @param line line
-	 * @return members
+	 * @param line
+	 *            line
+	 * @param isAdj
+	 *            whether adj synsets are being parsed
+	 * @return synset
+	 * @throws ParsePojoException
+	 *             parse exception
 	 */
-	public static BareNormalizedString[] parseMembers(final String line)
+	public static CoreSynset parseCoreSynset(final String line, final boolean isAdj) throws ParsePojoException
+	{
+		try
+		{
+			// split into fields
+			final String[] fields = line.split("\\s+");
+			int fieldPointer = 0;
+
+			// offset
+			final long offset = Integer.parseInt(fields[fieldPointer]);
+			fieldPointer++;
+
+			// lexdomain
+			final LexDomain lexDomain = LexDomain.parseLexDomain(fields[fieldPointer]);
+			fieldPointer++;
+
+			// part-of-speech
+			final Pos pos = Pos.parsePos(fields[fieldPointer].charAt(0));
+			// fieldPointer++;
+
+			// id
+			final SynsetId synsetId = new SynsetId(pos, offset);
+
+			// lemma set
+			final Lemma[] lemmas = CoreSynset.parseLemmas(fields, isAdj);
+			// fieldPointer += 1 + 2 * members.length;
+
+			// glossary
+			final Gloss gloss = new Gloss(line.substring(line.indexOf('|') + 1), synsetId);
+
+			return new CoreSynset(synsetId, lemmas, pos, lexDomain, gloss);
+		}
+		catch (Exception e)
+		{
+			throw new ParsePojoException(e);
+		}
+	}
+
+	/**
+	 * Parse lemmas from fields
+	 *
+	 * @param fields
+	 *            fields
+	 * @param isAdj
+	 *            whether an adjective is being processed
+	 * @return array of bare normalized strings
+	 * @throws ParsePojoException
+	 *             parse exception
+	 */
+	private static Lemma[] parseLemmas(final String[] fields, final boolean isAdj) throws ParsePojoException
+	{
+		try
+		{
+			// data
+			int fieldPointer = 3;
+
+			// count
+			final int count = Integer.parseInt(fields[fieldPointer], 16);
+			fieldPointer++;
+
+			// lemmas
+			final Lemma[] lemmas2 = new Lemma[count];
+			for (int i = 0; i < count; i++)
+			{
+				final NormalizedString normalized = new NormalizedString(fields[fieldPointer]);
+				lemmas2[i] = isAdj ? AdjLemma.makeAdj(normalized) : Lemma.make(normalized);
+				fieldPointer++;
+
+				// lexid skipped
+				fieldPointer++;
+			}
+			return lemmas2;
+		}
+		catch (Exception e)
+		{
+			throw new ParsePojoException(e);
+		}
+	}
+
+	/**
+	 * Parse from line
+	 *
+	 * @param line
+	 *            line
+	 * @return members
+	 * @throws ParsePojoException
+	 *             parse exception
+	 */
+	public static BareNormalizedString[] parseMembers(final String line) throws ParsePojoException
 	{
 		// split into fields
 		final String[] fields = line.split("\\s+");
@@ -49,75 +147,41 @@ public class CoreSynset
 	}
 
 	/**
-	 * Parse from line
-	 *
-	 * @param line line
-	 * @param isAdj whether adj synsets are being parsed
-	 * @return synset
-	 * @throws ParsePojoException parse exception
-	 */
-	public static CoreSynset parse(final String line, final boolean isAdj) throws ParsePojoException
-	{
-		// split into fields
-		final String[] fields = line.split("\\s+");
-		int fieldPointer = 0;
-
-		// offset
-		final long offset = Integer.parseInt(fields[fieldPointer]);
-		fieldPointer++;
-
-		// lexdomain
-		final LexDomain lexDomain = LexDomain.parse(fields[fieldPointer]);
-		fieldPointer++;
-
-		// part-of-speech
-		final Pos pos = Pos.parse(fields[fieldPointer].charAt(0));
-		// fieldPointer++;
-
-		// id
-		final SynsetId synsetId = new SynsetId(pos, offset);
-
-		// lemma set
-		final NormalizedString[] members = CoreSynset.parseMembers(fields);
-		final Lemma[] lemmas = new Lemma[members.length];
-		for (int i = 0; i < members.length; i++)
-		{
-			lemmas[i] = isAdj ? AdjLemma.makeAdj(members[i]) : Lemma.make(members[i]);
-		}
-		// fieldPointer += 1 + 2 * members.length;
-
-		// glossary
-		final Gloss gloss = new Gloss(line.substring(line.indexOf('|') + 1), synsetId);
-
-		return new CoreSynset(synsetId, lemmas, pos, lexDomain, gloss);
-	}
-
-	/**
 	 * Parse members from fields
 	 *
-	 * @param fields fields
+	 * @param fields
+	 *            fields
 	 * @return array of bare normalized strings
+	 * @throws ParsePojoException
+	 *             parse exception
 	 */
-	private static BareNormalizedString[] parseMembers(final String[] fields)
+	private static BareNormalizedString[] parseMembers(final String[] fields) throws ParsePojoException
 	{
-		// data
-		int fieldPointer = 3;
-
-		// count
-		final int count = Integer.parseInt(fields[fieldPointer], 16);
-		fieldPointer++;
-
-		// members
-		final BareNormalizedString[] members = new BareNormalizedString[count];
-		for (int i = 0; i < count; i++)
+		try
 		{
-			members[i] = new BareNormalizedString(fields[fieldPointer]);
+			// data
+			int fieldPointer = 3;
+
+			// count
+			final int count = Integer.parseInt(fields[fieldPointer], 16);
 			fieldPointer++;
 
-			// lexid skipped
-			fieldPointer++;
+			// members
+			final BareNormalizedString[] members = new BareNormalizedString[count];
+			for (int i = 0; i < count; i++)
+			{
+				members[i] = new BareNormalizedString(fields[fieldPointer]);
+				fieldPointer++;
+
+				// lexid skipped
+				fieldPointer++;
+			}
+			return members;
 		}
-		return members;
+		catch (Exception e)
+		{
+			throw new ParsePojoException(e);
+		}
 	}
 
 	public SynsetId getId()

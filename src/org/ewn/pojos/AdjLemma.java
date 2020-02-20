@@ -19,9 +19,11 @@ public class AdjLemma extends Lemma
 	/**
 	 * Constructor
 	 *
-	 * @param normString normalized string
+	 * @param normString
+	 *            normalized string
+	 * @throws ParsePojoException
 	 */
-	private AdjLemma(final BareNormalizedString normString, final AdjPosition adjPosition)
+	private AdjLemma(final BareNormalizedString normString, final AdjPosition adjPosition) throws ParsePojoException
 	{
 		super(normString);
 		this.adjPosition = adjPosition;
@@ -30,18 +32,21 @@ public class AdjLemma extends Lemma
 	/**
 	 * Constructor
 	 *
-	 * @param normalizedString normalized string
+	 * @param normString
+	 *            normalized string
+	 * @throws ParsePojoException
 	 */
 	public static Lemma makeAdj(NormalizedString normalizedString)
 	{
 		// trailing adjective position
+
 		final Matcher matcher = PATTERN.matcher(normalizedString.toString());
 		if (matcher.find())
 		{
 			try
 			{
 				// parse position
-				AdjPosition adjPosition = AdjPosition.parse(matcher.group());
+				AdjPosition adjPosition = AdjPosition.parseAdjPosition(matcher.group());
 
 				// strip position
 				return new AdjLemma(new BareNormalizedString(normalizedString), adjPosition);

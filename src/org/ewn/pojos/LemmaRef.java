@@ -22,8 +22,10 @@ public class LemmaRef
 	/**
 	 * Constructor
 	 *
-	 * @param synsetId synsetId of the synset the lemma is member of
-	 * @param wordNum 1-based number of the word in the lemma list
+	 * @param synsetId
+	 *            synsetId of the synset the lemma is member of
+	 * @param wordNum
+	 *            1-based number of the word in the lemma list
 	 */
 	protected LemmaRef(final SynsetId synsetId, final int wordNum)
 	{
@@ -40,7 +42,8 @@ public class LemmaRef
 	/**
 	 * Dereference / Resolve
 	 *
-	 * @param f functions that when applied to synsetId yields synset
+	 * @param f
+	 *            functions that when applied to synsetId yields synset
 	 * @return lemma referred to by reference
 	 */
 	public Lemma resolve(final Function<SynsetId, CoreSynset> f)

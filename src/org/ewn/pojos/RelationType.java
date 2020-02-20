@@ -11,12 +11,10 @@ import java.util.Map;
 public enum RelationType
 {
 	// @formatter:off
-	HYPERNYM("@", "hypernym", true), HYPONYM("~", "hyponym", true), INSTANCE_HYPERNYM("@i", "instance hypernym", true),
-	INSTANCE_HYPONYM("~i", "instance hyponym", true),
+	HYPERNYM("@", "hypernym", true), HYPONYM("~", "hyponym", true), INSTANCE_HYPERNYM("@i", "instance hypernym", true), INSTANCE_HYPONYM("~i", "instance hyponym", true),
 
-	PART_HOLONYM("%p", "part holonym", true), PART_MERONYM("#p", "part meronym", true),
-	MEMBER_HOLONYM("%m", "member holonym", true), MEMBER_MERONYM("#m", "member meronym", true),
-	SUBSTANCE_HOLONYM("%s", "substance holonym", true), SUBSTANCE_MERONYM("#s", "substance meronym", true),
+	PART_HOLONYM("%p", "part holonym", true), PART_MERONYM("#p", "part meronym", true), MEMBER_HOLONYM("%m", "member holonym", true), MEMBER_MERONYM("#m", "member meronym", true), SUBSTANCE_HOLONYM("%s", "substance holonym", true), SUBSTANCE_MERONYM("#s",
+			"substance meronym", true),
 
 	ENTAIL("*", "entail", true), CAUSE(">", "cause", true),
 
@@ -28,9 +26,8 @@ public enum RelationType
 
 	PERTAINYM("\\", "pertainym", false), DERIVATION("+", "derivation", false),
 
-	DOMAIN_CATEGORY(";c", "domain category", false), MEMBER_CATEGORY("-c", "domain member category", false),
-	DOMAIN_REGION(";r", "domain region", false), MEMBER_REGION("-r", "domain member region", false),
-	DOMAIN_USAGE(";u", "domain usage", false), MEMBER_USAGE("-u", "domain member usage", false),
+	DOMAIN_CATEGORY(";c", "domain category", false), MEMBER_CATEGORY("-c", "domain member category", false), DOMAIN_REGION(";r", "domain region", false), MEMBER_REGION("-r", "domain member region", false), DOMAIN_USAGE(";u", "domain usage",
+			false), MEMBER_USAGE("-u", "domain member usage", false),
 
 	DOMAIN(";", "domain", false), MEMBER("-", "member", false);
 	// @formatter:on
@@ -58,7 +55,16 @@ public enum RelationType
 		this.recurses = recurses;
 	}
 
-	public static RelationType parse(final String str) throws ParsePojoException
+	/**
+	 * Parse relation type from string
+	 * 
+	 * @param str
+	 *            string
+	 * @return relation type
+	 * @throws ParsePojoException
+	 *             parse exception
+	 */
+	public static RelationType parseRelationType(final String str) throws ParsePojoException
 	{
 		final RelationType value = RelationType.MAP.get(str);
 		if (value == null)

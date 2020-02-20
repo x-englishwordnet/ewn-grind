@@ -16,14 +16,22 @@ public class Synset extends CoreSynset
 	/**
 	 * Constructor
 	 *
-	 * @param synsetId synset id
-	 * @param lemmas lemmas
-	 * @param members cased members
-	 * @param pos part of speech
-	 * @param lexDomain lex domain
-	 * @param gloss gloss
-	 * @param semRelations relations
-	 * @param verbFrames verb frames
+	 * @param synsetId
+	 *            synset id
+	 * @param lemmas
+	 *            lemmas
+	 * @param members
+	 *            cased members
+	 * @param pos
+	 *            part of speech
+	 * @param lexDomain
+	 *            lex domain
+	 * @param gloss
+	 *            gloss
+	 * @param semRelations
+	 *            relations
+	 * @param verbFrames
+	 *            verb frames
 	 */
 	private Synset(final SynsetId synsetId, final Lemma[] lemmas, final BareNormalizedString[] members, final Pos pos, final LexDomain lexDomain, final Gloss gloss, final SemRelation[] semRelations, final VerbFrameRef[] verbFrames)
 	{
@@ -36,119 +44,129 @@ public class Synset extends CoreSynset
 	/**
 	 * Parse from line
 	 *
-	 * @param line line
-	 * @param isAdj whether adj synsets are being parsed
+	 * @param line
+	 *            line
+	 * @param isAdj
+	 *            whether adj synsets are being parsed
 	 * @return synset
-	 * @throws ParsePojoException parse exception
+	 * @throws ParsePojoException
+	 *             parse exception
 	 */
 	public static Synset parseSynset(final String line, final boolean isAdj) throws ParsePojoException
 	{
-		// core subparse
-		final CoreSynset protoSynset = CoreSynset.parse(line, isAdj);
-
-		// members subparse
-		final BareNormalizedString[] members = CoreSynset.parseMembers(line);
-
-		// copy data from proto
-		final Pos pos = protoSynset.getPos();
-		final Lemma[] lemmas = protoSynset.getLemmas();
-		final SynsetId synsetId = protoSynset.getId();
-		final LexDomain lexDomain = protoSynset.getLexDomain();
-		final Gloss gloss = protoSynset.getGloss();
-
-		// split into fields
-		final String[] fields = line.split("\\s+");
-		int fieldPointer = 0;
-
-		// data
-		SemRelation[] semRelations;
-		VerbFrameRef[] frames = null;
-
-		// offset
-		fieldPointer++;
-
-		// lexdomain
-		fieldPointer++;
-
-		// part-of-speech
-		fieldPointer++;
-
-		// lemma count
-		fieldPointer++;
-
-		// lemma set
-		fieldPointer += 2 * lemmas.length;
-
-		// relation count
-		final int relationCount = Integer.parseInt(fields[fieldPointer], 10);
-		fieldPointer++;
-
-		// relations
-		semRelations = new SemRelation[relationCount];
-		for (int i = 0; i < relationCount; i++)
+		try
 		{
-			// read data
-			final String relationTypeField = fields[fieldPointer++];
-			final String relationSynsetIdField = fields[fieldPointer++];
-			final String relationPosField = fields[fieldPointer++];
-			final String relationSourceTargetField = fields[fieldPointer++];
-			final long relationSynsetId = Long.parseLong(relationSynsetIdField);
-			final int relationSourceTarget = Integer.parseInt(relationSourceTargetField, 16);
+			// core subparse
+			final CoreSynset protoSynset = CoreSynset.parseCoreSynset(line, isAdj);
 
-			// compute
-			final Pos relationPos = Pos.parse(relationPosField.charAt(0));
-			final RelationType relationType = RelationType.parse(relationTypeField);
-			final SynsetId toId = new SynsetId(relationPos, relationSynsetId);
+			// members subparse
+			final BareNormalizedString[] members = CoreSynset.parseMembers(line);
 
-			// create
-			if (relationSourceTarget != 0)
-			{
-				final int fromWordIndex = relationSourceTarget >> 8;
-				final int toWordIndex = relationSourceTarget & 0xff;
-				final Lemma fromLemma = lemmas[fromWordIndex - 1];
-				final LemmaRef toLemma = new LemmaRef(toId, toWordIndex);
-				semRelations[i] = new LexRelation(relationType, synsetId, toId, fromLemma, toLemma);
-			}
-			else
-			{
-				semRelations[i] = new SemRelation(relationType, synsetId, toId);
-			}
-		}
+			// copy data from proto
+			final Pos pos = protoSynset.getPos();
+			final Lemma[] lemmas = protoSynset.getLemmas();
+			final SynsetId synsetId = protoSynset.getId();
+			final LexDomain lexDomain = protoSynset.getLexDomain();
+			final Gloss gloss = protoSynset.getGloss();
 
-		// frames
-		if (pos.toChar() == 'v' && !fields[fieldPointer].equals("|"))
-		{
-			// frame count
-			final int frameCount = Integer.parseInt(fields[fieldPointer], 10);
+			// split into fields
+			final String[] fields = line.split("\\s+");
+			int fieldPointer = 0;
+
+			// data
+			SemRelation[] semRelations;
+			VerbFrameRef[] frames = null;
+
+			// offset
 			fieldPointer++;
 
-			// frames
-			frames = new VerbFrameRef[frameCount];
-			for (int i = 0; i < frameCount; i++)
+			// lexdomain
+			fieldPointer++;
+
+			// part-of-speech
+			fieldPointer++;
+
+			// lemma count
+			fieldPointer++;
+
+			// lemma set
+			fieldPointer += 2 * lemmas.length;
+
+			// relation count
+			final int relationCount = Integer.parseInt(fields[fieldPointer], 10);
+			fieldPointer++;
+
+			// relations
+			semRelations = new SemRelation[relationCount];
+			for (int i = 0; i < relationCount; i++)
 			{
 				// read data
-				fieldPointer++; // '+'
-				final String frameIdField = fields[fieldPointer++];
-				final String wordIndexField = fields[fieldPointer++];
+				final String relationTypeField = fields[fieldPointer++];
+				final String relationSynsetIdField = fields[fieldPointer++];
+				final String relationPosField = fields[fieldPointer++];
+				final String relationSourceTargetField = fields[fieldPointer++];
+				final long relationSynsetId = Long.parseLong(relationSynsetIdField);
+				final int relationSourceTarget = Integer.parseInt(relationSourceTargetField, 16);
 
 				// compute
-				final int frameId = Integer.parseInt(frameIdField);
-				final int wordIndex = Integer.parseInt(wordIndexField, 16);
+				final Pos relationPos = Pos.parsePos(relationPosField.charAt(0));
+				final RelationType relationType = RelationType.parseRelationType(relationTypeField);
+				final SynsetId toId = new SynsetId(relationPos, relationSynsetId);
 
 				// create
-				Lemma[] frameLemmas;
-				if (wordIndex != 0)
+				if (relationSourceTarget != 0)
 				{
-					frameLemmas = new Lemma[] { lemmas[wordIndex - 1] };
+					final int fromWordIndex = relationSourceTarget >> 8;
+					final int toWordIndex = relationSourceTarget & 0xff;
+					final Lemma fromLemma = lemmas[fromWordIndex - 1];
+					final LemmaRef toLemma = new LemmaRef(toId, toWordIndex);
+					semRelations[i] = new LexRelation(relationType, synsetId, toId, fromLemma, toLemma);
 				}
-				else // 0 means all
+				else
 				{
-					frameLemmas = lemmas;
+					semRelations[i] = new SemRelation(relationType, synsetId, toId);
 				}
-				frames[i] = new VerbFrameRef(frameLemmas, frameId);
 			}
+
+			// frames
+			if (pos.toChar() == 'v' && !fields[fieldPointer].equals("|"))
+			{
+				// frame count
+				final int frameCount = Integer.parseInt(fields[fieldPointer], 10);
+				fieldPointer++;
+
+				// frames
+				frames = new VerbFrameRef[frameCount];
+				for (int i = 0; i < frameCount; i++)
+				{
+					// read data
+					fieldPointer++; // '+'
+					final String frameIdField = fields[fieldPointer++];
+					final String wordIndexField = fields[fieldPointer++];
+
+					// compute
+					final int frameId = Integer.parseInt(frameIdField);
+					final int wordIndex = Integer.parseInt(wordIndexField, 16);
+
+					// create
+					Lemma[] frameLemmas;
+					if (wordIndex != 0)
+					{
+						frameLemmas = new Lemma[] { lemmas[wordIndex - 1] };
+					}
+					else // 0 means all
+					{
+						frameLemmas = lemmas;
+					}
+					frames[i] = new VerbFrameRef(frameLemmas, frameId);
+				}
+			}
+			return new Synset(synsetId, lemmas, members, pos, lexDomain, gloss, semRelations, frames);
 		}
-		return new Synset(synsetId, lemmas, members, pos, lexDomain, gloss, semRelations, frames);
+		catch (Exception e)
+		{
+			throw new ParsePojoException(e);
+		}
 	}
 
 	public SemRelation[] getRelations()

@@ -17,47 +17,63 @@ public class CoreIndex
 		this.senses = senses;
 	}
 
-	public static CoreIndex parse(final String line) throws ParsePojoException
+	/**
+	 * Parse core index from line
+	 * 
+	 * @param line
+	 *            line
+	 * @return core index
+	 * @throws ParsePojoException
+	 *             parse exception
+	 */
+	public static CoreIndex parseCoreIndex(final String line) throws ParsePojoException
 	{
-		// split into fields
-		final String[] fields = line.split("\\s+");
-
-		int fieldPointer = 0;
-
-		// lemma/word
-		final String lemmaString = fields[fieldPointer];
-		final Lemma lemma = Lemma.make(lemmaString);
-		fieldPointer++;
-
-		// part-of-speech
-		final Pos pos = Pos.parse(fields[fieldPointer].charAt(0));
-		fieldPointer++;
-
-		// polysemy count
-		final int senseCount = Integer.parseInt(fields[fieldPointer]);
-		fieldPointer++;
-
-		// relation count
-		final int relationCount = Integer.parseInt(fields[fieldPointer], 10);
-		fieldPointer++;
-
-		// relations
-		fieldPointer += relationCount;
-
-		// polysemy count 2
-		fieldPointer++;
-
-		// tag count
-		fieldPointer++;
-
-		// senses
-		final BaseSense[] senses = new BaseSense[senseCount];
-		for (int i = 0; i < senseCount; i++)
+		try
 		{
-			senses[i] = BaseSense.make(lemma, pos, fields[fieldPointer], i + 1);
+			// split into fields
+			final String[] fields = line.split("\\s+");
+
+			int fieldPointer = 0;
+
+			// lemma/word
+			final String lemmaString = fields[fieldPointer];
+			final Lemma lemma = Lemma.make(lemmaString);
 			fieldPointer++;
+
+			// part-of-speech
+			final Pos pos = Pos.parsePos(fields[fieldPointer].charAt(0));
+			fieldPointer++;
+
+			// polysemy count
+			final int senseCount = Integer.parseInt(fields[fieldPointer]);
+			fieldPointer++;
+
+			// relation count
+			final int relationCount = Integer.parseInt(fields[fieldPointer], 10);
+			fieldPointer++;
+
+			// relations
+			fieldPointer += relationCount;
+
+			// polysemy count 2
+			fieldPointer++;
+
+			// tag count
+			fieldPointer++;
+
+			// senses
+			final BaseSense[] senses = new BaseSense[senseCount];
+			for (int i = 0; i < senseCount; i++)
+			{
+				senses[i] = BaseSense.make(lemma, pos, fields[fieldPointer], i + 1);
+				fieldPointer++;
+			}
+			return new CoreIndex(lemma, senses);
 		}
-		return new CoreIndex(lemma, senses);
+		catch (Exception e)
+		{
+			throw new ParsePojoException(e);
+		}
 	}
 
 	@Override

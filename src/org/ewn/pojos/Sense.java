@@ -13,28 +13,44 @@ public class Sense extends CoreSense
 		this.tagCnt = tagCnt;
 	}
 
-	public static Sense parse(final String line) throws ParsePojoException
+	/**
+	 * Parse sense from line
+	 * 
+	 * @param line
+	 *            line
+	 * @return sense
+	 * @throws ParsePojoException
+	 *             parse exception
+	 */
+	public static Sense parseSense(final String line) throws ParsePojoException
 	{
-		// line from index.sense
-		// read line into fields
-		// [0] sensekey
-		// [1] synset offset
-		// [2] sense number
-		// [3] tag count
-		final String[] fields = line.split("\\s+");
+		try
+		{
+			// line from index.sense
+			// read line into fields
+			// [0] sensekey
+			// [1] synset offset
+			// [2] sense number
+			// [3] tag count
+			final String[] fields = line.split("\\s+");
 
-		// core fields
-		final Sensekey sensekey = Sensekey.parse(fields[0]);
-		final Pos pos = sensekey.getPos();
-		final Lemma lemma = sensekey.getLemma();
-		final int sensenum = Integer.parseInt(fields[2]);
-		final SynsetId synsetId = new SynsetId(pos, Long.parseLong(fields[1]));
+			// core fields
+			final Sensekey sensekey = Sensekey.parseSensekey(fields[0]);
+			final Pos pos = sensekey.getPos();
+			final Lemma lemma = sensekey.getLemma();
+			final int sensenum = Integer.parseInt(fields[2]);
+			final SynsetId synsetId = new SynsetId(pos, Long.parseLong(fields[1]));
 
-		// parse tag/lexid
-		final TagCnt tagCnt = TagCnt.parse(fields[3]);
-		final LexId lexId = LexId.make(sensekey);
+			// parse tag/lexid
+			final TagCnt tagCnt = TagCnt.parseTagCnt(fields[3]);
+			final LexId lexId = LexId.make(sensekey);
 
-		return new Sense(synsetId, lemma, sensenum, sensekey, lexId, tagCnt);
+			return new Sense(synsetId, lemma, sensenum, sensekey, lexId, tagCnt);
+		}
+		catch (Exception e)
+		{
+			throw new ParsePojoException(e);
+		}
 	}
 
 	@Override

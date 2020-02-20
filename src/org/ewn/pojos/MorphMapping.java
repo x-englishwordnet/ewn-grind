@@ -10,8 +10,7 @@ import java.util.Collection;
  */
 public class MorphMapping
 {
-	// an inflected form of a word or collocation, followed by one or more base
-	// forms
+	// an inflected form of a word or collocation, followed by one or more base forms
 	// auspices auspex auspice (2 lemmas)
 	// mice mouse
 
@@ -33,9 +32,12 @@ public class MorphMapping
 	/**
 	 * Constructor
 	 *
-	 * @param morph inflected form
-	 * @param lemmas base forms
-	 * @param pos part of speech
+	 * @param morph
+	 *            inflected form
+	 * @param lemmas
+	 *            base forms
+	 * @param pos
+	 *            part of speech
 	 */
 	private MorphMapping(final NormalizedString morph, final Collection<Lemma> lemmas, final Pos pos)
 	{
@@ -45,30 +47,41 @@ public class MorphMapping
 	}
 
 	/**
-	 * Parse from line
+	 * Parse morph mapping from line
 	 *
-	 * @param line line
-	 * @param pos part of speech
+	 * @param line
+	 *            line
+	 * @param pos
+	 *            part of speech
 	 * @return morph mapping
+	 * @throws ParsePojoException
+	 *             parse exception
 	 */
-	public static MorphMapping parse(final String line, final Pos pos)
+	public static MorphMapping parseMorphMapping(final String line, final Pos pos) throws ParsePojoException
 	{
-		final String[] fields = line.split("\\s+");
-
-		// morph
-		final NormalizedString morph = new NormalizedString(fields[0]);
-
-		// lemmas
-		final Collection<Lemma> lemmas = new ArrayList<>();
-		if (fields.length > 1)
+		try
 		{
-			for (int i = 1; i < fields.length; i++)
+			final String[] fields = line.split("\\s+");
+
+			// morph
+			final NormalizedString morph = new NormalizedString(fields[0]);
+
+			// lemmas
+			final Collection<Lemma> lemmas = new ArrayList<>();
+			if (fields.length > 1)
 			{
-				final Lemma lemma = Lemma.make(fields[i]);
-				lemmas.add(lemma);
+				for (int i = 1; i < fields.length; i++)
+				{
+					final Lemma lemma = Lemma.make(fields[i]);
+					lemmas.add(lemma);
+				}
 			}
+			return new MorphMapping(morph, lemmas, pos);
 		}
-		return new MorphMapping(morph, lemmas, pos);
+		catch (Exception e)
+		{
+			throw new ParsePojoException(e);
+		}
 	}
 
 	@Override

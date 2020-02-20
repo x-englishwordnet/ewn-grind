@@ -16,9 +16,12 @@ public class SemRelation
 	/**
 	 * Constructor
 	 *
-	 * @param type relation type
-	 * @param fromSynsetId source synset id
-	 * @param toSynsetId target synset id
+	 * @param type
+	 *            relation type
+	 * @param fromSynsetId
+	 *            source synset id
+	 * @param toSynsetId
+	 *            target synset id
 	 */
 	public SemRelation(final RelationType type, final SynsetId fromSynsetId, final SynsetId toSynsetId)
 	{

@@ -10,7 +10,8 @@ public class BareNormalizedString extends NormalizedString
 	/**
 	 * Constructor
 	 *
-	 * @param normalized string with possible suffix
+	 * @param normalized
+	 *            string with possible suffix
 	 */
 	public BareNormalizedString(final NormalizedString normalized)
 	{
@@ -23,7 +24,8 @@ public class BareNormalizedString extends NormalizedString
 	/**
 	 * Constructor
 	 *
-	 * @param raw string with possible suffix
+	 * @param raw
+	 *            string with possible suffix
 	 */
 	public BareNormalizedString(final String raw)
 	{

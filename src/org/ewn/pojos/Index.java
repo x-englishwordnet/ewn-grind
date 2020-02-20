@@ -13,55 +13,71 @@ public class Index extends CoreIndex
 		this.tagCnt = tagCnt;
 	}
 
-	public static Index parse(final String line) throws ParsePojoException
+	/**
+	 * Parse index from line
+	 * 
+	 * @param line
+	 *            line
+	 * @return index
+	 * @throws ParsePojoException
+	 *             pase exception
+	 */
+	public static Index parseIndex(final String line) throws ParsePojoException
 	{
-		// split into fields
-		final String[] fields = line.split("\\s+");
-
-		int fieldPointer = 0;
-
-		// lemma
-		final String lemmaString = fields[fieldPointer];
-		final Lemma lemma = Lemma.make(lemmaString);
-		fieldPointer++;
-
-		// part-of-speech
-		final Pos pos = Pos.parse(fields[fieldPointer].charAt(0));
-		fieldPointer++;
-
-		// polysemy count
-		final int senseCount = Integer.parseInt(fields[fieldPointer]);
-		fieldPointer++;
-
-		// relation types count
-		final int relationTypesCount = Integer.parseInt(fields[fieldPointer], 10);
-		fieldPointer++;
-
-		// relation types
-		final RelationType[] relationTypes = new RelationType[relationTypesCount];
-		for (int i = 0; i < relationTypesCount; i++)
+		try
 		{
-			relationTypes[i] = RelationType.parse(fields[fieldPointer + i]);
-		}
-		fieldPointer += relationTypesCount;
+			// split into fields
+			final String[] fields = line.split("\\s+");
 
-		// polysemy count 2
-		final int senseCount2 = Integer.parseInt(fields[fieldPointer]);
-		assert senseCount == senseCount2;
-		fieldPointer++;
+			int fieldPointer = 0;
 
-		// tag count
-		final TagCnt tagCnt = TagCnt.parse(fields[fieldPointer]);
-		fieldPointer++;
-
-		// senses
-		final BaseSense[] senses = new BaseSense[senseCount];
-		for (int i = 0; i < senseCount; i++)
-		{
-			senses[i] = BaseSense.make(lemma, pos, fields[fieldPointer], i + 1);
+			// lemma
+			final String lemmaString = fields[fieldPointer];
+			final Lemma lemma = Lemma.make(lemmaString);
 			fieldPointer++;
+
+			// part-of-speech
+			final Pos pos = Pos.parsePos(fields[fieldPointer].charAt(0));
+			fieldPointer++;
+
+			// polysemy count
+			final int senseCount = Integer.parseInt(fields[fieldPointer]);
+			fieldPointer++;
+
+			// relation types count
+			final int relationTypesCount = Integer.parseInt(fields[fieldPointer], 10);
+			fieldPointer++;
+
+			// relation types
+			final RelationType[] relationTypes = new RelationType[relationTypesCount];
+			for (int i = 0; i < relationTypesCount; i++)
+			{
+				relationTypes[i] = RelationType.parseRelationType(fields[fieldPointer + i]);
+			}
+			fieldPointer += relationTypesCount;
+
+			// polysemy count 2
+			final int senseCount2 = Integer.parseInt(fields[fieldPointer]);
+			assert senseCount == senseCount2;
+			fieldPointer++;
+
+			// tag count
+			final TagCnt tagCnt = TagCnt.parseTagCnt(fields[fieldPointer]);
+			fieldPointer++;
+
+			// senses
+			final BaseSense[] senses = new BaseSense[senseCount];
+			for (int i = 0; i < senseCount; i++)
+			{
+				senses[i] = BaseSense.make(lemma, pos, fields[fieldPointer], i + 1);
+				fieldPointer++;
+			}
+			return new Index(lemma, senses, relationTypes, tagCnt);
 		}
-		return new Index(lemma, senses, relationTypes, tagCnt);
+		catch (Exception e)
+		{
+			throw new ParsePojoException(e);
+		}
 	}
 
 	@Override

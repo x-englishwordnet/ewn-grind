@@ -18,8 +18,10 @@ public enum AdjPosition
 	/**
 	 * Constructor
 	 *
-	 * @param tag position tag
-	 * @param description position description
+	 * @param tag
+	 *            position tag
+	 * @param description
+	 *            position description
 	 */
 	AdjPosition(final String tag, final String description)
 	{
@@ -30,7 +32,8 @@ public enum AdjPosition
 	/**
 	 * Find adj position from tag
 	 *
-	 * @param tag tag
+	 * @param tag
+	 *            tag
 	 * @return adj position
 	 */
 	public static AdjPosition find(final String tag)
@@ -42,13 +45,15 @@ public enum AdjPosition
 	}
 
 	/**
-	 * Parse adj position from
+	 * Parse adj position from line
 	 *
-	 * @param suffix suffix = '(tag)'
+	 * @param suffix
+	 *            suffix = '(tag)'
 	 * @return adj position
-	 * @throws ParsePojoException parse exception
+	 * @throws ParsePojoException
+	 *             parse exception
 	 */
-	public static AdjPosition parse(final String suffix) throws ParsePojoException
+	public static AdjPosition parseAdjPosition(final String suffix) throws ParsePojoException
 	{
 		// remove parentheses
 		final String name = suffix.substring(1, suffix.length() - 1);

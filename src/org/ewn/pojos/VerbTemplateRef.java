@@ -20,8 +20,10 @@ public class VerbTemplateRef
 	/**
 	 * Constructor
 	 *
-	 * @param sensekey sensekey
-	 * @param id verb template id
+	 * @param sensekey
+	 *            sensekey
+	 * @param id
+	 *            verb template id
 	 */
 	private VerbTemplateRef(final Sensekey sensekey, final int id)
 	{
@@ -32,30 +34,38 @@ public class VerbTemplateRef
 	/**
 	 * Parse from line
 	 *
-	 * @param line line
+	 * @param line
+	 *            line
 	 * @return array of verb template references
-	 * @throws ParsePojoException parse exception
+	 * @throws ParsePojoException
 	 */
-	public static VerbTemplateRef[] parse(final String line) throws ParsePojoException
+	public static VerbTemplateRef[] parseVerbTemplateRef(final String line) throws ParsePojoException
 	{
-		final String[] fields = line.split("\\s+");
-		if (fields.length <= 1)
-			return null;
-
-		// parse sensekey
-		final Sensekey sensekey = Sensekey.parse(fields[0]);
-
-		final String[] subFields = fields[1].split(",");
-		final int count = subFields.length;
-
-		// pair sensekey with id for each id
-		final VerbTemplateRef[] refs = new VerbTemplateRef[count];
-		for (int i = 0; i < count; i++)
+		try
 		{
-			final int id = Integer.parseInt(subFields[i]);
-			refs[i] = new VerbTemplateRef(sensekey, id);
+			final String[] fields = line.split("\\s+");
+			if (fields.length <= 1)
+				return null;
+
+			// parse sensekey
+			final Sensekey sensekey = Sensekey.parseSensekey(fields[0]);
+
+			final String[] subFields = fields[1].split(",");
+			final int count = subFields.length;
+
+			// pair sensekey with id for each id
+			final VerbTemplateRef[] refs = new VerbTemplateRef[count];
+			for (int i = 0; i < count; i++)
+			{
+				final int id = Integer.parseInt(subFields[i]);
+				refs[i] = new VerbTemplateRef(sensekey, id);
+			}
+			return refs;
 		}
-		return refs;
+		catch (Exception e)
+		{
+			throw new ParsePojoException(e);
+		}
 	}
 
 	@Override

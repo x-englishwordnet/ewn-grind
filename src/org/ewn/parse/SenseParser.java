@@ -53,7 +53,7 @@ public class SenseParser
 
 				try
 				{
-					Sense sense = Sense.parse(line);
+					Sense sense = Sense.parseSense(line);
 					senseCount++;
 					if (DUMP)
 						System.out.println(sense);

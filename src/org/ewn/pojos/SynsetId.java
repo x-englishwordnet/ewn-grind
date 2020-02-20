@@ -20,8 +20,10 @@ public class SynsetId
 	/**
 	 * Constructor
 	 *
-	 * @param pos part of speech
-	 * @param offset offset in file
+	 * @param pos
+	 *            part of speech
+	 * @param offset
+	 *            offset in file
 	 */
 	public SynsetId(final Pos pos, final long offset)
 	{
@@ -60,7 +62,8 @@ public class SynsetId
 	/**
 	 * Constructor from unique id
 	 *
-	 * @param uniqueId unique id
+	 * @param uniqueId
+	 *            unique id
 	 */
 	private SynsetId(final long uniqueId)
 	{
@@ -82,7 +85,8 @@ public class SynsetId
 	/**
 	 * Make synset id fri unique id
 	 *
-	 * @param uniqueId unique id
+	 * @param uniqueId
+	 *            unique id
 	 * @return synset
 	 */
 	public static SynsetId make(final long uniqueId)
@@ -115,24 +119,25 @@ public class SynsetId
 	/**
 	 * Get base UID for pos
 	 *
-	 * @param pos part of speech
+	 * @param pos
+	 *            part of speech
 	 * @return base uid for given pos
 	 */
 	private static long getBaseUID(final char pos)
 	{
 		switch (pos)
 		{
-		case 'n':
-			return 100000000;
-		case 'v':
-			return 200000000;
-		case 'a':
-		case 's':
-			return 300000000;
-		case 'r':
-			return 400000000;
-		default:
-			break;
+			case 'n':
+				return 100000000;
+			case 'v':
+				return 200000000;
+			case 'a':
+			case 's':
+				return 300000000;
+			case 'r':
+				return 400000000;
+			default:
+				break;
 		}
 		return 900000000; // invalid value
 	}
@@ -140,7 +145,8 @@ public class SynsetId
 	/**
 	 * Get ceiling UID for pos
 	 *
-	 * @param pos part of speech
+	 * @param pos
+	 *            part of speech
 	 * @return ceiling uid for given pos
 	 */
 	private static long getCeilingUID(final char pos)

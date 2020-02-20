@@ -61,7 +61,7 @@ public class IndexParser
 
 				try
 				{
-					CoreIndex index = CoreIndex.parse(line);
+					CoreIndex index = CoreIndex.parseCoreIndex(line);
 					indexCount++;
 					if (DUMP)
 						System.out.println(index);

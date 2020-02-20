@@ -9,7 +9,7 @@ public class Sensekey
 {
 	private final String key;
 
-	private final Lemma lemma;
+	private final NormalizedString word; // may contain uppercase
 
 	private final Pos pos;
 
@@ -17,33 +17,70 @@ public class Sensekey
 
 	private final int lexId;
 
-	protected Sensekey(final Lemma lemma, final Pos pos, final LexDomain lexDomain, final int lexId, final String key)
+	/**
+	 * Copy constructor
+	 * 
+	 * @param other
+	 *            other sensekey
+	 */
+	public Sensekey(final Sensekey other)
+	{
+		this.key = other.key;
+		this.word = other.word;
+		this.pos = other.pos;
+		this.lexDomain = other.lexDomain;
+		this.lexId = other.lexId;
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param word
+	 *            word (may contain uppercase)
+	 * @param pos
+	 *            part of speech
+	 * @param lexDomain
+	 *            lex domain
+	 * @param lexId
+	 *            leyid
+	 * @param key
+	 */
+	private Sensekey(final NormalizedString word, final Pos pos, final LexDomain lexDomain, final int lexId, final String key)
 	{
 		this.key = key.trim();
-		this.lemma = lemma;
+		this.word = word;
 		this.pos = pos;
 		this.lexDomain = lexDomain;
 		this.lexId = lexId;
 	}
 
-	public static Sensekey parse(final String skString) throws ParsePojoException
+	/**
+	 * Parse sensekey from string
+	 * 
+	 * @param str
+	 *            string
+	 * @return sensekey
+	 * @throws ParsePojoException
+	 *             parse exception
+	 */
+	public static Sensekey parseSensekey(final String str) throws ParsePojoException
 	{
-		if (skString == null)
+		if (str == null)
 			return null;
-		final String[] fields = skString.split("([%:])");
+		final String[] fields = str.split("([%:])");
 		if (fields.length < 4)
-			throw new ParsePojoException("Sensekey:" + skString);
+			throw new ParsePojoException("Sensekey:" + str);
 		try
 		{
-			final Lemma lemma = Lemma.make(fields[0].replace('#', ':'));
-			final Pos pos = Pos.parse(Integer.parseInt(fields[1]));
-			final LexDomain lexDomain = LexDomain.parse(fields[2]);
+			final NormalizedString word = new NormalizedString(fields[0].replace('#', ':'));
+			final Pos pos = Pos.fromIndex(Integer.parseInt(fields[1]));
+			final LexDomain lexDomain = LexDomain.parseLexDomain(fields[2]);
 			final int lexid = Integer.parseInt(fields[3]);
-			return new Sensekey(lemma, pos, lexDomain, lexid, skString);
+			return new Sensekey(word, pos, lexDomain, lexid, str);
 		}
 		catch (Exception e)
 		{
-			throw new ParsePojoException("Sensekey:" + skString);
+			throw new ParsePojoException("Sensekey:" + str);
 		}
 	}
 
@@ -52,9 +89,14 @@ public class Sensekey
 		return this.lexDomain;
 	}
 
+	public NormalizedString getWord()
+	{
+		return this.word;
+	}
+
 	public Lemma getLemma()
 	{
-		return this.lemma;
+		return new Lemma(this.word);
 	}
 
 	public int getLexId()
@@ -80,6 +122,6 @@ public class Sensekey
 
 	public String toXString()
 	{
-		return "word=" + this.lemma + " lexid=" + this.lexId + " lexdomain=" + this.lexDomain + " pos=" + this.pos;
+		return "word=" + this.word + " lexid=" + this.lexId + " lexdomain=" + this.lexDomain + " pos=" + this.pos;
 	}
 }

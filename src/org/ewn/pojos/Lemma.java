@@ -7,17 +7,20 @@ package org.ewn.pojos;
  */
 public class Lemma /* extends NormalizedString */ implements Comparable<Lemma>
 {
-	private final String entry;
+	private String entry;
 
 	/**
 	 * Constructor from normalized string
 	 *
-	 * @param normString normalized string
+	 * @param normString
+	 *            normalized string
 	 */
 	protected Lemma(final NormalizedString normString)
 	{
 		// to lower case
 		this.entry = normString.entry.toLowerCase();
+		//if (this.entry.matches(".*\\(.*\\)"))
+		//	throw new RuntimeException(this.entry);
 	}
 
 	// factory
@@ -25,7 +28,8 @@ public class Lemma /* extends NormalizedString */ implements Comparable<Lemma>
 	/**
 	 * Make from bare normalized string
 	 * 
-	 * @param bareNormalized normalized bare normalized string
+	 * @param bare
+	 *            normalized bare normalized string
 	 * @return lemma
 	 */
 	public static Lemma make(final BareNormalizedString bareNormalized)
@@ -36,7 +40,8 @@ public class Lemma /* extends NormalizedString */ implements Comparable<Lemma>
 	/**
 	 * Make from normalized string
 	 * 
-	 * @param normalized normalized string
+	 * @param normalized
+	 *            normalized string
 	 * @return lemma
 	 */
 	public static Lemma make(final NormalizedString normalized)
@@ -47,7 +52,8 @@ public class Lemma /* extends NormalizedString */ implements Comparable<Lemma>
 	/**
 	 * Make from rawString
 	 * 
-	 * @param rawString raw string
+	 * @param rawString
+	 *            raw string
 	 * @return lemma
 	 */
 	public static Lemma make(final String rawString)

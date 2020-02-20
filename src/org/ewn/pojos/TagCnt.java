@@ -14,10 +14,26 @@ public class TagCnt
 		this.tagCount = tagCount;
 	}
 
-	public static TagCnt parse(final String tagCountString)
+	/**
+	 * Parse tagcount from string
+	 * 
+	 * @param str
+	 *            string
+	 * @return tag count
+	 * @throws ParsePojoException
+	 *             parse exception
+	 */
+	public static TagCnt parseTagCnt(final String str) throws ParsePojoException
 	{
-		final int tagCount = Integer.parseInt(tagCountString);
-		return new TagCnt(tagCount);
+		try
+		{
+			final int tagCount = Integer.parseInt(str);
+			return new TagCnt(tagCount);
+		}
+		catch (Exception e)
+		{
+			throw new ParsePojoException(e);
+		}
 	}
 
 	public int getTagCount()

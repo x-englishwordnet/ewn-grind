@@ -20,8 +20,10 @@ public class VerbFrame
 	/**
 	 * Constructor
 	 *
-	 * @param id frame id
-	 * @param frame frame text
+	 * @param id
+	 *            frame id
+	 * @param frame
+	 *            frame text
 	 */
 	private VerbFrame(final int id, final String frame)
 	{
@@ -33,14 +35,24 @@ public class VerbFrame
 	/**
 	 * Parse from line
 	 *
-	 * @param line line
+	 * @param line
+	 *            line
 	 * @return verb frame
+	 * @throws ParsePojoException
+	 *             parse exception
 	 */
-	public static VerbFrame parse(final String line)
+	public static VerbFrame parseVerbFrame(final String line) throws ParsePojoException
 	{
-		final int id = Integer.parseInt(line.split("\\s+")[0]);
-		final String text = line.substring(3);
-		return new VerbFrame(id, text);
+		try
+		{
+			final int id = Integer.parseInt(line.split("\\s+")[0]);
+			final String text = line.substring(3);
+			return new VerbFrame(id, text);
+		}
+		catch (Exception e)
+		{
+			throw new ParsePojoException(e);
+		}
 	}
 
 	@Override

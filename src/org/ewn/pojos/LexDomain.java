@@ -71,7 +71,16 @@ public class LexDomain
 		this.pos = pos;
 	}
 
-	public static LexDomain parse(final String str) throws ParsePojoException
+	/**
+	 * Parse lex domain from string
+	 * 
+	 * @param str
+	 *            string
+	 * @return lex domain
+	 * @throws ParsePojoException
+	 *             parse exception
+	 */
+	public static LexDomain parseLexDomain(final String str) throws ParsePojoException
 	{
 		final int id = Integer.parseInt(str);
 		if (id >= 0 && id < LexDomain.LEX_DOMAINS.length)
