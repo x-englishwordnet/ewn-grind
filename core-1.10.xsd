@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ~ Copyright (c) 2019. Bernard Bou <1313ou@gmail.com>. -->
 
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ewn='https://github.com/globalwordnet/english-wordnet'
-	xmlns:dc='http://purl.org/dc/elements/1.1/'>
+<!-- Copyright (c) 2020. Bernard Bou <1313ou@gmail.com>. -->
 
-	<xsd:import namespace='http://purl.org/dc/elements/1.1/' schemaLocation='dc.xsd' />
-	<xsd:import namespace='https://github.com/globalwordnet/english-wordnet' schemaLocation='types-1.6-relax_idrefs.xsd' />
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:dc='http://purl.org/dc/elements/1.1/'
+	>
+
+	<xsd:import namespace='http://purl.org/dc/elements/1.1/'	schemaLocation='dc.xsd' />
+	<xsd:include												schemaLocation='pwn.xsd' />
+	<xsd:include												schemaLocation='ili.xsd' />
+	<xsd:include												schemaLocation='meta.xsd' />
 
 	<!-- E L E M E N T S -->
 
@@ -33,7 +37,7 @@
 			<xsd:attribute name='version' type='xsd:string' use='required' />
 			<xsd:attribute name='url' type='xsd:string' use='optional' />
 			<xsd:attribute name='citation' type='xsd:string' use='optional' />
-			<xsd:attributeGroup ref='ewn:Meta' />
+			<xsd:attributeGroup ref='Meta' />
 		</xsd:complexType>
 	</xsd:element>
 
@@ -45,8 +49,8 @@
 				<xsd:element ref='Sense' minOccurs='1' maxOccurs='unbounded' />
 			</xsd:sequence>
 
-			<xsd:attribute name='id' type='ewn:LexicalEntryIDType' use='required' />
-			<xsd:attributeGroup ref='ewn:Meta' />
+			<xsd:attribute name='id' type='LexicalEntryIDType' use='required' />
+			<xsd:attributeGroup ref='Meta' />
 		</xsd:complexType>
 	</xsd:element>
 
@@ -56,9 +60,9 @@
 				<xsd:element ref='Tag' minOccurs='0' maxOccurs='unbounded' />
 			</xsd:sequence>
 
-			<xsd:attribute name='writtenForm' type='ewn:WrittenFormType' use='required' />
-			<xsd:attribute name='script' type='ewn:ScriptType' use='optional' />
-			<xsd:attribute name='partOfSpeech' type='ewn:PartOfSpeechType' use='required' />
+			<xsd:attribute name='writtenForm' type='WrittenFormType' use='required' />
+			<xsd:attribute name='script' type='ScriptType' use='optional' />
+			<xsd:attribute name='partOfSpeech' type='PartOfSpeechType' use='required' />
 		</xsd:complexType>
 	</xsd:element>
 
@@ -68,14 +72,8 @@
 				<xsd:element ref='Tag' minOccurs='0' maxOccurs='unbounded' />
 			</xsd:sequence>
 
-			<xsd:attribute name='writtenForm' type='ewn:WrittenFormType' use='required' />
-			<xsd:attribute name='script' type='ewn:ScriptType' use='optional' />
-		</xsd:complexType>
-	</xsd:element>
-
-	<xsd:element name='Tag'>
-		<xsd:complexType mixed='true'>
-			<xsd:attribute name='category' type='xsd:string' use='required' />
+			<xsd:attribute name='writtenForm' type='WrittenFormType' use='required' />
+			<xsd:attribute name='script' type='ScriptType' use='optional' />
 		</xsd:complexType>
 	</xsd:element>
 
@@ -87,20 +85,20 @@
 				<xsd:element ref='Count' minOccurs='0' maxOccurs='1' />
 			</xsd:sequence>
 
-			<xsd:attribute name='id' type='ewn:SenseIDType' use='required' />
-			<xsd:attribute name='synset' type='ewn:LocalSynsetIDREFType' use='required' />
-			<xsd:attribute name='n' type='ewn:NType' use='required' />
-			<xsd:attribute name='senseidx' type='ewn:SenseIdxType' use='required' />
-			<xsd:attribute name='lexfile' type='ewn:LexFileType' use='required' />
-			<xsd:attribute name='lexid' type='ewn:LexIdType' use='required' />
-			<xsd:attribute name='sensekey' type='ewn:SensekeyType' use='required' />
-			<xsd:attribute name='syntactic_behaviour' type='ewn:LocalSyntacticBehaviourIDREFSType' use='optional' />
-			<xsd:attribute name='sentence_template' type='ewn:LocalSyntacticBehaviourIDREFSType' use='optional' />
-			<xsd:attribute name='adj_position' type='ewn:AdjPositionType' use='optional' />
-			<xsd:attribute name='tagcnt' type='ewn:TagCntType' default='0' use='optional' />
+			<xsd:attribute name='id' type='SenseIDType' use='required' />
+			<xsd:attribute name='synset' type='LocalSynsetIDREFType' use='required' />
+			<xsd:attribute name='n' type='NType' use='required' />
+			<xsd:attribute name='senseidx' type='SenseIdxType' use='required' />
+			<xsd:attribute name='lexfile' type='LexFileType' use='optional' />
+			<xsd:attribute name='lexid' type='LexIdType' use='required' />
+			<xsd:attribute name='sensekey' type='SensekeyType' use='required' />
+			<xsd:attribute name='syntactic_behaviour' type='LocalSyntacticBehaviourIDREFSType' use='optional' />
+			<xsd:attribute name='sentence_template' type='LocalSyntacticBehaviourIDREFSType' use='optional' />
+			<xsd:attribute name='adj_position' type='AdjPositionType' use='optional' />
+			<xsd:attribute name='tagcnt' type='TagCntType' default='0' use='optional' />
 			<xsd:attribute name='lexicalized' type='xsd:boolean' default='true' use='optional' />
-			<xsd:attribute ref='dc:identifier' use='optional' /> <!-- sensekey -->
-			<xsd:attributeGroup ref='ewn:Meta' />
+			<xsd:attribute ref='dc:identifier' use='optional' />
+			<xsd:attributeGroup ref='Meta' />
 		</xsd:complexType>
 	</xsd:element>
 
@@ -113,63 +111,64 @@
 				<xsd:element ref='Example' minOccurs='0' maxOccurs='unbounded' />
 			</xsd:sequence>
 
-			<xsd:attribute name='id' type='ewn:SynsetIDType' use='required' />
-			<xsd:attribute name='ili' type='ewn:ILIType' use='required' />
-			<xsd:attribute name='partOfSpeech' use='optional' type='ewn:PartOfSpeechType' />
+			<xsd:attribute name='id' type='SynsetIDType' use='required' />
+			<xsd:attribute ref='ili' use='required' />
+			<xsd:attribute name='partOfSpeech' use='optional' type='PartOfSpeechType' />
+			<xsd:attribute ref='dc:subject' use='optional' />
 			<xsd:attribute name='lexicalized' type='xsd:boolean' default='true' use='optional' />
-			<xsd:attribute ref='dc:subject' use='required' /> <!-- lex domain -->
-			<xsd:attributeGroup ref='ewn:Meta' />
+			<xsd:attributeGroup ref='Meta' />
 		</xsd:complexType>
 	</xsd:element>
 
 	<xsd:element name='Definition'>
 		<xsd:complexType mixed='true'>
 			<xsd:attribute name='language' type='xsd:string' use='optional' />
-			<xsd:attribute name='sourceSense' type='ewn:LocalSynsetIDREFType' use='optional' />
-			<xsd:attributeGroup ref='ewn:Meta' />
-		</xsd:complexType>
-	</xsd:element>
-
-	<xsd:element name='ILIDefinition'>
-		<xsd:complexType mixed='true'>
-			<xsd:attributeGroup ref='ewn:Meta' />
+			<xsd:attribute name='sourceSense' type='SynsetIDREFType' use='optional' />
+			<xsd:attributeGroup ref='Meta' />
 		</xsd:complexType>
 	</xsd:element>
 
 	<xsd:element name='Example'>
 		<xsd:complexType mixed='true'>
 			<xsd:attribute name='language' type='xsd:string' use='optional' />
-			<xsd:attributeGroup ref='ewn:Meta' />
+			<xsd:attributeGroup ref='Meta' />
 		</xsd:complexType>
 	</xsd:element>
 
 	<xsd:element name='SynsetRelation'>
 		<xsd:complexType>
-			<xsd:attribute name='target' type='ewn:SynsetIDREFType' use='required' />
-			<xsd:attribute name='relType' type='ewn:SynsetRelationType' use='required' />
-			<xsd:attributeGroup ref='ewn:Meta' />
+			<xsd:attribute name='target' type='SynsetIDREFType' use='required' />
+			<xsd:attribute name='relType' type='SynsetRelationType' use='required' />
+			<xsd:attributeGroup ref='Meta' />
 		</xsd:complexType>
 	</xsd:element>
 
 	<xsd:element name='SenseRelation'>
 		<xsd:complexType>
-			<xsd:attribute name='target' type='ewn:SenseIDREFType' use='required' />
-			<xsd:attribute name='relType' type='ewn:SenseRelationType' use='required' />
-			<xsd:attributeGroup ref='ewn:Meta' />
+			<xsd:attribute name='target' type='SenseIDREFType' use='required' />
+			<xsd:attribute name='relType' type='SenseRelationType' use='required' />
+			<xsd:attributeGroup ref='Meta' />
 		</xsd:complexType>
 	</xsd:element>
 
 	<xsd:element name='SyntacticBehaviour'>
 		<xsd:complexType>
-			<xsd:attribute name='id' type='ewn:SyntacticBehaviourIDType' use='required' />
+			<xsd:attribute name='id' type='SyntacticBehaviourIDType' use='required' />
 			<xsd:attribute name='subcategorizationFrame' type='xsd:string' use='optional' />
 			<xsd:attribute name='sentenceTemplate' type='xsd:string' use='optional' />
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name='Count'>
+	<xsd:element name='Tag'>
 		<xsd:complexType mixed='true'>
-			<xsd:attributeGroup ref='ewn:Meta' />
+			<xsd:attribute name='category' type='xsd:string' use='required' />
 		</xsd:complexType>
 	</xsd:element>
+
+	<xsd:element name='Count'>
+		<xsd:complexType mixed='true'>
+			<xsd:attributeGroup ref='Meta' />
+		</xsd:complexType>
+	</xsd:element>
+
 </xsd:schema>

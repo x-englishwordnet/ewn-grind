@@ -11,8 +11,20 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <file path="/ewn-grind/pwn.xsd"/>
         <javaElement handleIdentifier="=ewn-grind/src=/optional=/true=/=/maven.pomderived=/true=/&lt;org.ewn.pojos"/>
-        <javaElement handleIdentifier="=ewn-grind/src=/optional=/true=/=/maven.pomderived=/true=/&lt;org.ewn.grind"/>
+        <file path="/ewn-grind/ewn-wordtypes.xsd"/>
+        <file path="/ewn-grind/types-1.10.xsd"/>
+        <file path="/ewn-grind/xEWN-LMF-1.10.xsd"/>
+        <file path="/ewn-grind/LICENSE.md"/>
+        <file path="/ewn-grind/dc.xsd"/>
         <javaElement handleIdentifier="=ewn-grind/src=/optional=/true=/=/maven.pomderived=/true=/&lt;org.ewn.parse"/>
+        <file path="/ewn-grind/core-1.10.xsd"/>
+        <javaElement handleIdentifier="=ewn-grind/src=/optional=/true=/=/maven.pomderived=/true=/&lt;org.ewn.grind"/>
+        <file path="/ewn-grind/ili.xsd"/>
+        <file path="/ewn-grind/ewn-idtypes-1.10.xsd"/>
+        <file path="/ewn-grind/types.xsd"/>
+        <file path="/ewn-grind/ewn-idtypes.xsd"/>
+        <file path="/ewn-grind/meta.xsd"/>
     </selectedElements>
 </jardesc>

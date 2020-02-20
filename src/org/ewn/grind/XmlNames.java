@@ -60,11 +60,11 @@ public class XmlNames
 
 	static final String SENSEKEY_ATTR = "sensekey";
 
-	static final String SYNTACTICBEHAVIOUR_ATTR = "syntactic_behaviour";
+	static final String VERBFRAMES_ATTR = "verbFrames";
 
-	static final String SENTENCETEMPLATE_ATTR = "sentence_template";
+	static final String VERBTEMPLATES_ATTR = "verbTemplates";
 
-	static final String ADJPOSITION_ATTR = "adj_position";
+	static final String ADJPOSITION_ATTR = "adjPosition";
 
-	static final String TAGCOUNT_ATTR = "tagcnt";
+	static final String TAGCOUNT_ATTR = "tagCnt";
 }

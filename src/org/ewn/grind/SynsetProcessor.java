@@ -172,7 +172,7 @@ public abstract class SynsetProcessor
 			words.add(word);
 
 			// syntactic behaviour attribute
-			String syntacticBehaviour = senseElement.getAttribute(XmlNames.SYNTACTICBEHAVIOUR_ATTR);
+			String syntacticBehaviour = senseElement.getAttribute(XmlNames.VERBFRAMES_ATTR);
 			if (!syntacticBehaviour.isEmpty())
 			{
 				String[] syntacticBehaviours = syntacticBehaviour.split("\\s+");

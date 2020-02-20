@@ -1,12 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Copyright (c) 2020. Bernard Bou <1313ou@gmail.com>. -->
+
 <!DOCTYPE xsd:schema
 [
-<!ENTITY lemma "[a-zA-Z0-9_'/\-\.]+">
-<!ENTITY lexsense "\d+:\d+:\d+:[a-zA-Z0-9_'/\-\.]*:\d*">
 ]>
 
-<xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:dc='http://purl.org/dc/elements/1.1/'
+<xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema' 
+	xmlns:dc='http://purl.org/dc/elements/1.1/'
 	targetNamespace='http://purl.org/dc/elements/1.1/'>
 
+	<xsd:import schemaLocation='pwn.xsd' />
+	<xsd:import schemaLocation='types.xsd' />
+
+	<!-- A T T R I B U T E S -->
+
+	<!-- meta -->
 	<xsd:attribute name='contributor' type='xsd:string' />
 	<xsd:attribute name='coverage' type='xsd:string' />
 	<xsd:attribute name='creator' type='xsd:string' />
@@ -20,67 +29,11 @@
 	<xsd:attribute name='title' type='xsd:string' />
 	<xsd:attribute name='type' type='xsd:string' />
 
-	<xsd:simpleType name='SenseKeyType'>
-		<xsd:restriction base='xsd:string'>
-			<xsd:pattern value='&lemma;%&lexsense;' />
-		</xsd:restriction>
-	</xsd:simpleType>
-
-	<xsd:simpleType name='LexDomainType'>
-		<xsd:restriction base='xsd:string'>
-			<xsd:enumeration value='adj.all' />
-			<xsd:enumeration value='adj.pert' />
-			<xsd:enumeration value='adv.all' />
-			<xsd:enumeration value='noun.Tops' />
-			<xsd:enumeration value='noun.act' />
-			<xsd:enumeration value='noun.animal' />
-			<xsd:enumeration value='noun.artifact' />
-			<xsd:enumeration value='noun.attribute' />
-			<xsd:enumeration value='noun.body' />
-			<xsd:enumeration value='noun.cognition' />
-			<xsd:enumeration value='noun.communication' />
-			<xsd:enumeration value='noun.event' />
-			<xsd:enumeration value='noun.feeling' />
-			<xsd:enumeration value='noun.food' />
-			<xsd:enumeration value='noun.group' />
-			<xsd:enumeration value='noun.location' />
-			<xsd:enumeration value='noun.motive' />
-			<xsd:enumeration value='noun.object' />
-			<xsd:enumeration value='noun.person' />
-			<xsd:enumeration value='noun.phenomenon' />
-			<xsd:enumeration value='noun.plant' />
-			<xsd:enumeration value='noun.possession' />
-			<xsd:enumeration value='noun.process' />
-			<xsd:enumeration value='noun.quantity' />
-			<xsd:enumeration value='noun.relation' />
-			<xsd:enumeration value='noun.shape' />
-			<xsd:enumeration value='noun.state' />
-			<xsd:enumeration value='noun.substance' />
-			<xsd:enumeration value='noun.time' />
-			<xsd:enumeration value='verb.body' />
-			<xsd:enumeration value='verb.change' />
-			<xsd:enumeration value='verb.cognition' />
-			<xsd:enumeration value='verb.communication' />
-			<xsd:enumeration value='verb.competition' />
-			<xsd:enumeration value='verb.consumption' />
-			<xsd:enumeration value='verb.contact' />
-			<xsd:enumeration value='verb.creation' />
-			<xsd:enumeration value='verb.emotion' />
-			<xsd:enumeration value='verb.motion' />
-			<xsd:enumeration value='verb.perception' />
-			<xsd:enumeration value='verb.possession' />
-			<xsd:enumeration value='verb.social' />
-			<xsd:enumeration value='verb.stative' />
-			<xsd:enumeration value='verb.weather' />
-			<xsd:enumeration value='adj.ppl' />
-		</xsd:restriction>
-	</xsd:simpleType>
-
 	<!-- sensekey -->
-	<xsd:attribute name='identifier' type='dc:SenseKeyType' />
+	<xsd:attribute name='identifier' type='LegacySenseKeyType' />
 
 	<!-- subject -->
-	<xsd:attribute name='subject' type='dc:LexDomainType' />
+	<xsd:attribute name='subject' type='LexFileType' />
 
 </xsd:schema>
 
