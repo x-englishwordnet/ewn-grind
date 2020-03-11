@@ -1,7 +1,11 @@
 package org.ewn.grind;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * This class maps information into a documented numerical code
@@ -13,6 +17,10 @@ public class Coder
 	private Coder()
 	{
 	}
+
+	private static final String IS_ENTAILED_PTR = "*^";
+
+	private static final String IS_CAUSED_PTR = ">^";
 
 	// R E L A T I O N
 
@@ -60,6 +68,8 @@ public class Coder
 
 	private static final String ENTAILS = "entails";
 
+	private static final String IS_ENTAILED = "is_entailed_by";
+
 	private static final String SIMILAR = "similar";
 
 	private static final String VERB_GROUP = "similar";
@@ -67,6 +77,8 @@ public class Coder
 	private static final String PARTICIPLE = "participle";
 
 	private static final String CAUSES = "causes";
+
+	private static final String IS_CAUSED = "is_caused_by";
 
 	/**
 	 * Code relation
@@ -80,26 +92,26 @@ public class Coder
 		switch (pos)
 		{
 		case 'n':
-			/* 
+			/*
 			@formatter:off
-			!    Antonym 
-			@    Hypernym 
-			@i    Instance Hypernym 
-			 ~    Hyponym 
-			 ~i    Instance Hyponym 
-			#m    Member holonym 
-			#s    Substance holonym 
-			#p    Part holonym 
-			%m    Member meronym 
-			%s    Substance meronym 
-			%p    Part meronym 
-			=    Attribute 
-			+    Derivationally related form         
-			;c    Domain of synset - TOPIC 
-			-c    Member of this domain - TOPIC 
-			;r    Domain of synset - REGION 
-			-r    Member of this domain - REGION 
-			;u    Domain of synset - USAGE 
+			!    Antonym
+			@    Hypernym
+			@i    Instance Hypernym
+			 ~    Hyponym
+			 ~i    Instance Hyponym
+			#m    Member holonym
+			#s    Substance holonym
+			#p    Part holonym
+			%m    Member meronym
+			%s    Substance meronym
+			%p    Part meronym
+			=    Attribute
+			+    Derivationally related form
+			;c    Domain of synset - TOPIC
+			-c    Member of this domain - TOPIC
+			;r    Domain of synset - REGION
+			-r    Member of this domain - REGION
+			;u    Domain of synset - USAGE
 			-u    Member of this domain - USAGE
 			@formatter:on
 			*/
@@ -155,17 +167,17 @@ public class Coder
 		case 'v':
 			/*
 			@formatter:off
-			!    Antonym 
-			@    Hypernym 
-			 ~    Hyponym 
-			*    Entailment 
-			>    Cause 
-			^    Also see 
-			$    Verb Group 
-			+    Derivationally related form         
-			;c    Domain of synset - TOPIC 
-			;r    Domain of synset - REGION 
-			;u    Domain of synset - USAGE 
+			!    Antonym
+			@    Hypernym
+			 ~    Hyponym
+			*    Entailment
+			>    Cause
+			^    Also see
+			$    Verb Group
+			+    Derivationally related form
+			;c    Domain of synset - TOPIC
+			;r    Domain of synset - REGION
+			;u    Domain of synset - USAGE
 			@formatter:on
 			*/
 			switch (type)
@@ -179,8 +191,12 @@ public class Coder
 						return "~";
 					case ENTAILS:
 						return "*";
+					case IS_ENTAILED:
+						return IS_ENTAILED_PTR; // NOT DEFINED IN PWN
 					case CAUSES:
 						return ">";
+					case IS_CAUSED:
+						return IS_CAUSED_PTR; // NOT DEFINED IN PWN
 					case ALSO:
 						return "^";
 					case VERB_GROUP:
@@ -203,16 +219,16 @@ public class Coder
 		case 's':
 			/*
 			@formatter:off
-			!    Antonym 
-			&    Similar to 
-			<    Participle of verb 
-			\    Pertainym (pertains to noun) 
-			=    Attribute 
-			^    Also see 
-			;c    Domain of synset - TOPIC 
-			;r    Domain of synset - REGION 
+			!    Antonym
+			&    Similar to
+			<    Participle of verb
+			\    Pertainym (pertains to noun)
+			=    Attribute
+			^    Also see
+			;c    Domain of synset - TOPIC
+			;r    Domain of synset - REGION
 			;u    Domain of synset - USAGE
-			@formatter:on			
+			@formatter:on
 			*/
 			switch (type)
 			//@formatter:off
@@ -254,11 +270,11 @@ public class Coder
 		case 'r':
 			/*
 			 @formatter:off
-			 !    Antonym 
-			 \    Derived from adjective 
-			 ;c    Domain of synset - TOPIC 
-			 ;r    Domain of synset - REGION 
-			 ;u    Domain of synset - USAGE 
+			 !    Antonym
+			 \    Derived from adjective
+			 ;c    Domain of synset - TOPIC
+			 ;r    Domain of synset - REGION
+			 ;u    Domain of synset - USAGE
 			 @formatter:on
 			 */
 			switch (type)
@@ -412,5 +428,32 @@ public class Coder
 	static int codeLexFile(String name)
 	{
 		return LEXFILE_TO_NUM.get(name);
+	}
+
+	public static void main(String[] args)
+	{
+		final Map<Character, Set<String>> allRelations = new HashMap<>();
+		final Set<String> nSet = allRelations.computeIfAbsent('n', (k) -> new HashSet<>());
+		nSet.addAll(Arrays.asList(ANTONYM, HYPERNYM, INSTANCE_HYPERNYM, HYPONYM, INSTANCE_HYPONYM, HOLO_MEMBER, HOLO_SUBSTANCE, HOLO_PART, MERO_MEMBER, MERO_SUBSTANCE, MERO_PART, ATTRIBUTE, PERTAINYM, DERIVATION, DOMAIN_TOPIC, HAS_DOMAIN_TOPIC,
+				DOMAIN_REGION, HAS_DOMAIN_REGION, DOMAIN_USAGE, HAS_DOMAIN_USAGE));
+		final Set<String> vSet = allRelations.computeIfAbsent('v', (k) -> new HashSet<>());
+		vSet.addAll(Arrays.asList(ANTONYM, HYPERNYM, HYPONYM, ENTAILS, IS_ENTAILED, CAUSES, IS_CAUSED, ALSO, VERB_GROUP, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION, DOMAIN_USAGE));
+		final Set<String> aSet = allRelations.computeIfAbsent('a', (k) -> new HashSet<>());
+		aSet.addAll(Arrays.asList(ANTONYM, SIMILAR, PARTICIPLE, PERTAINYM, ATTRIBUTE, ALSO, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION, DOMAIN_USAGE, HAS_DOMAIN_TOPIC, HAS_DOMAIN_REGION, HAS_DOMAIN_USAGE));
+		final Set<String> rSet = allRelations.computeIfAbsent('r', (k) -> new HashSet<>());
+		rSet.addAll(Arrays.asList(ANTONYM, PERTAINYM, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION, DOMAIN_USAGE, HAS_DOMAIN_TOPIC, HAS_DOMAIN_REGION, HAS_DOMAIN_USAGE));
+
+		final Set<String> allPointers = new TreeSet<>();
+		for (Character pos : Arrays.asList('n', 'v', 'a', 'r'))
+		{
+			for (String relation : allRelations.get(pos))
+			{
+				allPointers.add((codeRelation(relation, pos)));
+			}
+		}
+		for (String pointer : allPointers)
+			System.out.println(pointer);
+
+		System.err.println("Done");
 	}
 }
