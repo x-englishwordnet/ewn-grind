@@ -20,7 +20,7 @@ public class Index extends CoreIndex
 	 *            line
 	 * @return index
 	 * @throws ParsePojoException
-	 *             pase exception
+	 *             parse exception
 	 */
 	public static Index parseIndex(final String line) throws ParsePojoException
 	{

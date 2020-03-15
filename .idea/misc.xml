@@ -6,6 +6,12 @@
       <entry_point TYPE="field" FQNAME="org.ewn.grind.Memory.Unit G" />
       <entry_point TYPE="field" FQNAME="org.ewn.grind.Data.Relation pos" />
       <entry_point TYPE="field" FQNAME="org.ewn.pojos.Index tagCnt" />
+      <entry_point TYPE="field" FQNAME="org.ewn.pojos.Synset members" />
+      <entry_point TYPE="field" FQNAME="org.ewn.pojos.AdjLemma serialVersionUID" />
+      <entry_point TYPE="field" FQNAME="org.ewn.pojos.BareNormalizedString serialVersionUID" />
+      <entry_point TYPE="field" FQNAME="org.ewn.pojos.Lemma serialVersionUID" />
+      <entry_point TYPE="field" FQNAME="org.ewn.pojos.NormalizedString serialVersionUID" />
+      <entry_point TYPE="field" FQNAME="org.ewn.pojos.ParsePojoException serialVersionUID" />
     </entry_points>
     <pattern value="org.ewn.pojos.AdjLemma" />
     <pattern value="org.ewn.pojos.AdjPosition" />
@@ -98,6 +104,21 @@
     <pattern value="org.ewn.pojos.VerbTemplate" />
     <pattern value="org.ewn.pojos.VerbTemplate" method="VerbTemplate" />
     <pattern value="org.ewn.pojos.VerbTemplateRef" />
+    <pattern value="org.ewn.pojos.Index" method="parseIndex" />
+    <pattern value="org.ewn.pojos.Pos" method="fromName" />
+    <pattern value="org.ewn.pojos.Sensekey" method="getWord" />
+    <pattern value="org.ewn.pojos.Pos" method="isAdj" />
+    <pattern value="org.ewn.pojos.LemmaWithCase" />
+    <pattern value="org.ewn.pojos.LemmaWithCase" method="LemmaWithCase" />
+    <pattern value="org.ewn.grind.Coder" method="main" />
+    <pattern value="org.ewn.pojos.MorphMapping" method="parseMorphMapping" />
+    <pattern value="org.ewn.pojos.ParsePojoException" />
+    <pattern value="org.ewn.pojos.ParsePojoException" method="ParsePojoException" />
+    <pattern value="org.ewn.pojos.Pos" method="parsePos" />
+    <pattern value="org.ewn.pojos.VerbFrame" method="parseVerbFrame" />
+    <pattern value="org.ewn.pojos.VerbTemplate" method="parseVerbTemplate" />
+    <pattern value="org.ewn.pojos.VerbTemplateRef" method="parseVerbTemplateRef" />
+    <pattern value="org.ewn.pojos.Sensekey" method="Sensekey" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

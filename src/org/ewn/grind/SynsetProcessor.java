@@ -211,7 +211,6 @@ public abstract class SynsetProcessor
 		String verbframes = frames.size() < 1 ? "" : ' ' + joinFrames(frames, words.size());
 		assert definitionElement != null;
 		String definition = definitionElement.getTextContent();
-		assert exampleElements != null;
 		String examples = exampleElements == null || exampleElements.isEmpty() ? "" : "; " + Formatter.join(exampleElements, ' ', false, Element::getTextContent);
 
 		return String.format(SYNSET_FORMAT, offset, lexfilenum, pos, members, related, verbframes, definition, examples);

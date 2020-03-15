@@ -3,7 +3,6 @@ package org.ewn.parse;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -21,7 +20,7 @@ public class IndexParser
 
 	private static final boolean DUMP = false;
 
-	public static void main(String[] args) throws FileNotFoundException, IOException, ParsePojoException
+	public static void main(String[] args) throws IOException, ParsePojoException
 	{
 		// Timing
 		final long startTime = System.currentTimeMillis();
@@ -40,7 +39,7 @@ public class IndexParser
 		System.err.println("Total execution time: " + (endTime - startTime) / 1000 + "s");
 	}
 
-	public static void parseIndexes(String dir, String posName) throws FileNotFoundException, IOException, ParsePojoException
+	public static void parseIndexes(String dir, String posName) throws IOException, ParsePojoException
 	{
 		System.out.println("* Indexes " + posName);
 

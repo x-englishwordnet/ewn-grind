@@ -16,7 +16,7 @@ public enum RelationType
 	PART_HOLONYM("%p", "part holonym", true), PART_MERONYM("#p", "part meronym", true), MEMBER_HOLONYM("%m", "member holonym", true), MEMBER_MERONYM("#m", "member meronym", true), SUBSTANCE_HOLONYM("%s", "substance holonym", true), SUBSTANCE_MERONYM("#s",
 			"substance meronym", true),
 
-	ENTAIL("*", "entail", true), CAUSE(">", "cause", true),
+	ENTAIL("*", "entail", true), IS_ENTAILED("*^", "is entailed by", true), CAUSE(">", "cause", true), IS_CAUSED(">^", "is caused by", true),
 
 	ANTONYM("!", "antonym", false), SIMILAR("&", "similar", false),
 
@@ -57,7 +57,7 @@ public enum RelationType
 
 	/**
 	 * Parse relation type from string
-	 * 
+	 *
 	 * @param str
 	 *            string
 	 * @return relation type

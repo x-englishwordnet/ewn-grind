@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
  */
 public class AdjLemma extends Lemma
 {
+	private static final long serialVersionUID = -5052132990585778536L;
+
 	private static final String REGEX = "\\((a|p|ip)\\)";
 
 	private static final Pattern PATTERN = Pattern.compile(REGEX);
@@ -21,9 +23,8 @@ public class AdjLemma extends Lemma
 	 *
 	 * @param normString
 	 *            normalized string
-	 * @throws ParsePojoException
 	 */
-	private AdjLemma(final BareNormalizedString normString, final AdjPosition adjPosition) throws ParsePojoException
+	private AdjLemma(final BareNormalizedString normString, final AdjPosition adjPosition)
 	{
 		super(normString);
 		this.adjPosition = adjPosition;
@@ -32,9 +33,8 @@ public class AdjLemma extends Lemma
 	/**
 	 * Constructor
 	 *
-	 * @param normString
+	 * @param normalizedString
 	 *            normalized string
-	 * @throws ParsePojoException
 	 */
 	public static Lemma makeAdj(NormalizedString normalizedString)
 	{
@@ -80,6 +80,8 @@ public class AdjLemma extends Lemma
 			return "";
 		return "(" + this.adjPosition.getTag() + ")";
 	}
+
+	// I D E N T I T Y
 
 	@Override
 	public boolean equals(final Object obj)

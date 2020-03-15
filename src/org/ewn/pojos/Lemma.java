@@ -1,13 +1,17 @@
 package org.ewn.pojos;
 
+import java.io.Serializable;
+
 /**
  * Lemma (normalized, lower-cased)
  *
  * @author Bernard Bou
  */
-public class Lemma /* extends NormalizedString */ implements Comparable<Lemma>
+public class Lemma /* extends NormalizedString */ implements Comparable<Lemma>, Serializable
 {
-	private String entry;
+	private static final long serialVersionUID = 1L;
+
+	private final String entry;
 
 	/**
 	 * Constructor from normalized string
@@ -27,8 +31,8 @@ public class Lemma /* extends NormalizedString */ implements Comparable<Lemma>
 
 	/**
 	 * Make from bare normalized string
-	 * 
-	 * @param bare
+	 *
+	 * @param bareNormalized
 	 *            normalized bare normalized string
 	 * @return lemma
 	 */
@@ -39,7 +43,7 @@ public class Lemma /* extends NormalizedString */ implements Comparable<Lemma>
 
 	/**
 	 * Make from normalized string
-	 * 
+	 *
 	 * @param normalized
 	 *            normalized string
 	 * @return lemma
@@ -51,7 +55,7 @@ public class Lemma /* extends NormalizedString */ implements Comparable<Lemma>
 
 	/**
 	 * Make from rawString
-	 * 
+	 *
 	 * @param rawString
 	 *            raw string
 	 * @return lemma
@@ -61,6 +65,8 @@ public class Lemma /* extends NormalizedString */ implements Comparable<Lemma>
 		// normalize spaces then lowercase
 		return new Lemma(new NormalizedString(rawString));
 	}
+
+	// I D E N T I T Y
 
 	@Override
 	public int hashCode()
@@ -84,11 +90,15 @@ public class Lemma /* extends NormalizedString */ implements Comparable<Lemma>
 			return this.entry.equals(other.entry);
 	}
 
+	// O R D E R I N G
+
 	@Override
 	public int compareTo(final Lemma other)
 	{
 		return this.entry.compareTo(other.entry);
 	}
+
+	// T O S T R I N G
 
 	@Override
 	public String toString()

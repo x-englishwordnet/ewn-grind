@@ -1,7 +1,6 @@
 package org.ewn.parse;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -19,7 +18,7 @@ public class DataParser
 
 	private static final boolean DUMP = false;
 
-	public static void main(String[] args) throws FileNotFoundException, ParsePojoException, IOException
+	public static void main(String[] args) throws ParsePojoException, IOException
 	{
 		// Timing
 		final long startTime = System.currentTimeMillis();
@@ -38,7 +37,7 @@ public class DataParser
 		System.err.println("Total execution time: " + (endTime - startTime) / 1000 + "s");
 	}
 
-	static void parseSynsets(final String dir, final String posName) throws ParsePojoException, FileNotFoundException, IOException
+	static void parseSynsets(final String dir, final String posName) throws ParsePojoException, IOException
 	{
 		System.out.println("* Synsets " + posName);
 

@@ -1,12 +1,16 @@
 package org.ewn.pojos;
 
+import java.io.Serializable;
+
 /**
  * Normalized string
  *
  * @author Bernard Bou
  */
-public class NormalizedString implements Comparable<NormalizedString>
+public class NormalizedString implements Comparable<NormalizedString>, Serializable
 {
+	private static final long serialVersionUID = 1L;
+
 	protected String entry;
 
 	public NormalizedString(final String rawStr)
@@ -34,11 +38,7 @@ public class NormalizedString implements Comparable<NormalizedString>
 		return this.entry;
 	}
 
-	@Override
-	public String toString()
-	{
-		return this.entry;
-	}
+	// I D E N T I T Y
 
 	@Override
 	public int hashCode()
@@ -62,9 +62,19 @@ public class NormalizedString implements Comparable<NormalizedString>
 			return this.entry.equals(other.entry);
 	}
 
+	// O R D E R I N G
+
 	@Override
 	public int compareTo(final NormalizedString other)
 	{
 		return this.entry.compareTo(other.entry);
+	}
+
+	// T O S T R I N G
+
+	@Override
+	public String toString()
+	{
+		return this.entry;
 	}
 }

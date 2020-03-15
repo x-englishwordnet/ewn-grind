@@ -7,6 +7,8 @@ package org.ewn.pojos;
  */
 public class BareNormalizedString extends NormalizedString
 {
+	private static final long serialVersionUID = 2771391035584386352L;
+
 	/**
 	 * Constructor
 	 *

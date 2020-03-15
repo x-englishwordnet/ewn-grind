@@ -42,8 +42,9 @@ public class Sensekey
 	 * @param lexDomain
 	 *            lex domain
 	 * @param lexId
-	 *            leyid
+	 *            lexid
 	 * @param key
+	 *            sensekey
 	 */
 	private Sensekey(final NormalizedString word, final Pos pos, final LexDomain lexDomain, final int lexId, final String key)
 	{

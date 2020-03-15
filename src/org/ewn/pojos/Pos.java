@@ -62,7 +62,7 @@ public enum Pos
 			if (id == pos.id)
 				return pos;
 		}
-		throw new ParsePojoException("Pos:" + Character.toString(id));
+		throw new ParsePojoException("Pos:" + id);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public enum Pos
 		final int index = index0 - 1;
 		if (index >= 0 && index < Pos.values().length)
 			return Pos.values()[index];
-		throw new IllegalArgumentException("Pos:" + Integer.toString(index));
+		throw new IllegalArgumentException("Pos:" + index);
 	}
 
 	/**

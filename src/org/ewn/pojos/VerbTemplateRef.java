@@ -37,7 +37,7 @@ public class VerbTemplateRef
 	 * @param line
 	 *            line
 	 * @return array of verb template references
-	 * @throws ParsePojoException
+	 * @throws ParsePojoException parse exception
 	 */
 	public static VerbTemplateRef[] parseVerbTemplateRef(final String line) throws ParsePojoException
 	{

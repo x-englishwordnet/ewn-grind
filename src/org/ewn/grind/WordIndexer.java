@@ -78,9 +78,9 @@ public class WordIndexer
 	{
 		String pos;
 
-		Set<String> synsetIds = new LinkedHashSet<>();
+		final Set<String> synsetIds = new LinkedHashSet<>();
 
-		Set<String> relationPointers = new TreeSet<>();
+		final Set<String> relationPointers = new TreeSet<>();
 	}
 
 	/**
