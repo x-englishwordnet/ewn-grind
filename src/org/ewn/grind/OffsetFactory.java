@@ -86,6 +86,7 @@ public class OffsetFactory extends SynsetProcessor
 
 	@Override
 	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId)
+			throws CompatException
 	{
 		char targetPos = targetSynsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
 		return new Relation(type, pos, targetPos, dummyOfs, DUMMY_NUM, DUMMY_NUM);

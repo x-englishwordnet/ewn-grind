@@ -145,7 +145,16 @@ public class WordIndexer
 					Element synsetRelationElement = (Element) synsetRelationNode;
 
 					String type = synsetRelationElement.getAttribute(XmlNames.RELTYPE_ATTR);
-					String pointer = Coder.codeRelation(type, pos.charAt(0));
+					String pointer;
+					try
+					{
+						pointer = Coder.codeRelation(type, pos.charAt(0));
+					}
+					catch (CompatException e)
+					{
+						System.err.println(e.getMessage());
+						continue;
+					}
 					data.relationPointers.add(pointer);
 				}
 			}
@@ -160,7 +169,16 @@ public class WordIndexer
 				Element senseRelationElement = (Element) senseRelationNode;
 
 				String type = senseRelationElement.getAttribute(XmlNames.RELTYPE_ATTR);
-				String pointer = Coder.codeRelation(type, pos.charAt(0));
+				String pointer;
+				try
+				{
+					pointer = Coder.codeRelation(type, pos.charAt(0));
+				}
+				catch (CompatException e)
+				{
+					System.err.println(e.getMessage());
+					continue;
+				}
 				data.relationPointers.add(pointer);
 			}
 		}

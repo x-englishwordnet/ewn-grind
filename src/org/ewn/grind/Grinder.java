@@ -1,19 +1,18 @@
 package org.ewn.grind;
 
+import org.ewn.grind.Memory.Unit;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-
-import org.ewn.grind.Memory.Unit;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 /**
  * Main class that generates the WN database in the WNDB format as per wndb(5WN)
@@ -26,11 +25,11 @@ public class Grinder
 	/**
 	 * Main entry point
 	 *
-	 * @param args command-line arguments
-	 * @throws SAXException sax
+	 * @param args command-line arguments [-compat:lexid] [-compat:pointer] mergedXml [outputDir]
+	 * @throws SAXException                 sax
 	 * @throws ParserConfigurationException parser configuration
-	 * @throws IOException io
-	 * @throws XPathExpressionException xpath
+	 * @throws IOException                  io
+	 * @throws XPathExpressionException     xpath
 	 */
 	public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException, XPathExpressionException
 	{
@@ -40,14 +39,36 @@ public class Grinder
 		// Heap
 		System.err.println(Memory.heapInfo("before maps", Unit.M));
 
+		// Argument switches processing
+		int nArg = args.length; // left
+		int iArg = 0; // current
+
+		if (nArg > 0 && "-compat:lexid".equals(args[iArg])) // if left and is "-compat:lexid"
+		{
+			nArg--; // left: decrement
+			iArg++; // current: move to next
+			Flags.LEXID_COMPAT = true;
+		}
+
+		if (nArg > 0 && "-compat:pointer".equals(args[iArg])) // if left and is "-compat:pointer"
+		{
+			nArg--; // left: decrement
+			iArg++; // current: move to next
+			Flags.POINTER_COMPAT = true;
+		}
+
 		// Input
-		String filename = args[0];
+		String filename = args[iArg];
+		nArg--; // left: decrement
+		iArg++; // current: move to next
 
 		// Output
 		File dir;
-		if (args.length > 1)
+		if (nArg > 0) // if left
 		{
-			dir = new File(args[1]);
+			dir = new File(args[iArg]);
+			// nArg--; // left: decrement
+			// iArg++; // current: move to next
 			if (!dir.exists())
 				// noinspection ResultOfMethodCallIgnored
 				dir.mkdirs();
@@ -87,13 +108,13 @@ public class Grinder
 	/**
 	 * Grind data.{noun|verb|adj|adv}
 	 *
-	 * @param dir output directory
-	 * @param doc parsed XML W3C document
+	 * @param dir              output directory
+	 * @param doc              parsed XML W3C document
 	 * @param sensesBySynsetId sense elements mapped by synsetId (whose 'synset' attribute = synsetId)
-	 * @param synsetsById synset elements mapped by synsetId
-	 * @param sensesById sense elements mapped by synsetId
-	 * @param offsets offsets mapped by synsetId
-	 * @throws IOException io
+	 * @param synsetsById      synset elements mapped by synsetId
+	 * @param sensesById       sense elements mapped by synsetId
+	 * @param offsets          offsets mapped by synsetId
+	 * @throws IOException              io
 	 * @throws XPathExpressionException xpath
 	 */
 	public static void data(File dir, Document doc, //
@@ -124,11 +145,11 @@ public class Grinder
 	}
 
 	/**
-	 * @param dir output directory
-	 * @param doc parsed XML document
+	 * @param dir         output directory
+	 * @param doc         parsed XML document
 	 * @param synsetsById synset elements mapped by synsetId
-	 * @param offsets offsets mapped by synsetId
-	 * @throws IOException io
+	 * @param offsets     offsets mapped by synsetId
+	 * @throws IOException              io
 	 * @throws XPathExpressionException xpath
 	 */
 	public static void indexWords(File dir, Document doc, //
@@ -159,8 +180,8 @@ public class Grinder
 	/**
 	 * Grind index.sense
 	 *
-	 * @param dir output directory
-	 * @param doc parsed XML document
+	 * @param dir     output directory
+	 * @param doc     parsed XML document
 	 * @param offsets offsets mapped by synsetId
 	 * @throws IOException io
 	 */
@@ -178,7 +199,7 @@ public class Grinder
 	 *
 	 * @param dir output directory
 	 * @param doc parsed XML document
-	 * @throws IOException io
+	 * @throws IOException              io
 	 * @throws XPathExpressionException xpath
 	 */
 	public static void morphs(File dir, Document doc) throws IOException, XPathExpressionException
@@ -207,7 +228,7 @@ public class Grinder
 	 *
 	 * @param dir output directory
 	 * @param doc parsed XML document
-	 * @throws IOException io
+	 * @throws IOException              io
 	 * @throws XPathExpressionException xpath
 	 */
 	public static void templates(File dir, Document doc) throws IOException, XPathExpressionException

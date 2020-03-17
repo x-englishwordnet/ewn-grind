@@ -8,9 +8,14 @@ package org.ewn.grind;
 public class Flags
 {
 	/**
-	 * Compat mode switch that does not allow lexid to be greater than 16. See grinder source in wnparse.y
+	 * Compat mode switch that does not allow lexid to be greater than 16. See PWN grinder source in wnparse.y
 	 */
-	public static final boolean LEXID_COMPAT = false;
+	public static boolean LEXID_COMPAT = false;
+
+	/**
+	 * Compat mode switch that does not allow pointers beyond those used in PWN.
+	 */
+	public static  boolean POINTER_COMPAT = false;
 
 	private Flags()
 	{

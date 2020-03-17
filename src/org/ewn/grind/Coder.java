@@ -1,11 +1,6 @@
 package org.ewn.grind;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * This class maps information into a documented numerical code
@@ -84,14 +79,14 @@ public class Coder
 	 * Code relation
 	 *
 	 * @param type relation type
-	 * @param pos part-of-speech
+	 * @param pos  part-of-speech
 	 * @return code
 	 */
-	static String codeRelation(String type, char pos)
+	static String codeRelation(String type, char pos) throws CompatException
 	{
 		switch (pos)
 		{
-		case 'n':
+			case 'n':
 			/*
 			@formatter:off
 			!    Antonym
@@ -115,8 +110,8 @@ public class Coder
 			-u    Member of this domain - USAGE
 			@formatter:on
 			*/
-			switch (type)
-			//@formatter:off
+				switch (type)
+				//@formatter:off
 				{
 					case ANTONYM:
 						return "!";
@@ -162,9 +157,9 @@ public class Coder
 						break;
 				}
 				//@formatter:on
-			break;
+				break;
 
-		case 'v':
+			case 'v':
 			/*
 			@formatter:off
 			!    Antonym
@@ -180,8 +175,8 @@ public class Coder
 			;u    Domain of synset - USAGE
 			@formatter:on
 			*/
-			switch (type)
-			//@formatter:off
+				switch (type)
+				//@formatter:off
 				{
 					case ANTONYM:
 						return "!";
@@ -191,12 +186,8 @@ public class Coder
 						return "~";
 					case ENTAILS:
 						return "*";
-					case IS_ENTAILED:
-						return IS_ENTAILED_PTR; // NOT DEFINED IN PWN
 					case CAUSES:
 						return ">";
-					case IS_CAUSED:
-						return IS_CAUSED_PTR; // NOT DEFINED IN PWN
 					case ALSO:
 						return "^";
 					case VERB_GROUP:
@@ -209,14 +200,21 @@ public class Coder
 						return ";r";
 					case DOMAIN_USAGE:
 						return ";u";
+					case IS_ENTAILED:
+						if (Flags.POINTER_COMPAT)
+							throw new CompatException(new IllegalArgumentException(type)); // NOT DEFINED IN PWN
+						return IS_ENTAILED_PTR;
+					case IS_CAUSED:
+						if (Flags.POINTER_COMPAT)
+							throw new CompatException(new IllegalArgumentException(type)); // NOT DEFINED IN PWN
+						return IS_CAUSED_PTR;
 					default:
 						break;
 				}
-				//@formatter:on
-			break;
+				break;
 
-		case 'a':
-		case 's':
+			case 'a':
+			case 's':
 			/*
 			@formatter:off
 			!    Antonym
@@ -230,8 +228,8 @@ public class Coder
 			;u    Domain of synset - USAGE
 			@formatter:on
 			*/
-			switch (type)
-			//@formatter:off
+				switch (type)
+				//@formatter:off
 				{
 					case ANTONYM:
 						return "!";
@@ -265,9 +263,9 @@ public class Coder
 						break;
 				}
 				//@formatter:on
-			break;
+				break;
 
-		case 'r':
+			case 'r':
 			/*
 			 @formatter:off
 			 !    Antonym
@@ -277,8 +275,8 @@ public class Coder
 			 ;u    Domain of synset - USAGE
 			 @formatter:on
 			 */
-			switch (type)
-			//@formatter:off
+				switch (type)
+				//@formatter:off
 				{
 					case ANTONYM:
 						return "!";
@@ -304,10 +302,10 @@ public class Coder
 						break;
 				}
 				//@formatter:on
-			break;
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 		throw new IllegalArgumentException("pos=" + pos + " relType=" + type);
 	}
@@ -432,28 +430,57 @@ public class Coder
 
 	public static void main(String[] args)
 	{
+		Flags.POINTER_COMPAT = args.length > 0 && "-compat:pointer".equals(args[0]);
+
 		final Map<Character, Set<String>> allRelations = new HashMap<>();
 		final Set<String> nSet = allRelations.computeIfAbsent('n', (k) -> new HashSet<>());
-		nSet.addAll(Arrays.asList(ANTONYM, HYPERNYM, INSTANCE_HYPERNYM, HYPONYM, INSTANCE_HYPONYM, HOLO_MEMBER, HOLO_SUBSTANCE, HOLO_PART, MERO_MEMBER, MERO_SUBSTANCE, MERO_PART, ATTRIBUTE, PERTAINYM, DERIVATION, DOMAIN_TOPIC, HAS_DOMAIN_TOPIC,
-				DOMAIN_REGION, HAS_DOMAIN_REGION, DOMAIN_USAGE, HAS_DOMAIN_USAGE));
+		nSet.addAll(Arrays.asList(ANTONYM, HYPERNYM, INSTANCE_HYPERNYM, HYPONYM, INSTANCE_HYPONYM, HOLO_MEMBER, HOLO_SUBSTANCE, HOLO_PART, MERO_MEMBER,
+				MERO_SUBSTANCE, MERO_PART, ATTRIBUTE, PERTAINYM, DERIVATION, DOMAIN_TOPIC, HAS_DOMAIN_TOPIC, DOMAIN_REGION, HAS_DOMAIN_REGION, DOMAIN_USAGE,
+				HAS_DOMAIN_USAGE));
 		final Set<String> vSet = allRelations.computeIfAbsent('v', (k) -> new HashSet<>());
-		vSet.addAll(Arrays.asList(ANTONYM, HYPERNYM, HYPONYM, ENTAILS, IS_ENTAILED, CAUSES, IS_CAUSED, ALSO, VERB_GROUP, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION, DOMAIN_USAGE));
+		vSet.addAll(
+				Arrays.asList(ANTONYM, HYPERNYM, HYPONYM, ENTAILS, IS_ENTAILED, CAUSES, IS_CAUSED, ALSO, VERB_GROUP, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION,
+						DOMAIN_USAGE));
 		final Set<String> aSet = allRelations.computeIfAbsent('a', (k) -> new HashSet<>());
-		aSet.addAll(Arrays.asList(ANTONYM, SIMILAR, PARTICIPLE, PERTAINYM, ATTRIBUTE, ALSO, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION, DOMAIN_USAGE, HAS_DOMAIN_TOPIC, HAS_DOMAIN_REGION, HAS_DOMAIN_USAGE));
+		aSet.addAll(
+				Arrays.asList(ANTONYM, SIMILAR, PARTICIPLE, PERTAINYM, ATTRIBUTE, ALSO, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION, DOMAIN_USAGE, HAS_DOMAIN_TOPIC,
+						HAS_DOMAIN_REGION, HAS_DOMAIN_USAGE));
 		final Set<String> rSet = allRelations.computeIfAbsent('r', (k) -> new HashSet<>());
-		rSet.addAll(Arrays.asList(ANTONYM, PERTAINYM, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION, DOMAIN_USAGE, HAS_DOMAIN_TOPIC, HAS_DOMAIN_REGION, HAS_DOMAIN_USAGE));
+		rSet.addAll(Arrays.asList(ANTONYM, PERTAINYM, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION, DOMAIN_USAGE, HAS_DOMAIN_TOPIC, HAS_DOMAIN_REGION,
+				HAS_DOMAIN_USAGE));
 
 		final Set<String> allPointers = new TreeSet<>();
+		final Map<Character, Map<String, String>> toRelations = new HashMap<>();
 		for (Character pos : Arrays.asList('n', 'v', 'a', 'r'))
 		{
 			for (String relation : allRelations.get(pos))
 			{
-				allPointers.add((codeRelation(relation, pos)));
+				String pointer;
+				try
+				{
+					pointer = codeRelation(relation, pos);
+				}
+				catch (CompatException e)
+				{
+					System.err.println(e.getMessage());
+					continue;
+				}
+				allPointers.add(pointer);
+				Map<String, String> pointerToRelation = toRelations.computeIfAbsent(pos, (p) -> new HashMap<>());
+				pointerToRelation.put(pointer, relation);
 			}
 		}
 		for (String pointer : allPointers)
-			System.out.println(pointer);
-
-		System.err.println("Done");
+		{
+			System.out.printf("%-2s\t", pointer);
+			for (Character pos : Arrays.asList('n', 'v', 'a', 'r'))
+			{
+				String relation = toRelations.get(pos).get(pointer);
+				if (relation != null)
+					System.out.printf("%s:%s  ", pos, relation);
+			}
+			System.out.println();
+		}
+		System.err.println("Done " + allPointers.size());
 	}
 }

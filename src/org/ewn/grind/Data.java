@@ -90,7 +90,7 @@ public class Data
 		 * @param sourceWordNum word number in source synset
 		 * @param targetWordNum word number in target synset
 		 */
-		public Relation(String type, char pos, char targetPos, long targetOffset, int sourceWordNum, int targetWordNum)
+		public Relation(String type, char pos, char targetPos, long targetOffset, int sourceWordNum, int targetWordNum) throws CompatException
 		{
 			super();
 			this.ptrSymbol = Coder.codeRelation(type, pos);

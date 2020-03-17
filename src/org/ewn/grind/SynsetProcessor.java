@@ -143,7 +143,16 @@ public abstract class SynsetProcessor
 
 			long targetOffset = this.offsetFunction.applyAsLong(targetSynsetId);
 			char targetPos = targetSynsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
-			Relation relation = new Relation(type, pos, targetPos, targetOffset, 0, 0);
+			Relation relation;
+			try
+			{
+				relation = new Relation(type, pos, targetPos, targetOffset, 0, 0);
+			}
+			catch (CompatException e)
+			{
+				System.err.println(e.getMessage());
+				continue;
+			}
 			relations.add(relation);
 		}
 
@@ -200,7 +209,16 @@ public abstract class SynsetProcessor
 				String targetSynsetId = targetSenseElement.getAttribute(XmlNames.SYNSET_ATTR);
 				Element targetSynsetElement = synsetsById.get(targetSynsetId);
 
-				Relation relation = buildLexRelation(type, pos, lemmaIndex, targetSenseElement, targetSynsetElement, targetSynsetId);
+				Relation relation;
+				try
+				{
+					relation = buildLexRelation(type, pos, lemmaIndex, targetSenseElement, targetSynsetElement, targetSynsetId);
+				}
+				catch (CompatException e)
+				{
+					System.err.println(e.getMessage());
+					continue;
+				}
 				relations.add(relation);
 			}
 		}
@@ -255,6 +273,7 @@ public abstract class SynsetProcessor
 	 * @return relation
 	 */
 	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId)
+			throws CompatException
 	{
 		Node targetLexEntryNode = targetSenseElement.getParentNode();
 		assert targetLexEntryNode.getNodeType() == Node.ELEMENT_NODE;
