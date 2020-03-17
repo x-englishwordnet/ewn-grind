@@ -119,6 +119,8 @@
     <pattern value="org.ewn.pojos.VerbTemplate" method="parseVerbTemplate" />
     <pattern value="org.ewn.pojos.VerbTemplateRef" method="parseVerbTemplateRef" />
     <pattern value="org.ewn.pojos.Sensekey" method="Sensekey" />
+    <pattern value="org.ewn.grind.CompatException" />
+    <pattern value="org.ewn.grind.CompatException" method="CompatException" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

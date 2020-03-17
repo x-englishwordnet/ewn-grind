@@ -43,18 +43,18 @@ public class Grinder
 		int nArg = args.length; // left
 		int iArg = 0; // current
 
-		if (nArg > 0 && "-compat:lexid".equals(args[iArg])) // if left and is "-compat:lexid"
-		{
-			nArg--; // left: decrement
-			iArg++; // current: move to next
-			Flags.LEXID_COMPAT = true;
-		}
-
 		if (nArg > 0 && "-compat:pointer".equals(args[iArg])) // if left and is "-compat:pointer"
 		{
 			nArg--; // left: decrement
 			iArg++; // current: move to next
 			Flags.POINTER_COMPAT = true;
+		}
+
+		if (nArg > 0 && "-compat:lexid".equals(args[iArg])) // if left and is "-compat:lexid"
+		{
+			nArg--; // left: decrement
+			iArg++; // current: move to next
+			Flags.LEXID_COMPAT = true;
 		}
 
 		// Input
