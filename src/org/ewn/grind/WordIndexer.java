@@ -1,11 +1,7 @@
 package org.ewn.grind;
 
 import java.io.PrintStream;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 
 import javax.xml.xpath.XPathExpressionException;
 
@@ -92,6 +88,8 @@ public class WordIndexer
 	 */
 	public void makeIndex(PrintStream ps, String xpath) throws XPathExpressionException
 	{
+		Map<String,Integer> incompats = new HashMap<>();
+
 		ps.print(Formatter.PRINCETON_HEADER);
 
 		// collect lines in a set to avoid duplicate lines that arise from lowercasing of lemma
@@ -152,7 +150,9 @@ public class WordIndexer
 					}
 					catch (CompatException e)
 					{
-						System.err.println(e.getMessage());
+						String cause = e.getCause().getMessage();
+						int count = incompats.computeIfAbsent(cause, (c) -> 0) + 1;
+						incompats.put(cause, count);
 						continue;
 					}
 					data.relationPointers.add(pointer);
@@ -176,7 +176,9 @@ public class WordIndexer
 				}
 				catch (CompatException e)
 				{
-					System.err.println(e.getMessage());
+					String cause = e.getCause().getMessage();
+					int count = incompats.computeIfAbsent(cause, (c) -> 0) + 1;
+					incompats.put(cause, count);
 					continue;
 				}
 				data.relationPointers.add(pointer);
@@ -195,6 +197,15 @@ public class WordIndexer
 			String line = String.format("%s %s %d %s %s", key, data.pos, nSenses, ptrs, ofs);
 			ps.println(line);
 			count++;
+		}
+
+		// report incompats
+		if (incompats.size() > 0)
+		{
+			for (Map.Entry<String, Integer> entry : incompats.entrySet())
+			{
+				System.err.printf("Incompatibilities '%s': %d%n", entry.getKey(), entry.getValue());
+			}
 		}
 		System.err.println("Words: " + count + '/' + n + " lexentries for " + xpath);
 	}

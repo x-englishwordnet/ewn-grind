@@ -69,6 +69,7 @@ public class DataGrinder extends SynsetProcessor
 			offset += line.length();
 			previous = synsetElement;
 		}
+
 		System.err.println("Synsets: " + n + " for " + xpath);
 	}
 }

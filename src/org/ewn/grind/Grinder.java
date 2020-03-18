@@ -129,18 +129,22 @@ public class Grinder
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.noun"))))
 		{
 			grinder.makeData(ps, SynsetProcessor.NOUN_SYNSET_XPATH);
+			grinder.report();
 		}
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.verb"))))
 		{
 			grinder.makeData(ps, SynsetProcessor.VERB_SYNSET_XPATH);
+			grinder.report();
 		}
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.adj"))))
 		{
 			grinder.makeData(ps, SynsetProcessor.ADJ_SYNSET_XPATH);
+			grinder.report();
 		}
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.adv"))))
 		{
 			grinder.makeData(ps, SynsetProcessor.ADV_SYNSET_XPATH);
+			grinder.report();
 		}
 	}
 

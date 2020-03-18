@@ -462,7 +462,7 @@ public class Coder
 				}
 				catch (CompatException e)
 				{
-					System.err.println(e.getMessage());
+					System.err.println(e.getCause().getMessage());
 					continue;
 				}
 				allPointers.add(pointer);
