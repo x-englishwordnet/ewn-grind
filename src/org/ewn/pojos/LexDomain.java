@@ -52,7 +52,9 @@ public class LexDomain
 			new LexDomain(41, "verb.social", Pos.VERB), //
 			new LexDomain(42, "verb.stative", Pos.VERB), //
 			new LexDomain(43, "verb.weather", Pos.VERB), //
-			new LexDomain(44, "adj.ppl", Pos.ADJ) };
+			new LexDomain(44, "adj.ppl", Pos.ADJ), //
+			new LexDomain(50, "contrib.colloq", null), //
+			new LexDomain(51, "contrib.plwn", null) };
 
 	private final int id;
 

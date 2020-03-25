@@ -415,6 +415,8 @@ public class Coder
 		LEXFILE_TO_NUM.put("verb.stative", 42);
 		LEXFILE_TO_NUM.put("verb.weather", 43);
 		LEXFILE_TO_NUM.put("adj.ppl", 44);
+		LEXFILE_TO_NUM.put("contrib.colloq", 50);
+		LEXFILE_TO_NUM.put("contrib.plwn", 51);
 	}
 
 	/**

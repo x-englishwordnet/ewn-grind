@@ -2,6 +2,8 @@ package org.ewn.grind;
 
 public class CompatException extends Exception
 {
+	private static final long serialVersionUID = 1091637245877106012L;
+
 	public CompatException(String message)
 	{
 		super(message);
