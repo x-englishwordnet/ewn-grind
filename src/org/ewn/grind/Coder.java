@@ -153,6 +153,10 @@ public class Coder
 						return ";u";
 					case HAS_DOMAIN_USAGE:
 						return "-u";
+//					case SIMILAR:
+//						if (Flags.POINTER_COMPAT)
+//							throw new IllegalArgumentException(type + " for " + pos); // NOT DEFINED IN PWN
+//						return SIMILAR;
 					default:
 						break;
 				}

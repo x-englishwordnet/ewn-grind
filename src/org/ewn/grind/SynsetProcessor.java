@@ -162,6 +162,12 @@ public abstract class SynsetProcessor
 				this.incompats.put(cause, count);
 				continue;
 			}
+			catch (IllegalArgumentException e)
+			{
+				String cause = e.getMessage();
+				System.err.printf("Illegal=%s id=%s offset=%d%n", cause, synsetElement.getAttribute("id"), offset);
+				continue;
+			}
 			relations.add(relation);
 		}
 
@@ -228,6 +234,12 @@ public abstract class SynsetProcessor
 					String cause = e.getCause().getMessage();
 					int count = this.incompats.computeIfAbsent(cause, (c) -> 0) + 1;
 					this.incompats.put(cause, count);
+					continue;
+				}
+				catch (IllegalArgumentException e)
+				{
+					String cause = e.getMessage();
+					System.err.printf("Illegal relation %s id=%s offset=%d%n", cause, synsetElement.getAttribute("id"), offset);
 					continue;
 				}
 				relations.add(relation);
