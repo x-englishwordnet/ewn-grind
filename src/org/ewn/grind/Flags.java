@@ -1,5 +1,8 @@
 package org.ewn.grind;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 /**
  * This class groups settings flags that affect the grinder's behaviour.
  *
@@ -16,6 +19,11 @@ public class Flags
 	 * Compat mode switch that does not allow pointers beyond those used in PWN.
 	 */
 	public static  boolean POINTER_COMPAT = false;
+
+	/**
+	 * Character set for output files.
+	 */
+	public static Charset charSet = StandardCharsets.UTF_8;
 
 	private Flags()
 	{

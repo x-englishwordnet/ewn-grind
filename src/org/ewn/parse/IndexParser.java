@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.ewn.grind.Flags;
 import org.ewn.pojos.CoreIndex;
 import org.ewn.pojos.ParsePojoException;
 
@@ -45,7 +46,7 @@ public class IndexParser
 
 		// iterate on lines
 		final File file = new File(dir, "index." + posName);
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file))))
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), Flags.charSet)))
 		{
 			long indexCount = 0;
 			int lineCount = 0;

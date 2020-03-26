@@ -41,7 +41,7 @@ public class DataGrinder extends SynsetProcessor
 	public void makeData(PrintStream ps, String xpath) throws XPathExpressionException
 	{
 		ps.print(Formatter.PRINCETON_HEADER);
-		long offset = Formatter.PRINCETON_HEADER.length();
+		long offset = Formatter.PRINCETON_HEADER.getBytes(Flags.charSet).length;
 		Element previous = null;
 
 		// iterate synset elements
@@ -66,7 +66,7 @@ public class DataGrinder extends SynsetProcessor
 			String line = getData(synsetElement, offset);
 			ps.print(line);
 
-			offset += line.length();
+			offset += line.getBytes(Flags.charSet).length;
 			previous = synsetElement;
 		}
 

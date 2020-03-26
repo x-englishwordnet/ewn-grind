@@ -1,5 +1,6 @@
 package org.ewn.grind;
 
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class OffsetFactory extends SynsetProcessor
 	 */
 	public void compute(String xpath, Map<String, Long> offsets) throws XPathExpressionException
 	{
-		long offset = Formatter.PRINCETON_HEADER.length();
+		long offset = Formatter.PRINCETON_HEADER.getBytes(Flags.charSet).length;
 
 		// iterate synset elements
 		NodeList synsetNodes = XmlUtils.getXPathNodeList(xpath, doc);
@@ -57,7 +58,7 @@ public class OffsetFactory extends SynsetProcessor
 			String data = getData(synsetElement, dummyOfs);
 			offsets.put(id, offset);
 
-			offset += data.length();
+			offset += data.getBytes(Flags.charSet).length;
 		}
 		System.err.println("Computed offsets for " + xpath);
 	}

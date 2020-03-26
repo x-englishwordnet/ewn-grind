@@ -1,11 +1,12 @@
 package org.ewn.parse;
 
+import org.ewn.grind.Flags;
+import org.ewn.pojos.ParsePojoException;
+import org.ewn.pojos.Synset;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-
-import org.ewn.pojos.ParsePojoException;
-import org.ewn.pojos.Synset;
 
 /**
  * Synset Parser data.{noun|verb|adj|adv}
@@ -55,15 +56,18 @@ public class DataParser
 			long synsetCount = 0;
 			int lineCount = 0;
 
-			String line;
+			String rawLine;
 			long fileOffset = raFile.getFilePointer();
-			for (; (line = raFile.readLine()) != null; fileOffset = raFile.getFilePointer())
+			for (; (rawLine = raFile.readLine()) != null; fileOffset = raFile.getFilePointer())
 			{
 				lineCount++;
-				if (line.isEmpty() || line.charAt(0) == ' ')
+				if (rawLine.isEmpty() || rawLine.charAt(0) == ' ')
 				{
 					continue;
 				}
+
+				// decode
+				String line = new String(rawLine.getBytes(Flags.charSet));
 
 				// split into fields
 				final String[] lineFields = line.split("\\s+");

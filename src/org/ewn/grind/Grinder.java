@@ -126,22 +126,22 @@ public class Grinder
 	{
 		// Data
 		DataGrinder grinder = new DataGrinder(doc, sensesBySynsetId, synsetsById, sensesById, offsets);
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.noun"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.noun")), true, Flags.charSet.name()))
 		{
 			grinder.makeData(ps, SynsetProcessor.NOUN_SYNSET_XPATH);
 			grinder.report();
 		}
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.verb"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.verb")), true, Flags.charSet.name()))
 		{
 			grinder.makeData(ps, SynsetProcessor.VERB_SYNSET_XPATH);
 			grinder.report();
 		}
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.adj"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.adj")), true, Flags.charSet.name()))
 		{
 			grinder.makeData(ps, SynsetProcessor.ADJ_SYNSET_XPATH);
 			grinder.report();
 		}
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.adv"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "data.adv")), true, Flags.charSet.name()))
 		{
 			grinder.makeData(ps, SynsetProcessor.ADV_SYNSET_XPATH);
 			grinder.report();
@@ -163,19 +163,19 @@ public class Grinder
 	{
 		// Index
 		WordIndexer indexer = new WordIndexer(doc, synsetsById, offsets);
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.noun"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.noun")), true, Flags.charSet.name()))
 		{
 			indexer.makeIndex(ps, WordIndexer.NOUN_LEXENTRIES_XPATH);
 		}
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.verb"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.verb")), true, Flags.charSet.name()))
 		{
 			indexer.makeIndex(ps, WordIndexer.VERB_LEXENTRIES_XPATH);
 		}
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.adj"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.adj")), true, Flags.charSet.name()))
 		{
 			indexer.makeIndex(ps, WordIndexer.ADJ_LEXENTRIES_XPATH);
 		}
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.adv"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.adv")), true, Flags.charSet.name()))
 		{
 			indexer.makeIndex(ps, WordIndexer.ADV_LEXENTRIES_XPATH);
 		}
@@ -192,7 +192,7 @@ public class Grinder
 	public static void indexSenses(File dir, Document doc, //
 			Map<String, Long> offsets) throws IOException
 	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense")), true, Flags.charSet.name()))
 		{
 			new SenseIndexer(doc, offsets).makeIndex(ps);
 		}
@@ -209,19 +209,19 @@ public class Grinder
 	public static void morphs(File dir, Document doc) throws IOException, XPathExpressionException
 	{
 		MorphGrinder grinder = new MorphGrinder(doc);
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "noun.exc"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "noun.exc")), true, Flags.charSet.name()))
 		{
 			grinder.makeMorph(ps, MorphGrinder.NOUN_LEXENTRIES_XPATH);
 		}
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "verb.exc"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "verb.exc")), true, Flags.charSet.name()))
 		{
 			grinder.makeMorph(ps, MorphGrinder.VERB_LEXENTRIES_XPATH);
 		}
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "adj.exc"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "adj.exc")), true, Flags.charSet.name()))
 		{
 			grinder.makeMorph(ps, MorphGrinder.ADJ_LEXENTRIES_XPATH);
 		}
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "adv.exc"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "adv.exc")), true, Flags.charSet.name()))
 		{
 			grinder.makeMorph(ps, MorphGrinder.ADV_LEXENTRIES_XPATH);
 		}
@@ -238,7 +238,7 @@ public class Grinder
 	public static void templates(File dir, Document doc) throws IOException, XPathExpressionException
 	{
 		TemplateIndexer indexer = new TemplateIndexer(doc);
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "sentidx.vrb"))))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "sentidx.vrb")), true, Flags.charSet.name()))
 		{
 			indexer.makeIndex(ps);
 		}

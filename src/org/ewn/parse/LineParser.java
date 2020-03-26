@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import org.ewn.grind.Flags;
 import org.ewn.pojos.ParsePojoException;
 import org.ewn.pojos.Synset;
 
@@ -37,7 +38,8 @@ public class LineParser
 		try (final RandomAccessFile raFile = new RandomAccessFile(file, "r"))
 		{
 			raFile.seek(fileOffset);
-			return raFile.readLine();
+			String rawString = raFile.readLine();
+			return new String(rawString.getBytes(Flags.charSet));
 		}
 	}
 

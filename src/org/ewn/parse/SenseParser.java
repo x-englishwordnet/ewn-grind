@@ -1,13 +1,10 @@
 package org.ewn.parse;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
+import org.ewn.grind.Flags;
 import org.ewn.pojos.ParsePojoException;
 import org.ewn.pojos.Sense;
+
+import java.io.*;
 
 /**
  * Sense Parser (index.sense)
@@ -42,7 +39,7 @@ public class SenseParser
 
 		// iterate on lines
 		final File file = new File(dir, "index.sense");
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file))))
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), Flags.charSet)))
 		{
 			long senseCount = 0;
 			int lineCount = 0;
