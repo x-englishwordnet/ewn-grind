@@ -1,7 +1,10 @@
 /bin
+/target/
+
 /in
 /out
 /out_compat
+/out_contrib/
 
 /data.adj
 /data.adv
@@ -19,4 +22,3 @@
 /adv.exc
 /noun.exc
 /verb.exc
-/target/
