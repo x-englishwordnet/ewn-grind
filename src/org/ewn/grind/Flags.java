@@ -23,7 +23,7 @@ public class Flags
 	/**
 	 * Character set for output files.
 	 */
-	public static Charset charSet = StandardCharsets.UTF_8;
+	public static final Charset charSet = StandardCharsets.UTF_8;
 
 	private Flags()
 	{
