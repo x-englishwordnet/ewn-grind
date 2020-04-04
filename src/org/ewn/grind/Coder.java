@@ -138,7 +138,9 @@ public class Coder
 					case ATTRIBUTE:
 						return "=";
 					case PERTAINYM:
-						return "\\"; //NS
+						return "\\"; // NOT DEFINED IN PWN
+					case ALSO:
+						return "^";  // NOT DEFINED IN PWN
 					case DERIVATION:
 						return "+";
 					case DOMAIN_TOPIC:
@@ -246,9 +248,9 @@ public class Coder
 					case ATTRIBUTE:
 						return "=";
 					case ALSO:
-						return "^";
+						return "^"; // NOT DEFINED IN PWN
 					case DERIVATION:
-						return "+"; //NS
+						return "+"; // NOT DEFINED IN PWN
 
 					case DOMAIN_TOPIC:
 						return ";c";
@@ -286,6 +288,8 @@ public class Coder
 						return "!";
 					case PERTAINYM:
 						return "\\"; // NS
+					case ALSO:
+						return "^";
 					case DERIVATION:
 						return "+";
 
