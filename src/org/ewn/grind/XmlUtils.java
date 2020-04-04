@@ -124,7 +124,7 @@ class XmlUtils
 	 * @return first child element having 'tag' tag
 	 */
 	// @Nullable
-	static Element getFirstChildElement(Element element, String tag)
+	static Element getUniqueChildElement(Element element, String tag)
 	{
 		NodeList nodeList = element.getElementsByTagName(tag);
 		if (nodeList.getLength() == 1)
@@ -133,7 +133,27 @@ class XmlUtils
 			assert node.getNodeType() == Node.ELEMENT_NODE;
 			return (Element) node;
 		}
-		return null;
+		throw new IllegalArgumentException("Element " + element.getAttribute("id") + " has not a unique child with tag " + tag + " count="  + nodeList.getLength());
+	}
+
+	/**
+	 * Get first child element
+	 *
+	 * @param element parent element
+	 * @param tag child tag
+	 * @return first child element having 'tag' tag
+	 */
+	// @Nullable
+	static Element getFirstChildElement(Element element, String tag)
+	{
+		NodeList nodeList = element.getElementsByTagName(tag);
+		if (nodeList.getLength() >= 1)
+		{
+			Node node = nodeList.item(0);
+			assert node.getNodeType() == Node.ELEMENT_NODE;
+			return (Element) node;
+		}
+		throw new IllegalArgumentException("Element " + element.getAttribute("id") + " has no child with tag " + tag);
 	}
 
 	/**

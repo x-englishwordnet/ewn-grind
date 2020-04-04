@@ -130,6 +130,8 @@ public abstract class SynsetProcessor
 		char pos = synsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
 
 		// definition and examples
+		// TODO relaxing
+		// Element definitionElement = XmlUtils.getUniqueChildElement(synsetElement, XmlNames.DEFINITION_TAG);
 		Element definitionElement = XmlUtils.getFirstChildElement(synsetElement, XmlNames.DEFINITION_TAG);
 		List<Element> exampleElements = XmlUtils.getChildElements(synsetElement, XmlNames.EXAMPLE_TAG);
 
@@ -165,7 +167,7 @@ public abstract class SynsetProcessor
 			catch (IllegalArgumentException e)
 			{
 				String cause = e.getMessage();
-				System.err.printf("Illegal=%s id=%s offset=%d%n", cause, synsetElement.getAttribute("id"), offset);
+				System.err.printf("Illegal relation %s id=%s offset=%d%n", cause, synsetElement.getAttribute("id"), offset);
 				continue;
 			}
 			relations.add(relation);
@@ -186,7 +188,7 @@ public abstract class SynsetProcessor
 			Element lexEntryElement = (Element) lexEntryNode;
 
 			// lemma element
-			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
+			Element lemmaElement = XmlUtils.getUniqueChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
 			assert lemmaElement != null;
 			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 			lemmas.add(lemma);
@@ -275,7 +277,7 @@ public abstract class SynsetProcessor
 			Node lexEntryNode = senseElement.getParentNode();
 			assert lexEntryNode.getNodeType() == Node.ELEMENT_NODE;
 			Element lexEntryElement = (Element) lexEntryNode;
-			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
+			Element lemmaElement = XmlUtils.getUniqueChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
 			assert lemmaElement != null;
 			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 			lemmas.add(lemma);
@@ -301,7 +303,7 @@ public abstract class SynsetProcessor
 		Node targetLexEntryNode = targetSenseElement.getParentNode();
 		assert targetLexEntryNode.getNodeType() == Node.ELEMENT_NODE;
 		Element targetLexEntryElement = (Element) targetLexEntryNode;
-		Element targetLemmaElement = XmlUtils.getFirstChildElement(targetLexEntryElement, XmlNames.LEMMA_TAG);
+		Element targetLemmaElement = XmlUtils.getUniqueChildElement(targetLexEntryElement, XmlNames.LEMMA_TAG);
 		assert targetLemmaElement != null;
 		String targetLemma = targetLemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 

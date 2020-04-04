@@ -79,7 +79,7 @@ public class MorphGrinder
 			assert lexEntryNode.getNodeType() == Node.ELEMENT_NODE;
 			Element lexEntryElement = (Element) lexEntryNode;
 
-			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
+			Element lemmaElement = XmlUtils.getUniqueChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
 			assert lemmaElement != null;
 			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 

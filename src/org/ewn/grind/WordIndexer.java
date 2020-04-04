@@ -104,7 +104,7 @@ public class WordIndexer
 			Element lexEntryElement = (Element) lexEntryNode;
 
 			// lemma, pos
-			Element lemmaElement = XmlUtils.getFirstChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
+			Element lemmaElement = XmlUtils.getUniqueChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
 			assert lemmaElement != null;
 			String form = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 			String key = Formatter.escape(form.toLowerCase());
