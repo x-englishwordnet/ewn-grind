@@ -44,6 +44,8 @@ public class XmlNames
 
 	static final String N_ATTR = "n";
 
+	static final String ORDER_ATTR = "order";
+
 	static final String POS_ATTR = "partOfSpeech";
 
 	static final String WRITTENFORM_ATTR = "writtenForm";

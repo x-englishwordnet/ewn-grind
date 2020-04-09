@@ -20,7 +20,9 @@ public class Data
 
 		protected final int lexid;
 
-		public Word(String lemma, int lexid)
+		public final int order;
+
+		public Word(String lemma, int lexid, int order)
 		{
 			super();
 			this.lemma = lemma;
@@ -32,6 +34,7 @@ public class Data
 			}
 			else
 				this.lexid = lexid;
+			this.order = order;
 		}
 
 		@Override
@@ -49,9 +52,9 @@ public class Data
 	{
 		private final String position;
 
-		public AdjWord(String lemma, int lexid, String position)
+		public AdjWord(String lemma, int lexid, int order, String position)
 		{
-			super(lemma, lexid);
+			super(lemma, lexid, order);
 			this.position = position;
 		}
 
