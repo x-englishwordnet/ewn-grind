@@ -124,7 +124,7 @@ class XmlUtils
 	 * @return first child element having 'tag' tag
 	 */
 	// @Nullable
-	static Element getUniqueChildElement(Element element, String tag)
+	static Element getUniqueChildElement(Element element, @SuppressWarnings("SameParameterValue") String tag)
 	{
 		NodeList nodeList = element.getElementsByTagName(tag);
 		if (nodeList.getLength() == 1)
@@ -144,7 +144,7 @@ class XmlUtils
 	 * @return first child element having 'tag' tag
 	 */
 	// @Nullable
-	static Element getFirstChildElement(Element element, String tag)
+	static Element getFirstChildElement(Element element, @SuppressWarnings("SameParameterValue") String tag)
 	{
 		NodeList nodeList = element.getElementsByTagName(tag);
 		if (nodeList.getLength() >= 1)

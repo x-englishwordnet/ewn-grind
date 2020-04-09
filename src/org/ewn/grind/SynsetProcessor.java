@@ -1,9 +1,6 @@
 package org.ewn.grind;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.ToLongFunction;
 
@@ -252,7 +249,7 @@ public abstract class SynsetProcessor
 		}
 
 		// assemble
-		words.sort((Word w1, Word w2) -> Integer.compare(w1.order, w2.order));
+		words.sort(Comparator.comparingInt((Word w) -> w.order));
 		String members = Formatter.joinNum(words, "%02x");
 		String related = Formatter.joinNum(relations, "%03d");
 		String verbframes = frames.size() < 1 ? "" : ' ' + joinFrames(frames, words.size());
