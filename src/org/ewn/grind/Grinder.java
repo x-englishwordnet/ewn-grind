@@ -192,9 +192,13 @@ public class Grinder
 	public static void indexSenses(File dir, Document doc, //
 			Map<String, Long> offsets) throws IOException
 	{
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense")), true, Flags.charSet.name()))
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense.cased")), true, Flags.charSet.name()))
 		{
 			new SenseIndexer(doc, offsets).makeIndex(ps);
+		}
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense")), true, Flags.charSet.name()))
+		{
+			new SenseIndexer(doc, offsets).makeIndexCompat(ps);
 		}
 	}
 
