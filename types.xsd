@@ -171,8 +171,6 @@
 			<xsd:enumeration value='verb.social' />
 			<xsd:enumeration value='verb.stative' />
 			<xsd:enumeration value='verb.weather' />
-			<xsd:enumeration value='contrib.colloq' />
-			<xsd:enumeration value='contrib.plwn' />
 		</xsd:restriction>
 	</xsd:simpleType>
 
