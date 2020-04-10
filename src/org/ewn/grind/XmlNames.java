@@ -66,7 +66,7 @@ public class XmlNames
 
 	static final String VERBTEMPLATES_ATTR = "verbTemplates";
 
-	static final String ADJPOSITION_ATTR = "adjPosition";
+	static final String ADJPOSITION_ATTR = "adjposition"; // "adjPosition"
 
 	static final String TAGCOUNT_ATTR = "tagCnt";
 }
