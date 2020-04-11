@@ -1,13 +1,20 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.gwn</groupId>
+
+	<groupId>io.github.x-englishwordnet</groupId>
 	<artifactId>grind</artifactId>
 	<version>1.0.0</version>
-	<name>grinder</name>
-	<description>Global WordNet grind</description>
+	<packaging>pom</packaging>
+	<name>grind</name>
+	<description>Grind English WordNet into WNDB.</description>
+	<url>https://github.com/x-englishwordnet/grind</url>
+
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -17,6 +24,7 @@
 					<target>8</target>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -30,6 +38,7 @@
 					</execution>
 				</executions>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -43,10 +52,66 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 
 	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+	<scm>
+		<url>https://github.com/x-englishwordnet/grind</url>
+		<connection>scm:git:git://github.com/x-englishwordnet/grind.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:x-englishwordnet/grind.git</developerConnection>
+	</scm>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/x-englishwordnet/grind/issues</url>
+	</issueManagement>
+
+	<licenses>
+		<license>
+			<name>GPL 3.0</name>
+			<url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>com.github.x-englishwordnet</name>
+		<url>https://github.com/x-englishwordnet</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<name>Bernard Bou</name>
+			<id>bbou</id>
+			<email>1313ou@gmail.com</email>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+	</developers>
+
 </project>
