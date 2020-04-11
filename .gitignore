@@ -6,19 +6,3 @@
 /out_compat
 /out_contrib/
 
-/data.adj
-/data.adv
-/data.noun
-/data.verb
-
-/index.adj
-/index.adv
-/index.noun
-/index.verb
-
-/index.sense
-
-/adj.exc
-/adv.exc
-/noun.exc
-/verb.exc
