@@ -12,7 +12,6 @@
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
         <file path="/ewn-grind/pwn.xsd"/>
-        <javaElement handleIdentifier="=ewn-grind/src&lt;org.ewn.pojos"/>
         <file path="/ewn-grind/pom.xml"/>
         <file path="/ewn-grind/ewn-wordtypes.xsd"/>
         <file path="/ewn-grind/types-1.10.xsd"/>
@@ -22,7 +21,6 @@
         <file path="/ewn-grind/ewn-idtypes-relax_idrefs.xsd"/>
         <file path="/ewn-grind/ewn-idtypes-1.10-relax_idrefs.xsd"/>
         <file path="/ewn-grind/dc.xsd"/>
-        <javaElement handleIdentifier="=ewn-grind/src&lt;org.ewn.parse"/>
         <file path="/ewn-grind/core-1.10.xsd"/>
         <javaElement handleIdentifier="=ewn-grind/src&lt;org.ewn.grind"/>
         <file path="/ewn-grind/ili.xsd"/>
