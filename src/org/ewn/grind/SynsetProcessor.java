@@ -126,9 +126,11 @@ public abstract class SynsetProcessor
 		char pos = synsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
 
 		// definition and examples
-		// TODO relaxing
 		// Element definitionElement = XmlUtils.getUniqueChildElement(synsetElement, XmlNames.DEFINITION_TAG);
-		Element definitionElement = XmlUtils.getFirstChildElement(synsetElement, XmlNames.DEFINITION_TAG);
+		// allow multiple definitions
+		// Element definitionElement = XmlUtils.getFirstChildElement(synsetElement, XmlNames.DEFINITION_TAG);
+		// and join them
+		List<Element> definitionElements = XmlUtils.getChildElements(synsetElement, XmlNames.DEFINITION_TAG);
 		List<Element> exampleElements = XmlUtils.getChildElements(synsetElement, XmlNames.EXAMPLE_TAG);
 
 		// lexfile num
@@ -253,8 +255,8 @@ public abstract class SynsetProcessor
 		String members = Formatter.joinNum(words, "%02x");
 		String related = Formatter.joinNum(relations, "%03d");
 		String verbframes = frames.size() < 1 ? "" : ' ' + joinFrames(frames, words.size());
-		assert definitionElement != null;
-		String definition = definitionElement.getTextContent();
+		assert definitionElements != null;
+		String definition = Formatter.join(definitionElements, "; ", false, Element::getTextContent);
 		String examples = exampleElements == null || exampleElements.isEmpty() ? "" : "; " + Formatter.join(exampleElements, ' ', false, Element::getTextContent);
 		return String.format(SYNSET_FORMAT, offset, lexfilenum, pos, members, related, verbframes, definition, examples);
 	}
