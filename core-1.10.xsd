@@ -96,6 +96,9 @@
 			<xsd:attribute name='verbFrames' type='LocalSyntacticBehaviourIDREFSType' use='optional' />
 			<xsd:attribute name='verbTemplates' type='LocalSyntacticBehaviourIDREFSType' use='optional' />
 			<xsd:attribute name='adjposition' type='AdjPositionType' use='optional' />
+			<xsd:attribute name='adjPosition' type='AdjPositionType' use='optional' />
+			<xsd:attribute name='adjIsHead' type='xsd:boolean' use='optional' default='false' />
+			<xsd:attribute name='adjHead' type='LemmaType' use='optional' />
 			<xsd:attribute name='tagCnt' type='TagCntType' default='0' use='optional' />
 			<xsd:attribute name='lexicalized' type='xsd:boolean' default='true' use='optional' />
 			<xsd:attribute ref='dc:identifier' use='optional' />
