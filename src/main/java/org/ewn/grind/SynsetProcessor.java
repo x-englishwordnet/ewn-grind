@@ -1,9 +1,5 @@
 package org.ewn.grind;
 
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.function.ToLongFunction;
-
 import org.ewn.grind.Data.AdjWord;
 import org.ewn.grind.Data.Frame;
 import org.ewn.grind.Data.Relation;
@@ -12,6 +8,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.function.ToLongFunction;
 
 /**
  * This abstract class iterates over the synset elements to produce a line of data. The real classes implement some functions differently.
@@ -88,15 +88,23 @@ public abstract class SynsetProcessor
 	protected final Map<String, Integer> incompats;
 
 	/**
+	 * Log error flag (avoid duplicate messages)
+	 *
+	 * @return whether to log errors
+	 */
+	protected abstract boolean log();
+
+	/**
 	 * Constructor
 	 *
-	 * @param doc W3C document
+	 * @param doc              W3C document
 	 * @param sensesBySynsetId map of sense elements indexed with key=synsetId
-	 * @param synsetsById synset elements mapped by id
-	 * @param sensesById sense elements mapped by id
-	 * @param offsetFunction function that, when applied to a synsetId, yields the synset offset in the data files. May be dummy constant function.
+	 * @param synsetsById      synset elements mapped by id
+	 * @param sensesById       sense elements mapped by id
+	 * @param offsetFunction   function that, when applied to a synsetId, yields the synset offset in the data files. May be dummy constant function.
 	 */
-	public SynsetProcessor(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById, ToLongFunction<String> offsetFunction)
+	public SynsetProcessor(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById,
+			ToLongFunction<String> offsetFunction)
 	{
 		this.doc = doc;
 		this.sensesBySynsetId = sensesBySynsetId;
@@ -107,10 +115,64 @@ public abstract class SynsetProcessor
 	}
 
 	/**
+	 * Intermediate class to detect duplicates
+	 */
+	static class XMLRelation implements Comparable<XMLRelation>
+	{
+		public final boolean isSenseRelation;
+		public final String relType;
+		public final String target;
+
+		XMLRelation(boolean isSenseRelation, String relType, String target)
+		{
+			this.isSenseRelation = isSenseRelation;
+			this.relType = relType;
+			this.target = target;
+		}
+
+		// identity
+
+		@Override public boolean equals(Object other)
+		{
+			if (this == other)
+				return true;
+			if (other == null || getClass() != other.getClass())
+				return false;
+			XMLRelation that = (XMLRelation) other;
+			return isSenseRelation == that.isSenseRelation && Objects.equals(relType, that.relType) && Objects.equals(target, that.target);
+		}
+
+		@Override public int hashCode()
+		{
+			return Objects.hash(isSenseRelation, relType, target);
+		}
+
+		// order
+
+		@Override public int compareTo(XMLRelation other)
+		{
+			int c = Boolean.compare(this.isSenseRelation, other.isSenseRelation);
+			if (c != 0)
+				return c;
+			c = this.relType.compareTo(other.relType);
+			if (c != 0)
+				return c;
+			return this.relType.compareTo(other.relType);
+		}
+
+		// string
+
+		@Override public String toString()
+		{
+			return (this.isSenseRelation ? "SenseRelation" : "SynsetRelation") + " relType=" + this.relType + " target=" + this.target;
+		}
+	}
+
+	/**
 	 * Get data and yield line
 	 *
 	 * @param synsetElement synset element
-	 * @param offset allocated offset for the synset
+	 * @param offset        allocated offset for the synset
 	 * @return line
 	 */
 	protected String getData(Element synsetElement, long offset)
@@ -139,6 +201,7 @@ public abstract class SynsetProcessor
 		// synset relations
 		NodeList semRelationNodes = synsetElement.getElementsByTagName(XmlNames.SYNSETRELATION_TAG);
 		int nSem = semRelationNodes.getLength();
+		Set<XMLRelation> xmlSemRelationSet = new LinkedHashSet<>();
 		for (int r = 0; r < nSem; r++)
 		{
 			Node semRelationNode = semRelationNodes.item(r);
@@ -146,14 +209,23 @@ public abstract class SynsetProcessor
 			Element semRelationElement = (Element) semRelationNode;
 			String type = semRelationElement.getAttribute(XmlNames.RELTYPE_ATTR);
 			String targetSynsetId = semRelationElement.getAttribute(XmlNames.TARGET_ATTR);
-			Element targetSynsetElement = synsetsById.get(targetSynsetId);
+			XMLRelation xmlRelation = new XMLRelation(false, type, targetSynsetId);
+			boolean wasThere = !xmlSemRelationSet.add(xmlRelation);
+			if (wasThere && log())
+			{
+				System.err.printf("[W] Synset %s duplicate %s%n", synsetElement.getAttribute(XmlNames.ID_ATTR), xmlRelation);
+			}
+		}
+		for (XMLRelation xmlRelation : xmlSemRelationSet)
+		{
+			Element targetSynsetElement = synsetsById.get(xmlRelation.target);
 
-			long targetOffset = this.offsetFunction.applyAsLong(targetSynsetId);
+			long targetOffset = this.offsetFunction.applyAsLong(xmlRelation.target);
 			char targetPos = targetSynsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
 			Relation relation;
 			try
 			{
-				relation = new Relation(type, pos, targetPos, targetOffset, 0, 0);
+				relation = new Relation(xmlRelation.relType, pos, targetPos, targetOffset, 0, 0);
 			}
 			catch (CompatException e)
 			{
@@ -164,8 +236,11 @@ public abstract class SynsetProcessor
 			}
 			catch (IllegalArgumentException e)
 			{
-				String cause = e.getMessage();
-				System.err.printf("Illegal relation %s id=%s offset=%d%n", cause, synsetElement.getAttribute("id"), offset);
+				if (log())
+				{
+					String cause = e.getMessage();
+					System.err.printf("Illegal relation %s id=%s offset=%d%n", cause, synsetElement.getAttribute("id"), offset);
+				}
 				continue;
 			}
 			relations.add(relation);
@@ -216,22 +291,31 @@ public abstract class SynsetProcessor
 			// sense relations
 			NodeList lexRelationNodes = senseElement.getElementsByTagName(XmlNames.SENSERELATION_TAG);
 			int nLex = lexRelationNodes.getLength();
+			Set<XMLRelation> xmlLexRelationSet = new LinkedHashSet<>();
 			for (int r = 0; r < nLex; r++)
 			{
 				Node lexRelationNode = lexRelationNodes.item(r);
 				assert lexRelationNode.getNodeType() == Node.ELEMENT_NODE;
 				Element lexRelationElement = (Element) lexRelationNode;
 				String type = lexRelationElement.getAttribute(XmlNames.RELTYPE_ATTR);
-
 				String targetSenseId = lexRelationElement.getAttribute(XmlNames.TARGET_ATTR);
-				Element targetSenseElement = sensesById.get(targetSenseId);
+				XMLRelation xmlRelation = new XMLRelation(true, type, targetSenseId);
+				boolean wasThere = !xmlLexRelationSet.add(xmlRelation);
+				if (wasThere && log())
+				{
+					System.err.printf("[W] Sense %s duplicate %s%n", senseElement.getAttribute(XmlNames.ID_ATTR), xmlRelation);
+				}
+			}
+			for (XMLRelation xmlRelation : xmlLexRelationSet)
+			{
+				Element targetSenseElement = sensesById.get(xmlRelation.target);
 				String targetSynsetId = targetSenseElement.getAttribute(XmlNames.SYNSET_ATTR);
 				Element targetSynsetElement = synsetsById.get(targetSynsetId);
 
 				Relation relation;
 				try
 				{
-					relation = buildLexRelation(type, pos, lemmaIndex, targetSenseElement, targetSynsetElement, targetSynsetId);
+					relation = buildLexRelation(xmlRelation.relType, pos, lemmaIndex, targetSenseElement, targetSynsetElement, targetSynsetId);
 				}
 				catch (CompatException e)
 				{
@@ -257,14 +341,15 @@ public abstract class SynsetProcessor
 		String verbframes = frames.size() < 1 ? "" : ' ' + joinFrames(frames, words.size());
 		assert definitionElements != null;
 		String definition = Formatter.join(definitionElements, "; ", false, Element::getTextContent);
-		String examples = exampleElements == null || exampleElements.isEmpty() ? "" : "; " + Formatter.join(exampleElements, ' ', false, Element::getTextContent);
+		String examples =
+				exampleElements == null || exampleElements.isEmpty() ? "" : "; " + Formatter.join(exampleElements, ' ', false, Element::getTextContent);
 		return String.format(SYNSET_FORMAT, offset, lexfilenum, pos, members, related, verbframes, definition, examples);
 	}
 
 	/**
 	 * Collect lemmas that are member of this synset
 	 *
-	 * @param synsetElement synset element
+	 * @param synsetElement    synset element
 	 * @param sensesBySynsetId senses by synsetId
 	 * @return array of lemmas
 	 */
@@ -291,16 +376,17 @@ public abstract class SynsetProcessor
 	/**
 	 * Build relation
 	 *
-	 * @param type relation type
-	 * @param pos part of speech
-	 * @param lemmaIndex lemmaIndex
-	 * @param targetSenseElement target sense element
+	 * @param type                relation type
+	 * @param pos                 part of speech
+	 * @param lemmaIndex          lemmaIndex
+	 * @param targetSenseElement  target sense element
 	 * @param targetSynsetElement target synset element
-	 * @param targetSynsetId target synsetid
+	 * @param targetSynsetId      target synsetid
 	 * @return relation
 	 * @throws CompatException when relation is not legacy compatible
 	 */
-	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId) throws CompatException
+	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId)
+			throws CompatException
 	{
 		Node targetLexEntryNode = targetSenseElement.getParentNode();
 		assert targetLexEntryNode.getNodeType() == Node.ELEMENT_NODE;
@@ -331,7 +417,7 @@ public abstract class SynsetProcessor
 	/**
 	 * Join frames, if a frame applies to all words, then wordCount is zeroed
 	 *
-	 * @param frames list of frames mapped per given frameNum
+	 * @param frames    list of frames mapped per given frameNum
 	 * @param wordCount word count in synset
 	 * @return formatted verb frames
 	 */

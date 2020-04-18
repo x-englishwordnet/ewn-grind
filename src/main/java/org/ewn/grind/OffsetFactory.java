@@ -34,6 +34,15 @@ public class OffsetFactory extends SynsetProcessor
 	}
 
 	/**
+	 * Log things as this is the first pass
+	 */
+	@Override
+	protected boolean log()
+	{
+		return true;
+	}
+
+	/**
 	 * Compute synset offsets
 	 *
 	 * @param xpath selection of synset elements
