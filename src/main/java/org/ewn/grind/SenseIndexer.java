@@ -6,11 +6,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.PrintStream;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class SenseIndexer
 {
 	// sense_key synset_offset sense_number tag_cnt
+
+	Comparator<String> lexicalComparator = (s1, s2) -> {
+		int c = s1.compareToIgnoreCase(s2);
+		if (c != 0)
+			return c;
+		return -s1.compareTo(s2);
+	};
 
 	/**
 	 * W3C document
@@ -43,7 +53,7 @@ public class SenseIndexer
 	 */
 	public void makeIndex(PrintStream ps)
 	{
-		SortedSet<String> lines = new TreeSet<>();
+		SortedSet<String> lines = new TreeSet<>(lexicalComparator);
 
 		NodeList senseNodes = doc.getElementsByTagName(XmlNames.SENSE_TAG);
 		int n = senseNodes.getLength();
@@ -82,7 +92,7 @@ public class SenseIndexer
 	 */
 	public void makeIndexCompat(PrintStream ps)
 	{
-		SortedSet<String> lines = new TreeSet<>();
+		SortedSet<String> lines = new TreeSet<>(lexicalComparator);
 
 		NodeList senseNodes = doc.getElementsByTagName(XmlNames.SENSE_TAG);
 		int n = senseNodes.getLength();
