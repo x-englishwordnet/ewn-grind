@@ -200,6 +200,10 @@ public class Grinder
 		{
 			new SenseIndexer(doc, offsets).makeIndexCompat(ps);
 		}
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense.legacy")), true, Flags.charSet.name()))
+		{
+			new SenseIndexer(doc, offsets).makeIndexLegacy(ps);
+		}
 	}
 
 	/**

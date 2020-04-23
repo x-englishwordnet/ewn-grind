@@ -62,6 +62,8 @@ public class XmlNames
 
 	static final String SENSEKEY_ATTR = "sensekey";
 
+	static final String SENSEKEY_LEGACY_ATTR = "identifier";
+
 	static final String VERBFRAMES_ATTR = "verbFrames";
 
 	static final String VERBTEMPLATES_ATTR = "verbTemplates";
