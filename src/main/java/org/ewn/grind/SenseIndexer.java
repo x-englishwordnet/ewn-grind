@@ -6,9 +6,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 
 public class SenseIndexer
 {
@@ -45,7 +43,7 @@ public class SenseIndexer
 	 */
 	public void makeIndex(PrintStream ps)
 	{
-		ArrayList<String> lines = new ArrayList<>();
+		SortedSet<String> lines = new TreeSet<>();
 
 		NodeList senseNodes = doc.getElementsByTagName(XmlNames.SENSE_TAG);
 		int n = senseNodes.getLength();
@@ -69,7 +67,6 @@ public class SenseIndexer
 			String line = String.format("%s %08d %d %d", sensekey, offset, senseNum, tagCount);
 			lines.add(line);
 		}
-		Collections.sort(lines);
 		for (String line : lines)
 		{
 			ps.println(line);
@@ -85,7 +82,7 @@ public class SenseIndexer
 	 */
 	public void makeIndexCompat(PrintStream ps)
 	{
-		ArrayList<String> lines = new ArrayList<>();
+		SortedSet<String> lines = new TreeSet<>();
 
 		NodeList senseNodes = doc.getElementsByTagName(XmlNames.SENSE_TAG);
 		int n = senseNodes.getLength();
@@ -118,7 +115,6 @@ public class SenseIndexer
 				lines.add(line2);
 			}
 		}
-		Collections.sort(lines);
 		for (String line : lines)
 		{
 			ps.println(line);
@@ -134,7 +130,7 @@ public class SenseIndexer
 	 */
 	public void makeIndexLegacy(PrintStream ps)
 	{
-		ArrayList<String> lines = new ArrayList<>();
+		SortedSet<String> lines = new TreeSet<>();
 
 		NodeList senseNodes = doc.getElementsByTagName(XmlNames.SENSE_TAG);
 		int n = senseNodes.getLength();
@@ -160,7 +156,6 @@ public class SenseIndexer
 			String line = String.format("%s %08d %d %d", sensekeyLower, offset, senseNum, tagCount);
 			lines.add(line);
 		}
-		Collections.sort(lines);
 		for (String line : lines)
 		{
 			ps.println(line);
