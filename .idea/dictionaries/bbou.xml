@@ -1,6 +1,7 @@
 <component name="ProjectDictionaryState">
   <dictionary name="bbou">
     <words>
+      <w>adjposition</w>
       <w>adjsat</w>
       <w>affero</w>
       <w>auspex</w>
@@ -49,6 +50,7 @@
       <w>relicensing</w>
       <w>reltype</w>
       <w>semantical</w>
+      <w>senseid</w>
       <w>senseidx</w>
       <w>sensekey</w>
       <w>sensekeys</w>
@@ -69,6 +71,7 @@
       <w>tagcnt</w>
       <w>tagcount</w>
       <w>verbframes</w>
+      <w>verbtemplates</w>
       <w>wipo</w>
       <w>wndb</w>
       <w>wnhome</w>

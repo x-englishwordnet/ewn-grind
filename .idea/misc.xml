@@ -12,6 +12,7 @@
       <entry_point TYPE="field" FQNAME="org.ewn.pojos.Lemma serialVersionUID" />
       <entry_point TYPE="field" FQNAME="org.ewn.pojos.NormalizedString serialVersionUID" />
       <entry_point TYPE="field" FQNAME="org.ewn.pojos.ParsePojoException serialVersionUID" />
+      <entry_point TYPE="field" FQNAME="org.ewn.grind.CompatException serialVersionUID" />
     </entry_points>
     <pattern value="org.ewn.pojos.AdjLemma" />
     <pattern value="org.ewn.pojos.AdjPosition" />
@@ -121,6 +122,9 @@
     <pattern value="org.ewn.pojos.Sensekey" method="Sensekey" />
     <pattern value="org.ewn.grind.CompatException" />
     <pattern value="org.ewn.grind.CompatException" method="CompatException" />
+    <pattern value="org.ewn.grind.XmlUtils" method="getFirstChildElement" />
+    <pattern value="org.ewn.grind.XmlUtils" />
+    <pattern value="org.ewn.grind.XmlUtils" method="XmlUtils" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
