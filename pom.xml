@@ -7,7 +7,7 @@
 	<artifactId>grind</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>grind</name>
-	<description>Grind English WordNet into WNDB.</description>
+	<description>Grind X-English WordNet into WNDB.</description>
 	<url>https://github.com/x-englishwordnet/grind</url>
 
 	<build>
