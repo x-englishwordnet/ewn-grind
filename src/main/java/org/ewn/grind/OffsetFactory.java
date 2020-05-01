@@ -39,7 +39,7 @@ public class OffsetFactory extends SynsetProcessor
 	@Override
 	protected boolean log()
 	{
-		return true;
+		return false;
 	}
 
 	/**
