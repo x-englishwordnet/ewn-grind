@@ -1,14 +1,13 @@
 package org.ewn.grind;
 
-import java.io.PrintStream;
-import java.util.*;
-
-import javax.xml.xpath.XPathExpressionException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import javax.xml.xpath.XPathExpressionException;
+import java.io.PrintStream;
+import java.util.*;
 
 /**
  * This class produces the index.{noun|verb|adj|adv} files
@@ -33,7 +32,8 @@ public class WordIndexer
 	 * XPath for adj lexical entry elements
 	 */
 	public static final String ADJ_LEXENTRIES_XPATH = String.format("/%s/%s/%s[%s/@%s='a' or %s/@%s='s']", //
-			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR);
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.LEMMA_TAG,
+			XmlNames.POS_ATTR);
 
 	/**
 	 * XPath for adv lexical entry elements
@@ -59,9 +59,9 @@ public class WordIndexer
 	/**
 	 * Constructor
 	 *
-	 * @param doc W3C document
+	 * @param doc         W3C document
 	 * @param synsetsById map of synset elements indexed by their synset id key
-	 * @param offsets offsets indexed by synset id key
+	 * @param offsets     offsets indexed by synset id key
 	 */
 	public WordIndexer(Document doc, Map<String, Element> synsetsById, Map<String, Long> offsets)
 	{
@@ -72,27 +72,34 @@ public class WordIndexer
 
 	private static class IndexData
 	{
-		String pos;
+		private String pos;
 
 		final Set<String> synsetIds = new LinkedHashSet<>();
 
 		final Set<String> relationPointers = new TreeSet<>();
+
+		public String getPos()
+		{
+			if ("s".equals(pos))
+				return "a";
+			return pos;
+		}
 	}
 
 	/**
 	 * Make index
 	 *
-	 * @param ps print stream
+	 * @param ps    print stream
 	 * @param xpath xpath for lexical entry nodes
 	 * @throws XPathExpressionException xpath
 	 */
 	public void makeIndex(PrintStream ps, String xpath) throws XPathExpressionException
 	{
-		Map<String,Integer> incompats = new HashMap<>();
+		Map<String, Integer> incompats = new HashMap<>();
 
 		ps.print(Formatter.PRINCETON_HEADER);
 
-		// collect lines in a set to avoid duplicate lines that arise from lowercasing of lemma
+		// collect lines in a set to avoid duplicate lines that arise from lower casing of lemma
 		Map<String, IndexData> indexEntries = new TreeMap<>();
 
 		NodeList lexEntryNodes = XmlUtils.getXPathNodeList(xpath, doc);
@@ -157,9 +164,9 @@ public class WordIndexer
 					}
 					catch (IllegalArgumentException e)
 					{
-						String cause = e.getMessage();
+						String cause = e.getClass().getName() + ' ' + e.getMessage();
 						System.err.printf("Illegal relation %s id=%s%n", cause, synsetElement.getAttribute("id"));
-						continue;
+						throw e;
 					}
 					data.relationPointers.add(pointer);
 				}
@@ -198,9 +205,9 @@ public class WordIndexer
 			IndexData data = indexEntry.getValue();
 			int nSenses = data.synsetIds.size();
 
-			String ptrs = Formatter.joinNum(data.relationPointers, "%d");
+			String ptrs = Formatter.joinNum(data.relationPointers, "%d", String::toString);
 			String ofs = String.format("%d %d %s", nSenses, 0, Formatter.join(data.synsetIds, ' ', false, s -> String.format("%08d", offsets.get(s))));
-			String line = String.format("%s %s %d %s %s", key, data.pos, nSenses, ptrs, ofs);
+			String line = String.format("%s %s %d %s %s", key, data.getPos(), nSenses, ptrs, ofs);
 			ps.println(line);
 			count++;
 		}
