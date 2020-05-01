@@ -15,7 +15,7 @@ public class SenseIndexer
 {
 	// sense_key synset_offset sense_number tag_cnt
 
-	Comparator<String> lexicalComparator = (s1, s2) -> {
+	final Comparator<String> lexicalComparator = (s1, s2) -> {
 		int c = s1.compareToIgnoreCase(s2);
 		if (c != 0)
 			return c;

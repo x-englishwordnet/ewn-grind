@@ -1,16 +1,12 @@
 package org.ewn.grind;
 
-import org.ewn.grind.Data.AdjWord;
-import org.ewn.grind.Data.Frame;
-import org.ewn.grind.Data.Relation;
-import org.ewn.grind.Data.Word;
+import org.ewn.grind.Data.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.function.ToLongFunction;
 
 /**
@@ -168,6 +164,42 @@ public abstract class SynsetProcessor
 		}
 	}
 
+	private Members buildMembers(List<Element> senseElements)
+	{
+		Members members = new Members();
+		assert !senseElements.isEmpty();
+		for (Element senseElement : senseElements)
+		{
+			Member member = buildMember(senseElement);
+			members.add(member);
+		}
+		return members;
+	}
+
+	private Member buildMember(Element senseElement)
+	{
+		// lexid attribute
+		String orderAttr = senseElement.getAttribute(XmlNames.ORDER_ATTR);
+		int order = orderAttr.isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(orderAttr);
+
+		// lexid attribute
+		int lexid = Integer.parseInt(senseElement.getAttribute(XmlNames.LEXID_ATTR));
+		String adjPosition = senseElement.getAttribute(XmlNames.ADJPOSITION_ATTR);
+
+		// lexical entry element
+		Node lexEntryNode = senseElement.getParentNode();
+		assert lexEntryNode.getNodeType() == Node.ELEMENT_NODE;
+		Element lexEntryElement = (Element) lexEntryNode;
+
+		// lemma element
+		Element lemmaElement = XmlUtils.getUniqueChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
+		assert lemmaElement != null;
+		String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
+
+		String escaped = Formatter.escape(lemma);
+		return adjPosition.isEmpty() ? new Member(escaped, lexid, order) : new AdjMember(escaped, lexid, order, adjPosition);
+	}
+
 	/**
 	 * Get data and yield line
 	 *
@@ -179,13 +211,18 @@ public abstract class SynsetProcessor
 	{
 		// init
 		List<Relation> relations = new ArrayList<>();
-		List<String> lemmas = new ArrayList<>();
-		List<Word> words = new ArrayList<>();
-		Map<Integer, List<Frame>> frames = new HashMap<>();
+		Frames frames = new Frames();
 
 		// attribute data
 		String synsetId = synsetElement.getAttribute(XmlNames.ID_ATTR);
 		char pos = synsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
+
+		// senses
+		List<Element> senseElements = sensesBySynsetId.get(synsetId);
+		assert !senseElements.isEmpty();
+
+		// build members ordered set
+		Members members = buildMembers(senseElements);
 
 		// definition and examples
 		// Element definitionElement = XmlUtils.getUniqueChildElement(synsetElement, XmlNames.DEFINITION_TAG);
@@ -238,41 +275,20 @@ public abstract class SynsetProcessor
 			{
 				if (log())
 				{
-					String cause = e.getMessage();
+					String cause = e.getClass().getName() + ' ' + e.getMessage();
 					System.err.printf("Illegal relation %s id=%s offset=%d%n", cause, synsetElement.getAttribute("id"), offset);
 				}
-				continue;
+				throw e;
 			}
 			relations.add(relation);
 		}
 
 		// iterate sense elements that have this synset element as target in "synset" attribute
-		List<Element> senseElements = sensesBySynsetId.get(synsetId);
-		assert !senseElements.isEmpty();
 		for (Element senseElement : senseElements)
 		{
-			// lexid attribute
-			String orderAttr = senseElement.getAttribute(XmlNames.ORDER_ATTR);
-			int order = orderAttr.isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(orderAttr);
-
-			// lexid attribute
-			int lexid = Integer.parseInt(senseElement.getAttribute(XmlNames.LEXID_ATTR));
-			String adjPosition = senseElement.getAttribute(XmlNames.ADJPOSITION_ATTR);
-
-			// lexical entry element
-			Node lexEntryNode = senseElement.getParentNode();
-			assert lexEntryNode.getNodeType() == Node.ELEMENT_NODE;
-			Element lexEntryElement = (Element) lexEntryNode;
-
-			// lemma element
-			Element lemmaElement = XmlUtils.getUniqueChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
-			assert lemmaElement != null;
-			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
-			lemmas.add(lemma);
-			int lemmaIndex = lemmas.indexOf(lemma) + 1;
-			String escaped = Formatter.escape(lemma);
-			Word word = adjPosition.isEmpty() ? new Word(escaped, lexid, order) : new AdjWord(escaped, lexid, order, adjPosition);
-			words.add(word);
+			// member
+			Member member = buildMember(senseElement);
+			int memberIndex = members.indexOf(member) + 1;
 
 			// verb frames attribute
 			String syntacticBehaviour = senseElement.getAttribute(XmlNames.VERBFRAMES_ATTR);
@@ -282,9 +298,8 @@ public abstract class SynsetProcessor
 				for (String syntacticBehaviourId : syntacticBehaviours)
 				{
 					String frameNum = syntacticBehaviourId.substring(7);
-					Frame frame = new Frame(Integer.parseInt(frameNum), lemmaIndex);
-					List<Frame> frames2 = frames.computeIfAbsent(frame.frameNum, k -> new ArrayList<>());
-					frames2.add(frame);
+					Frame frame = new Frame(Integer.parseInt(frameNum), memberIndex);
+					frames.add(frame);
 				}
 			}
 
@@ -315,7 +330,7 @@ public abstract class SynsetProcessor
 				Relation relation;
 				try
 				{
-					relation = buildLexRelation(xmlRelation.relType, pos, lemmaIndex, targetSenseElement, targetSynsetElement, targetSynsetId);
+					relation = buildLexRelation(xmlRelation.relType, pos, memberIndex, targetSenseElement, targetSynsetElement, targetSynsetId);
 				}
 				catch (CompatException e)
 				{
@@ -326,24 +341,25 @@ public abstract class SynsetProcessor
 				}
 				catch (IllegalArgumentException e)
 				{
-					String cause = e.getMessage();
+					String cause = e.getClass().getName() + ' ' + e.getMessage();
 					System.err.printf("Illegal relation %s id=%s offset=%d%n", cause, synsetElement.getAttribute("id"), offset);
-					continue;
+					throw e;
 				}
 				relations.add(relation);
 			}
 		}
 
 		// assemble
-		words.sort(Comparator.comparingInt((Word w) -> w.order));
-		String members = Formatter.joinNum(words, "%02x");
-		String related = Formatter.joinNum(relations, "%03d");
-		String verbframes = frames.size() < 1 ? "" : ' ' + joinFrames(frames, words.size());
+		String membersData = members.toWndbString();
+		String relatedData = Formatter.joinNum(relations, "%03d", Relation::toWndbString);
+		String verbframesData = frames.toWndbString(members.size());
+		if (!verbframesData.isEmpty())
+			verbframesData = ' ' + verbframesData;
 		assert definitionElements != null;
-		String definition = Formatter.join(definitionElements, "; ", false, Element::getTextContent);
-		String examples =
+		String definitionsData = Formatter.join(definitionElements, "; ", false, Element::getTextContent);
+		String examplesData =
 				exampleElements == null || exampleElements.isEmpty() ? "" : "; " + Formatter.join(exampleElements, ' ', false, Element::getTextContent);
-		return String.format(SYNSET_FORMAT, offset, lexfilenum, pos, members, related, verbframes, definition, examples);
+		return String.format(SYNSET_FORMAT, offset, lexfilenum, pos, membersData, relatedData, verbframesData, definitionsData, examplesData);
 	}
 
 	/**
@@ -351,11 +367,11 @@ public abstract class SynsetProcessor
 	 *
 	 * @param synsetElement    synset element
 	 * @param sensesBySynsetId senses by synsetId
-	 * @return array of lemmas
+	 * @return ordered set of lemma members
 	 */
-	public static List<String> buildLemmas(Element synsetElement, Map<String, List<Element>> sensesBySynsetId)
+	public static Members buildMembers(Element synsetElement, Map<String, List<Element>> sensesBySynsetId)
 	{
-		ArrayList<String> lemmas = new ArrayList<>();
+		Members members = new Members();
 		String synsetId = synsetElement.getAttribute(XmlNames.ID_ATTR);
 		List<Element> senseElements = sensesBySynsetId.get(synsetId);
 		assert !senseElements.isEmpty();
@@ -366,11 +382,15 @@ public abstract class SynsetProcessor
 			Element lexEntryElement = (Element) lexEntryNode;
 			Element lemmaElement = XmlUtils.getUniqueChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
 			assert lemmaElement != null;
+
+			int lexid = Integer.parseInt(senseElement.getAttribute(XmlNames.LEXID_ATTR));
+			int order = Integer.parseInt(senseElement.getAttribute(XmlNames.ORDER_ATTR));
 			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
-			lemmas.add(lemma);
+			Member member = new Member(lemma, lexid, order);
+			members.add(member);
 		}
-		assert !lemmas.isEmpty();
-		return lemmas;
+		assert !members.isEmpty();
+		return members;
 	}
 
 	/**
@@ -388,18 +408,25 @@ public abstract class SynsetProcessor
 	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId)
 			throws CompatException
 	{
+		// target synset members
+		Members targetMembers = buildMembers(targetSynsetElement, sensesBySynsetId);
+
+		// target synset member
 		Node targetLexEntryNode = targetSenseElement.getParentNode();
 		assert targetLexEntryNode.getNodeType() == Node.ELEMENT_NODE;
 		Element targetLexEntryElement = (Element) targetLexEntryNode;
 		Element targetLemmaElement = XmlUtils.getUniqueChildElement(targetLexEntryElement, XmlNames.LEMMA_TAG);
 		assert targetLemmaElement != null;
+		int targetLexid = Integer.parseInt(targetSenseElement.getAttribute(XmlNames.LEXID_ATTR));
+		int targetOrder = Integer.parseInt(targetSenseElement.getAttribute(XmlNames.ORDER_ATTR));
 		String targetLemma = targetLemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
+		Member targetMember = new Member(targetLemma, targetLexid, targetOrder);
 
-		List<String> targetLemmas = buildLemmas(targetSynsetElement, sensesBySynsetId);
+		// which
+		int targetMemberNum = targetMembers.indexOf(targetMember);
 		char targetPos = targetSynsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
 		long targetOffset = this.offsetFunction.applyAsLong(targetSynsetId);
-		int targetWordNum = targetLemmas.indexOf(targetLemma) + 1;
-		return new Relation(type, pos, targetPos, targetOffset, lemmaIndex, targetWordNum);
+		return new Relation(type, pos, targetPos, targetOffset, lemmaIndex, targetMemberNum + 1);
 	}
 
 	/**
@@ -412,28 +439,6 @@ public abstract class SynsetProcessor
 	{
 		String lexfile = synsetElement.getAttributeNS(XmlNames.NS_DC, XmlNames.LEXFILE_ATTR);
 		return Coder.codeLexFile(lexfile);
-	}
-
-	/**
-	 * Join frames, if a frame applies to all words, then wordCount is zeroed
-	 *
-	 * @param frames    list of frames mapped per given frameNum
-	 * @param wordCount word count in synset
-	 * @return formatted verb frames
-	 */
-	private String joinFrames(Map<Integer, List<Frame>> frames, int wordCount)
-	{
-		List<Frame> resultFrames = new ArrayList<>();
-		for (Entry<Integer, List<Frame>> entry : frames.entrySet())
-		{
-			Integer frameNum = entry.getKey();
-			List<Frame> framesWithFrameNum = entry.getValue();
-			if (framesWithFrameNum.size() == wordCount)
-				resultFrames.add(new Frame(frameNum, 0));
-			else
-				resultFrames.addAll(framesWithFrameNum);
-		}
-		return Formatter.joinNum(resultFrames, "%02d");
 	}
 
 	/**

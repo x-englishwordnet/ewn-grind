@@ -1,5 +1,7 @@
 package org.ewn.grind;
 
+import java.util.*;
+
 /**
  * Intermediate data, that are usually accumulated, not Pojos
  *
@@ -12,9 +14,10 @@ public class Data
 	}
 
 	/**
-	 * Synset member words. Lexid (from lexicographer file should not exceed 15 in compat mode)
+	 * Synset member lemma. Members are ordered lemmas.
+	 * Lexid (from lexicographer file should not exceed 15 in compat mode)
 	 */
-	static class Word
+	static class Member
 	{
 		protected final String lemma;
 
@@ -22,7 +25,7 @@ public class Data
 
 		public final int order;
 
-		public Word(String lemma, int lexid, int order)
+		public Member(String lemma, int lexid, int order)
 		{
 			super();
 			this.lemma = lemma;
@@ -37,32 +40,67 @@ public class Data
 			this.order = order;
 		}
 
-		@Override
-		public String toString()
+		public String toWndbString()
 		{
 			int lexid2 = lexid % 16;
 			return String.format(Flags.LEXID_COMPAT ? "%s %1X" : "%s %X", lemma, lexid2);
 		}
+
+		@Override public String toString()
+		{
+			return String.format("Member %s lexid:%X order:%d", lemma, lexid, order);
+		}
 	}
 
 	/**
-	 * Adjective synset member words with position constraint expressed (ip,p,a).
+	 * Adjective synset member lemmas with position constraint expressed (ip,p,a).
 	 */
-	static class AdjWord extends Word
+	static class AdjMember extends Member
 	{
 		private final String position;
 
-		public AdjWord(String lemma, int lexid, int order, String position)
+		public AdjMember(String lemma, int lexid, int order, String position)
 		{
 			super(lemma, lexid, order);
 			this.position = position;
 		}
 
-		@Override
-		public String toString()
+		@Override public String toWndbString()
 		{
 			int lexid2 = lexid % 16;
 			return String.format(Flags.LEXID_COMPAT ? "%s(%s) %1X" : "%s(%s) %X", lemma, position, lexid2);
+		}
+
+		@Override public String toString()
+		{
+			return String.format("Adj Member %s(%s) %X %d", lemma, position, lexid, order);
+		}
+	}
+
+	/**
+	 * Members, a sorted list
+	 */
+	static class Members extends TreeSet<Member>
+	{
+		public Members()
+		{
+			super(Comparator.comparingInt((Member m) -> m.order));
+		}
+
+		public int indexOf(final Member member)
+		{
+			// if the element exists in the TreeSet
+			if (contains(member))
+			{
+				// the element index will be equal to the size of the headSet for the element
+				return headSet(member).size();
+			}
+			throw new IllegalStateException("Member index of " + member.toString() + " not contained in " + Arrays.toString(this.toArray()));
+		}
+
+		public String toWndbString()
+		{
+			return Formatter.joinNum(this, "%02x", Member::toWndbString);
 		}
 	}
 
@@ -86,10 +124,10 @@ public class Data
 		/**
 		 * Constructor
 		 *
-		 * @param type type of relation @see Coder.codeRelation
-		 * @param pos source part of speech
-		 * @param targetPos target part of speech
-		 * @param targetOffset relation target offset
+		 * @param type          type of relation @see Coder.codeRelation
+		 * @param pos           source part of speech
+		 * @param targetPos     target part of speech
+		 * @param targetOffset  relation target offset
 		 * @param sourceWordNum word number in source synset
 		 * @param targetWordNum word number in target synset
 		 */
@@ -104,10 +142,14 @@ public class Data
 			this.targetWordNum = targetWordNum;
 		}
 
-		@Override
-		public String toString()
+		public String toWndbString()
 		{
 			return String.format("%s %08d %c %02x%02x", ptrSymbol, targetOffset, targetPos, sourceWordNum, targetWordNum);
+		}
+
+		@Override public String toString()
+		{
+			return String.format("Relation %s %08d %c %02x%02x", ptrSymbol, targetOffset, targetPos, sourceWordNum, targetWordNum);
 		}
 	}
 
@@ -118,25 +160,70 @@ public class Data
 	{
 		public final int frameNum;
 
-		public final int wordNum;
+		public final int memberNum;
 
 		/**
 		 * Constructor
 		 *
-		 * @param frameNum frame number
-		 * @param wordNum 1-based word number in synset this frame applies to
+		 * @param frameNum  frame number
+		 * @param memberNum 1-based lemma member number in synset this frame applies to
 		 */
-		public Frame(int frameNum, int wordNum)
+		public Frame(int frameNum, int memberNum)
 		{
 			super();
 			this.frameNum = frameNum;
-			this.wordNum = wordNum;
+			this.memberNum = memberNum;
 		}
 
-		@Override
-		public String toString()
+		public String toWndbString()
 		{
-			return String.format("+ %02d %02x", frameNum, wordNum);
+			return String.format("+ %02d %02x", frameNum, memberNum);
+		}
+
+		@Override public String toString()
+		{
+			return String.format("Frame %02d %02x", frameNum, memberNum);
+		}
+	}
+
+	/**
+	 * Verb (syntactic) frames, a list of frames mapped per given frameNum
+	 */
+	static class Frames extends HashMap<Integer, List<Frame>>
+	{
+		public Frames()
+		{
+			super();
+		}
+
+		public void add(final Frame frame)
+		{
+			List<Frame> frames2 = computeIfAbsent(frame.frameNum, k -> new ArrayList<>());
+			frames2.add(frame);
+		}
+
+		/**
+		 * Join frames.
+		 * If a frame applies to all words, then frame num is zeroed
+		 *
+		 * @param membersCount synset member count
+		 * @return formatted verb frames
+		 */
+		public String toWndbString(int membersCount)
+		{
+			if (size() < 1)
+				return "";
+			List<Frame> resultFrames = new ArrayList<>();
+			for (Entry<Integer, List<Frame>> entry : entrySet())
+			{
+				Integer frameNum = entry.getKey();
+				List<Frame> framesWithFrameNum = entry.getValue();
+				if (framesWithFrameNum.size() == membersCount)
+					resultFrames.add(new Frame(frameNum, 0));
+				else
+					resultFrames.addAll(framesWithFrameNum);
+			}
+			return Formatter.joinNum(resultFrames, "%02d", Frame::toWndbString);
 		}
 	}
 }
