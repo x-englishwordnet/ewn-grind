@@ -51,7 +51,7 @@ public class SenseIndexer
 	 *
 	 * @param ps print stream
 	 */
-	public void makeIndex(PrintStream ps)
+	public void makeIndexCased(PrintStream ps)
 	{
 		SortedSet<String> lines = new TreeSet<>(lexicalComparator);
 
@@ -85,12 +85,52 @@ public class SenseIndexer
 	}
 
 	/**
-	 * Make index.sense (compatible mode)
+	 * Make index.sense
+	 * Sensekeys are lower-cased.
+	 *
+	 * @param ps print stream
+	 */
+	public void makeIndexLower(PrintStream ps)
+	{
+		SortedSet<String> lines = new TreeSet<>(lexicalComparator);
+
+		NodeList senseNodes = doc.getElementsByTagName(XmlNames.SENSE_TAG);
+		int n = senseNodes.getLength();
+		assert n >= 1;
+		for (int i = 0; i < n; i++)
+		{
+			Node senseNode = senseNodes.item(i);
+			assert senseNode.getNodeType() == Node.ELEMENT_NODE;
+			Element senseElement = (Element) senseNode;
+
+			String sensekey = senseElement.getAttribute(XmlNames.SENSEKEY_ATTR);
+			String synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR);
+			String nth = senseElement.getAttribute(XmlNames.N_ATTR);
+			String tagCountAttr = senseElement.getAttribute(XmlNames.TAGCOUNT_ATTR);
+			long offset = offsets.get(synsetId);
+			int senseNum = Integer.parseInt(nth);
+			int tagCount = 0;
+			if (!tagCountAttr.isEmpty())
+				tagCount = Integer.parseInt(tagCountAttr);
+
+			String sensekeyLower = sensekey.toLowerCase();
+			String line = String.format("%s %08d %d %d", sensekeyLower, offset, senseNum, tagCount);
+			lines.add(line);
+		}
+		for (String line : lines)
+		{
+			ps.println(line);
+		}
+		System.err.println("Senses: " + n);
+	}
+
+	/**
+	 * Make index.sense (with both cased and lower-case mode)
 	 * When the sensekey is cased, two lines are generated, the first with lower-case, the second with cased.
 	 *
 	 * @param ps print stream
 	 */
-	public void makeIndexCompat(PrintStream ps)
+	public void makeIndexBoth(PrintStream ps)
 	{
 		SortedSet<String> lines = new TreeSet<>(lexicalComparator);
 
