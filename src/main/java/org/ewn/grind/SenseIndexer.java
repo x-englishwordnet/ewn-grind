@@ -81,7 +81,7 @@ public class SenseIndexer
 		{
 			ps.println(line);
 		}
-		System.err.println("Senses: " + n);
+		System.err.printf("Senses (cased): %d, %d lines%n", n, lines.size());
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class SenseIndexer
 		{
 			ps.println(line);
 		}
-		System.err.println("Senses: " + n);
+		System.err.printf("Senses (lower): %d, %d lines%n", n, lines.size());
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class SenseIndexer
 		{
 			ps.println(line);
 		}
-		System.err.println("Senses: " + n);
+		System.err.printf("Senses (both): %d, %d lines %n", n, lines.size());
 	}
 
 	/**
@@ -210,6 +210,6 @@ public class SenseIndexer
 		{
 			ps.println(line);
 		}
-		System.err.println("Senses: " + n);
+		System.err.printf("Senses (legacy): %d, %d lines %n", n, lines.size());
 	}
 }
