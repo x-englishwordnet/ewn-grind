@@ -173,6 +173,7 @@ public abstract class SynsetProcessor
 			Member member = buildMember(senseElement);
 			members.add(member);
 		}
+		assert senseElements.size() == members.size();
 		return members;
 	}
 

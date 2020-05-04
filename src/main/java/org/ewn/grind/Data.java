@@ -84,7 +84,8 @@ public class Data
 	{
 		public Members()
 		{
-			super(Comparator.comparingInt((Member m) -> m.order));
+			super(Comparator.comparingInt((Member m) -> m.order).thenComparing(m -> m.lemma));
+			// the thenComparing should not be called !
 		}
 
 		public int indexOf(final Member member)
