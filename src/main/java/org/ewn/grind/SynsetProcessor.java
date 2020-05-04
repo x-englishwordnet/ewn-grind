@@ -353,7 +353,7 @@ public abstract class SynsetProcessor
 		// assemble
 		String membersData = members.toWndbString();
 		String relatedData = Formatter.joinNum(relations, "%03d", Relation::toWndbString);
-		String verbframesData = frames.toWndbString(members.size());
+		String verbframesData = frames.toWndbString(pos, members.size());
 		if (!verbframesData.isEmpty())
 			verbframesData = ' ' + verbframesData;
 		assert definitionElements != null;

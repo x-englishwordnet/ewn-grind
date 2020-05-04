@@ -207,13 +207,17 @@ public class Data
 		 * Join frames.
 		 * If a frame applies to all words, then frame num is zeroed
 		 *
+		 * @param pos          part of speech
 		 * @param membersCount synset member count
 		 * @return formatted verb frames
 		 */
-		public String toWndbString(int membersCount)
+		public String toWndbString(char pos, int membersCount)
 		{
-			if (size() < 1)
+			if (pos != 'v')
 				return "";
+			// compulsory for verbs even if empty
+			if (size() < 1)
+				return "00";
 			List<Frame> resultFrames = new ArrayList<>();
 			for (Entry<Integer, List<Frame>> entry : entrySet())
 			{
