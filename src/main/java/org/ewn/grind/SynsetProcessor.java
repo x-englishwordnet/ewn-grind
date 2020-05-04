@@ -179,7 +179,7 @@ public abstract class SynsetProcessor
 
 	private Member buildMember(Element senseElement)
 	{
-		// lexid attribute
+		// order attribute
 		String orderAttr = senseElement.getAttribute(XmlNames.ORDER_ATTR);
 		int order = orderAttr.isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(orderAttr);
 
