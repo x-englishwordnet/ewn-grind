@@ -66,8 +66,7 @@ public class Data
 
 		@Override public String toWndbString()
 		{
-			int lexid2 = lexid % 16;
-			return String.format(Flags.LEXID_COMPAT ? "%s(%s) %1X" : "%s(%s) %X", lemma, position, lexid2);
+			return String.format(Flags.LEXID_COMPAT ? "%s(%s) %1X" : "%s(%s) %X", lemma, position, lexid);
 		}
 
 		@Override public String toString()
