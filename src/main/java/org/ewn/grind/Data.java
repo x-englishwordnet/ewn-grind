@@ -42,8 +42,7 @@ public class Data
 
 		public String toWndbString()
 		{
-			int lexid2 = lexid % 16;
-			return String.format(Flags.LEXID_COMPAT ? "%s %1X" : "%s %X", lemma, lexid2);
+			return String.format(Flags.LEXID_COMPAT ? "%s %1X" : "%s %X", lemma, lexid);
 		}
 
 		@Override public String toString()
