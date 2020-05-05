@@ -31,9 +31,10 @@ public class Data
 			this.lemma = lemma;
 			if (Flags.LEXID_COMPAT)
 			{
-				if (lexid > 16)
-					throw new RuntimeException("Out of range lexid" + lemma + " " + lexid);
 				this.lexid = lexid % 16; // 16 -> 0
+				if (lexid > 16)
+					//throw new RuntimeException("Out of range lexid" + lemma + " " + lexid);
+					System.err.printf("Out of range lexid %s: %d tweaked to %d%n", lemma, lexid, this.lexid);
 			}
 			else
 				this.lexid = lexid;
