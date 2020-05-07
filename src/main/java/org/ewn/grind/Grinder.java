@@ -37,7 +37,14 @@ public class Grinder
 		final long startTime = System.currentTimeMillis();
 
 		// Heap
-		System.err.println(Memory.heapInfo("before maps", Unit.M));
+		boolean traceHeap = false;
+		String traceHeapEnv = System.getenv("TRACEHEAP");
+		if (traceHeapEnv != null)
+		{
+			traceHeap = Boolean.parseBoolean(traceHeapEnv);
+		}
+		if (traceHeap)
+			System.err.println(Memory.heapInfo("before maps", Unit.M));
 
 		// Argument switches processing
 		int nArg = args.length; // left
@@ -91,7 +98,8 @@ public class Grinder
 		Map<String, Long> offsets = new OffsetFactory(doc, sensesBySynsetId, synsetsById, sensesById).compute();
 
 		// Heap
-		System.err.println(Memory.heapInfo("after maps", Unit.M));
+		if (traceHeap)
+			System.err.println(Memory.heapInfo("after maps", Unit.M));
 
 		// Process
 		data(dir, doc, sensesBySynsetId, synsetsById, sensesById, offsets);
@@ -194,7 +202,7 @@ public class Grinder
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense")), true, Flags.charSet.name()))
 		{
-			new SenseIndexer(doc, offsets).makeIndexLower(ps);
+			new SenseIndexer(doc, offsets).makeIndexLowerMultiValue(ps);
 		}
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense.cased")), true, Flags.charSet.name()))
 		{
