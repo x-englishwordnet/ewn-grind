@@ -113,7 +113,21 @@ public class SenseIndexer
 	public void makeIndexLowerMultiValue(PrintStream ps)
 	{
 		System.err.print("Senses (lower-cased,multi): ");
-		makeIndexLowerMultiValue2(ps, (e) -> e.getAttribute(XmlNames.SENSEKEY_ATTR));
+		/*
+		// replace LexId with N
+		makeIndexLowerMultiValue(ps, (e) -> {
+			String sk = e.getAttribute(XmlNames.SENSEKEY_ATTR);
+			int p = sk.indexOf('%');
+			int q = sk.indexOf(':', p + 1);
+			int u = sk.indexOf(':', q + 1);
+			int v = sk.indexOf(':', u + 1);
+			String head = sk.substring(0, u);
+			String tail = sk.substring(v + 1);
+			int sensenum = Integer.parseInt(e.getAttribute(XmlNames.N_ATTR));
+			return String.format("%s:%02d:%s", head.toLowerCase(), sensenum, tail);
+		});
+		*/
+		makeIndexLowerMultiValue(ps, (e) -> e.getAttribute(XmlNames.SENSEKEY_ATTR));
 	}
 
 	/**
@@ -124,8 +138,8 @@ public class SenseIndexer
 	 */
 	public void makeIndexLegacy(PrintStream ps)
 	{
-		System.err.print("Senses (lower-cased,multi,legacy): ");
-		makeIndexLowerMultiValue2(ps, (e) -> e.getAttributeNS(XmlNames.NS_DC, XmlNames.SENSEKEY_LEGACY_ATTR));
+		System.err.print("Senses (lower-cased,multi, legacy): ");
+		makeIndexLowerMultiValue(ps, (e) -> e.getAttributeNS(XmlNames.NS_DC, XmlNames.SENSEKEY_LEGACY_ATTR));
 	}
 
 	/**
@@ -136,7 +150,7 @@ public class SenseIndexer
 	 * @param ps        print stream
 	 * @param keyGetter sensekey getter function
 	 */
-	private void makeIndexLowerMultiValue2(PrintStream ps, Function<Element, String> keyGetter)
+	private void makeIndexLowerMultiValue(PrintStream ps, Function<Element, String> keyGetter)
 	{
 		Map<String, List<Data>> entries = new TreeMap<>(String::compareToIgnoreCase);
 
@@ -180,6 +194,8 @@ public class SenseIndexer
 	/**
 	 * Make index.sense
 	 * Sensekeys are lower-cased.
+	 * Multiple lines may have the same key, which makes
+	 * binary search yield unpredictable (non-deterministic) results.
 	 *
 	 * @param ps print stream
 	 */

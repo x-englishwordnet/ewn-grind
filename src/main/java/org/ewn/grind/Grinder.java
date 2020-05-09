@@ -202,16 +202,18 @@ public class Grinder
 	{
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense")), true, Flags.charSet.name()))
 		{
-			new SenseIndexer(doc, offsets).makeIndexLowerMultiValue(ps);
-		}
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense.cased")), true, Flags.charSet.name()))
-		{
 			new SenseIndexer(doc, offsets).makeIndexCased(ps);
 		}
+		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense.pools")), true, Flags.charSet.name()))
+		{
+			new SenseIndexer(doc, offsets).makeIndexLowerMultiValue(ps);
+		}
+		/*
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense.both")), true, Flags.charSet.name()))
 		{
 			new SenseIndexer(doc, offsets).makeIndexBoth(ps);
 		}
+		*/
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense.legacy")), true, Flags.charSet.name()))
 		{
 			new SenseIndexer(doc, offsets).makeIndexLegacy(ps);
