@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -45,6 +46,23 @@ public class SenseIndexer
 			this.offset = offset;
 			this.sensenum = sensenum;
 			this.tagCnt = tagCnt;
+		}
+
+		@Override
+		public boolean equals(Object o)
+		{
+			if (this == o)
+				return true;
+			if (o == null || getClass() != o.getClass())
+				return false;
+			Data data = (Data) o;
+			return offset == data.offset && sensenum == data.sensenum && tagCnt == data.tagCnt;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return Objects.hash(offset, sensenum, tagCnt);
 		}
 	}
 
