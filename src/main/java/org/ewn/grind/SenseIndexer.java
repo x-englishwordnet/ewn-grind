@@ -1,13 +1,20 @@
 package org.ewn.grind;
 
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.function.Function;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import java.io.PrintStream;
-import java.util.*;
-import java.util.function.Function;
 
 public class SenseIndexer
 {
@@ -152,7 +159,7 @@ public class SenseIndexer
 	 */
 	private void makeIndexLowerMultiValue(PrintStream ps, Function<Element, String> keyGetter)
 	{
-		Map<String, List<Data>> entries = new TreeMap<>(String::compareToIgnoreCase);
+		Map<String, LinkedHashSet<Data>> entries = new TreeMap<>(String::compareToIgnoreCase);
 
 		NodeList senseNodes = doc.getElementsByTagName(XmlNames.SENSE_TAG);
 		int n = senseNodes.getLength();
@@ -174,15 +181,16 @@ public class SenseIndexer
 				tagCount = Integer.parseInt(tagCountAttr);
 
 			// data
-			List<Data> entry = entries.computeIfAbsent(sensekey, (s) -> new ArrayList<>());
+			LinkedHashSet<Data> entry = entries.computeIfAbsent(sensekey, (s) -> new LinkedHashSet<>());
 			Data data = new Data(offset, senseNum, tagCount);
 			entry.add(data);
 		}
-		for (Map.Entry<String, List<Data>> entry : entries.entrySet())
+		for (Map.Entry<String, LinkedHashSet<Data>> entry : entries.entrySet())
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append(entry.getKey().toLowerCase());
-			List<Data> datas = entry.getValue();
+			LinkedHashSet<Data> values = entry.getValue();
+			List<Data> datas = new ArrayList<>(values);
 			datas.sort(Comparator.comparingInt(d -> d.sensenum));
 			for (Data data : datas)
 				sb.append(String.format(" %08d %d %d", data.offset, data.sensenum, data.tagCnt));

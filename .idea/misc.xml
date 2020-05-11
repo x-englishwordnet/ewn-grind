@@ -13,6 +13,7 @@
       <entry_point TYPE="field" FQNAME="org.ewn.pojos.NormalizedString serialVersionUID" />
       <entry_point TYPE="field" FQNAME="org.ewn.pojos.ParsePojoException serialVersionUID" />
       <entry_point TYPE="field" FQNAME="org.ewn.grind.CompatException serialVersionUID" />
+      <entry_point TYPE="field" FQNAME="org.ewn.grind.SenseIndexer lexicalComparatorLowerFirst" />
     </entry_points>
     <pattern value="org.ewn.pojos.AdjLemma" />
     <pattern value="org.ewn.pojos.AdjPosition" />
@@ -125,6 +126,9 @@
     <pattern value="org.ewn.grind.XmlUtils" method="getFirstChildElement" />
     <pattern value="org.ewn.grind.XmlUtils" />
     <pattern value="org.ewn.grind.XmlUtils" method="XmlUtils" />
+    <pattern value="org.ewn.grind.SenseIndexer" method="makeIndexBoth" />
+    <pattern value="org.ewn.grind.SenseIndexer" method="makeIndexLowerMultiKey" />
+    <pattern value="org.ewn.grind.SenseIndexer" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

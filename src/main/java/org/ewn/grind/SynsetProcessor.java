@@ -88,6 +88,7 @@ public abstract class SynsetProcessor
 	 *
 	 * @return whether to log errors
 	 */
+	@SuppressWarnings("SameReturnValue")
 	protected abstract boolean log();
 
 	/**
