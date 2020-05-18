@@ -1,8 +1,17 @@
+<p align="center">
+<img width="256" height="256" src="images/xewn2.png">
+</p>
+<p align="center">
+<img width="256"src="images/mavencentral.png">
+</p>
+
 # English WordNet grinder
 
 Refer to [x-englishwordnet](https://github.com/x-englishwordnet) and [globalwordnet/english-wordnet](https://github.com/globalwordnet/english-wordnet).
 
-This is designed to produce __transformed__ English Wordnet data in the form of WordNet-format data in the __wndb__ directory
+This is designed to produce English WordNet data in the **WNDB** format in the _wndb_ directory. 
+
+**This requires XML preprocessing** by XML [tools](https://github.com/x-englishwordnet/xml-transform-merge-validate).
 
 ![Dataflow1](images/dataflow1.png  "Dataflow")
 
