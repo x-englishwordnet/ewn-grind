@@ -10,13 +10,15 @@
 
 Refer to [x-englishwordnet](https://github.com/x-englishwordnet) and [globalwordnet/english-wordnet](https://github.com/globalwordnet/english-wordnet).
 
-See also [tools](https://github.com/x-englishwordnet/ewn/README-tools.md)
-See also [index.sense](https://github.com/x-englishwordnet/ewn/README-index.senses.md)
-See also [XML_diffs](https://github.com/x-englishwordnet/ewn/README-XML_diffs.md)
-
 This is designed to produce English WordNet data in the **WNDB** format (in the _wndb_ directory). 
 
 **This requires XML preprocessing** by XML [tools](https://github.com/x-englishwordnet/xml-transform-merge-validate).
+
+See also [tools](https://x-englishwordnet.github.io/ewn/README-tools.md).
+
+See also [index.sense](https://x-englishwordnet.github.io/ewn/README-index.senses.md).
+
+See also [XML_diffs](https://x-englishwordnet.github.io/ewn/README-XML_diffs.md)
 
 ![Dataflow1](images/dataflow1.png  "Dataflow")
 
