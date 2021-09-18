@@ -6,10 +6,10 @@
 [
 ]>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:dc='http://purl.org/dc/elements/1.1/'
+	xmlns:dc='https://globalwordnet.github.io/schemas/dc/'
 	>
 
-	<xsd:import namespace='http://purl.org/dc/elements/1.1/'	schemaLocation='dc.xsd' />
+	<xsd:import namespace='https://globalwordnet.github.io/schemas/dc/'	schemaLocation='dc.xsd' />
 
 	<!-- T Y P E S  -->
 

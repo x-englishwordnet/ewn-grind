@@ -4,7 +4,7 @@
     <options buildIfNeeded="true" compress="true" descriptionLocation="/ewn-grind/ewn-grind.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
-    <manifest generateManifest="true" mainClassHandleIdentifier="=ewn-grind/src&lt;org.ewn.grind{Grinder.java[Grinder" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+    <manifest generateManifest="true" mainClassHandleIdentifier="=ewn-grind/src\/main\/java&lt;org.ewn.grind{Grinder.java[Grinder" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
         <sealing sealJar="false">
             <packagesToSeal/>
             <packagesToUnSeal/>
@@ -21,8 +21,9 @@
         <file path="/ewn-grind/ewn-idtypes-relax_idrefs.xsd"/>
         <file path="/ewn-grind/ewn-idtypes-1.10-relax_idrefs.xsd"/>
         <file path="/ewn-grind/dc.xsd"/>
+        <javaElement handleIdentifier="=ewn-grind/src\/main\/java"/>
+        <javaElement handleIdentifier="=ewn-grind/src\/main\/resources"/>
         <file path="/ewn-grind/core-1.10.xsd"/>
-        <javaElement handleIdentifier="=ewn-grind/src&lt;org.ewn.grind"/>
         <file path="/ewn-grind/ili.xsd"/>
         <file path="/ewn-grind/ewn-idtypes-1.10.xsd"/>
         <file path="/ewn-grind/types.xsd"/>

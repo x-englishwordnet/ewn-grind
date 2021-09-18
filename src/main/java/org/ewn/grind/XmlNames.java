@@ -14,7 +14,7 @@ public class XmlNames
 	/**
 	 * DC XML namespace
 	 */
-	protected static final String NS_DC = "http://purl.org/dc/elements/1.1/";
+	protected static final String NS_DC = "https://globalwordnet.github.io/schemas/dc/";
 
 	// TAGS AND ATTRIBUTES
 

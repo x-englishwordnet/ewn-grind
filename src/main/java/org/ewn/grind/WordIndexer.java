@@ -194,6 +194,12 @@ public class WordIndexer
 					incompats.put(cause, count);
 					continue;
 				}
+				catch (IllegalArgumentException e)
+				{
+					String cause = e.getClass().getName() + ' ' + e.getMessage();
+					System.err.printf("Illegal relation %s id=%s%n", cause, type);
+					continue;
+				}
 				data.relationPointers.add(pointer);
 			}
 		}

@@ -81,6 +81,8 @@ public class Data
 	 */
 	static class Members extends TreeSet<Member>
 	{
+		private static final long serialVersionUID = 4565855492410766062L;
+
 		public Members()
 		{
 			super(Comparator.comparingInt((Member m) -> m.order).thenComparing(m -> m.lemma));
@@ -191,6 +193,8 @@ public class Data
 	 */
 	static class Frames extends HashMap<Integer, List<Frame>>
 	{
+		private static final long serialVersionUID = -3313309054723217964L;
+
 		public Frames()
 		{
 			super();

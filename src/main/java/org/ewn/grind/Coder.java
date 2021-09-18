@@ -79,14 +79,14 @@ public class Coder
 	 * Code relation
 	 *
 	 * @param type relation type
-	 * @param pos  part-of-speech
+	 * @param pos part-of-speech
 	 * @return code
 	 */
 	static String codeRelation(String type, char pos) throws CompatException
 	{
 		switch (pos)
 		{
-			case 'n':
+		case 'n':
 			/*
 			@formatter:off
 			!    Antonym
@@ -110,8 +110,8 @@ public class Coder
 			-u    Member of this domain - USAGE
 			@formatter:on
 			*/
-				switch (type)
-				//@formatter:off
+			switch (type)
+			//@formatter:off
 				{
 					case ANTONYM:
 						return "!";
@@ -163,9 +163,9 @@ public class Coder
 						break;
 				}
 				//@formatter:on
-				break;
+			break;
 
-			case 'v':
+		case 'v':
 			/*
 			@formatter:off
 			!    Antonym
@@ -181,8 +181,8 @@ public class Coder
 			;u    Domain of synset - USAGE
 			@formatter:on
 			*/
-				switch (type)
-				//@formatter:off
+			switch (type)
+			//@formatter:off
 				{
 					case ANTONYM:
 						return "!";
@@ -234,8 +234,8 @@ public class Coder
 			;u    Domain of synset - USAGE
 			@formatter:on
 			*/
-				switch (type)
-				//@formatter:off
+			switch (type)
+			//@formatter:off
 				{
 					case ANTONYM:
 						return "!";
@@ -269,9 +269,9 @@ public class Coder
 						break;
 				}
 				//@formatter:on
-				break;
+			break;
 
-			case 'r':
+		case 'r':
 			/*
 			 @formatter:off
 			 !    Antonym
@@ -281,8 +281,8 @@ public class Coder
 			 ;u    Domain of synset - USAGE
 			 @formatter:on
 			 */
-				switch (type)
-				//@formatter:off
+			switch (type)
+			//@formatter:off
 				{
 					case ANTONYM:
 						return "!";
@@ -310,10 +310,10 @@ public class Coder
 						break;
 				}
 				//@formatter:on
-				break;
+			break;
 
-			default:
-				break;
+		default:
+			break;
 		}
 		throw new IllegalArgumentException("pos=" + pos + " relType=" + type);
 	}
@@ -357,8 +357,13 @@ public class Coder
 		FRAME_TO_NUM.put("Somebody ----s something with something", 31);
 		FRAME_TO_NUM.put("Somebody ----s INFINITIVE", 32);
 		FRAME_TO_NUM.put("Somebody ----s VERB-ing", 33);
-		FRAME_TO_NUM.put("It ----s that CLAUSE", 24);
-		FRAME_TO_NUM.put("Something ----s INFINITIVE", 25);
+		FRAME_TO_NUM.put("It ----s that CLAUSE", 34);
+		FRAME_TO_NUM.put("Something ----s INFINITIVE", 35);
+
+		FRAME_TO_NUM.put("Somebody ----s at something", 36);
+		FRAME_TO_NUM.put("Somebody ----s for something", 37);
+		FRAME_TO_NUM.put("Somebody ----s on somebody", 38);
+		FRAME_TO_NUM.put("Somebody ----s out of somebody", 39);
 	}
 
 	/**
@@ -370,6 +375,63 @@ public class Coder
 	static int codeFrame(String frame)
 	{
 		return FRAME_TO_NUM.get(frame.trim());
+	}
+
+	private static final Map<String, Integer> FRAMEID_TO_NUM = new HashMap<>();
+
+	static
+	{
+		FRAMEID_TO_NUM.put("vii", 1); // "Something ----s",
+		FRAMEID_TO_NUM.put("via", 2); // "Somebody ----s",
+		FRAMEID_TO_NUM.put("nonreferential", 3); // "It is ----ing",
+		FRAMEID_TO_NUM.put("vii-pp", 4); // "Something is ----ing PP",
+		FRAMEID_TO_NUM.put("vtii-adj", 5); // "Something ----s something Adjective/Noun",
+		FRAMEID_TO_NUM.put("vii-adj", 6); // "Something ----s Adjective/Noun",
+		FRAMEID_TO_NUM.put("via-adj", 7); // "Somebody ----s Adjective",
+		FRAMEID_TO_NUM.put("vtai", 8); // "Somebody ----s something",
+		FRAMEID_TO_NUM.put("vtaa", 9); // "Somebody ----s somebody",
+		FRAMEID_TO_NUM.put("vtia", 10); // "Something ----s somebody",
+		FRAMEID_TO_NUM.put("vtii", 11); // "Something ----s something",
+		FRAMEID_TO_NUM.put("vii-to", 12); // "Something ----s to somebody",
+		FRAMEID_TO_NUM.put("via-on-inanim", 13); // "Somebody ----s on something",
+		FRAMEID_TO_NUM.put("ditransitive", 14); // "Somebody ----s somebody something",
+		FRAMEID_TO_NUM.put("vtai-to", 15); // "Somebody ----s something to somebody",
+		FRAMEID_TO_NUM.put("vtai-from", 16); // "Somebody ----s something from somebody",
+		FRAMEID_TO_NUM.put("vtaa-with", 17); // "Somebody ----s somebody with something",
+		FRAMEID_TO_NUM.put("vtaa-of", 18); // "Somebody ----s somebody of something",
+		FRAMEID_TO_NUM.put("vtai-on", 19); // "Somebody ----s something on somebody",
+		FRAMEID_TO_NUM.put("vtaa-pp", 20); // "Somebody ----s somebody PP",
+		FRAMEID_TO_NUM.put("vtai-pp", 21); // "Somebody ----s something PP",
+		FRAMEID_TO_NUM.put("via-pp", 22); // "Somebody ----s PP",
+		FRAMEID_TO_NUM.put("vibody", 23); // "Somebody's (body part) ----s",
+		FRAMEID_TO_NUM.put("vtaa-to-inf", 24); // "Somebody ----s somebody to INFINITIVE",
+		FRAMEID_TO_NUM.put("vtaa-inf", 25); // "Somebody ----s somebody INFINITIVE",
+		FRAMEID_TO_NUM.put("via-that", 26); // "Somebody ----s that CLAUSE",
+		FRAMEID_TO_NUM.put("via-to", 27); // "Somebody ----s to somebody",
+		FRAMEID_TO_NUM.put("via-to-inf", 28); // "Somebody ----s to INFINITIVE",
+		FRAMEID_TO_NUM.put("via-whether-inf", 29); // "Somebody ----s whether INFINITIVE",
+		FRAMEID_TO_NUM.put("vtaa-into-ger", 30); // "Somebody ----s somebody into V-ing something",
+		FRAMEID_TO_NUM.put("vtai-with", 31); // "Somebody ----s something with something",
+		FRAMEID_TO_NUM.put("via-inf", 32); // "Somebody ----s INFINITIVE",
+		FRAMEID_TO_NUM.put("via-ger", 33); // "Somebody ----s VERB-ing",
+		FRAMEID_TO_NUM.put("nonreferential-sent", 34); // "It ----s that CLAUSE",
+		FRAMEID_TO_NUM.put("vii-inf", 35); // "Something ----s INFINITIVE",
+
+		FRAMEID_TO_NUM.put("via-at", 36); // "Somebody ----s at something",
+		FRAMEID_TO_NUM.put("via-for", 37); // "Somebody ----s for something",
+		FRAMEID_TO_NUM.put("via-on-anim", 38); // "Somebody ----s on somebody",
+		FRAMEID_TO_NUM.put("via-out-of", 39); // "Somebody ----s out of somebody",
+	}
+
+	/**
+	 * Code verb frame
+	 *
+	 * @param frame frame id
+	 * @return code
+	 */
+	static int codeFrameId(String id)
+	{
+		return FRAMEID_TO_NUM.get(id.trim());
 	}
 
 	// L E X F I L E
@@ -440,24 +502,18 @@ public class Coder
 
 	public static void main(String[] args)
 	{
-		Flags.POINTER_COMPAT = args.length > 0 && "-compat:pointer".equals(args[0]);
+		Flags.POINTER_COMPAT = args.length > 0 && "-compat,pointer".equals(args[0]);
 
 		final Map<Character, Set<String>> allRelations = new HashMap<>();
 		final Set<String> nSet = allRelations.computeIfAbsent('n', (k) -> new HashSet<>());
-		nSet.addAll(Arrays.asList(ANTONYM, HYPERNYM, INSTANCE_HYPERNYM, HYPONYM, INSTANCE_HYPONYM, HOLO_MEMBER, HOLO_SUBSTANCE, HOLO_PART, MERO_MEMBER,
-				MERO_SUBSTANCE, MERO_PART, ATTRIBUTE, PERTAINYM, DERIVATION, DOMAIN_TOPIC, HAS_DOMAIN_TOPIC, DOMAIN_REGION, HAS_DOMAIN_REGION, DOMAIN_USAGE,
-				HAS_DOMAIN_USAGE));
+		nSet.addAll(Arrays.asList(ANTONYM, HYPERNYM, INSTANCE_HYPERNYM, HYPONYM, INSTANCE_HYPONYM, HOLO_MEMBER, HOLO_SUBSTANCE, HOLO_PART, MERO_MEMBER, MERO_SUBSTANCE, MERO_PART, ATTRIBUTE, PERTAINYM, DERIVATION, DOMAIN_TOPIC, HAS_DOMAIN_TOPIC,
+				DOMAIN_REGION, HAS_DOMAIN_REGION, DOMAIN_USAGE, HAS_DOMAIN_USAGE));
 		final Set<String> vSet = allRelations.computeIfAbsent('v', (k) -> new HashSet<>());
-		vSet.addAll(
-				Arrays.asList(ANTONYM, HYPERNYM, HYPONYM, ENTAILS, IS_ENTAILED, CAUSES, IS_CAUSED, ALSO, VERB_GROUP, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION,
-						DOMAIN_USAGE));
+		vSet.addAll(Arrays.asList(ANTONYM, HYPERNYM, HYPONYM, ENTAILS, IS_ENTAILED, CAUSES, IS_CAUSED, ALSO, VERB_GROUP, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION, DOMAIN_USAGE));
 		final Set<String> aSet = allRelations.computeIfAbsent('a', (k) -> new HashSet<>());
-		aSet.addAll(
-				Arrays.asList(ANTONYM, SIMILAR, PARTICIPLE, PERTAINYM, ATTRIBUTE, ALSO, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION, DOMAIN_USAGE, HAS_DOMAIN_TOPIC,
-						HAS_DOMAIN_REGION, HAS_DOMAIN_USAGE));
+		aSet.addAll(Arrays.asList(ANTONYM, SIMILAR, PARTICIPLE, PERTAINYM, ATTRIBUTE, ALSO, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION, DOMAIN_USAGE, HAS_DOMAIN_TOPIC, HAS_DOMAIN_REGION, HAS_DOMAIN_USAGE));
 		final Set<String> rSet = allRelations.computeIfAbsent('r', (k) -> new HashSet<>());
-		rSet.addAll(Arrays.asList(ANTONYM, PERTAINYM, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION, DOMAIN_USAGE, HAS_DOMAIN_TOPIC, HAS_DOMAIN_REGION,
-				HAS_DOMAIN_USAGE));
+		rSet.addAll(Arrays.asList(ANTONYM, PERTAINYM, DERIVATION, DOMAIN_TOPIC, DOMAIN_REGION, DOMAIN_USAGE, HAS_DOMAIN_TOPIC, HAS_DOMAIN_REGION, HAS_DOMAIN_USAGE));
 
 		final Set<String> allPointers = new TreeSet<>();
 		final Map<Character, Map<String, String>> toRelations = new HashMap<>();
@@ -473,6 +529,11 @@ public class Coder
 				catch (CompatException e)
 				{
 					System.err.println(e.getCause().getMessage());
+					continue;
+				}
+				catch (IllegalArgumentException e)
+				{
+					System.err.println(relation + " for " + pos + " " + e.getCause().getMessage());
 					continue;
 				}
 				allPointers.add(pointer);

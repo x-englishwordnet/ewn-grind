@@ -299,8 +299,10 @@ public abstract class SynsetProcessor
 				String[] syntacticBehaviours = syntacticBehaviour.split("\\s+");
 				for (String syntacticBehaviourId : syntacticBehaviours)
 				{
-					String frameNum = syntacticBehaviourId.substring(7);
-					Frame frame = new Frame(Integer.parseInt(frameNum), memberIndex);
+					//String frameNum = syntacticBehaviourId.substring(7);
+					//Frame frame = new Frame(Integer.parseInt(frameNum), memberIndex);
+					
+					Frame frame = new Frame(Coder.codeFrameId(syntacticBehaviourId), memberIndex);
 					frames.add(frame);
 				}
 			}
@@ -345,7 +347,8 @@ public abstract class SynsetProcessor
 				{
 					String cause = e.getClass().getName() + ' ' + e.getMessage();
 					System.err.printf("Illegal relation %s id=%s offset=%d%n", cause, synsetElement.getAttribute("id"), offset);
-					throw e;
+					//throw e;
+					continue;
 				}
 				relations.add(relation);
 			}

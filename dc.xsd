@@ -7,8 +7,8 @@
 ]>
 
 <xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema' 
-	xmlns:dc='http://purl.org/dc/elements/1.1/'
-	targetNamespace='http://purl.org/dc/elements/1.1/'>
+	xmlns:dc='https://globalwordnet.github.io/schemas/dc/'
+	targetNamespace='https://globalwordnet.github.io/schemas/dc/'>
 
 	<xsd:import schemaLocation='pwn.xsd' />
 	<xsd:import schemaLocation='types.xsd' />

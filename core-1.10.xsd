@@ -3,13 +3,13 @@
 <!-- Copyright (c) 2020. Bernard Bou <1313ou@gmail.com>. -->
 
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:dc='http://purl.org/dc/elements/1.1/'
+	xmlns:dc='https://globalwordnet.github.io/schemas/dc/'
 	>
 
-	<xsd:import namespace='http://purl.org/dc/elements/1.1/'	schemaLocation='dc.xsd' />
-	<xsd:include												schemaLocation='pwn.xsd' />
-	<xsd:include												schemaLocation='ili.xsd' />
-	<xsd:include												schemaLocation='meta.xsd' />
+	<xsd:import namespace='https://globalwordnet.github.io/schemas/dc/'	schemaLocation='dc.xsd' />
+	<xsd:include														schemaLocation='pwn.xsd' />
+	<xsd:include														schemaLocation='ili.xsd' />
+	<xsd:include														schemaLocation='meta.xsd' />
 
 	<!-- E L E M E N T S -->
 
@@ -37,6 +37,7 @@
 			<xsd:attribute name='version' type='xsd:string' use='required' />
 			<xsd:attribute name='url' type='xsd:string' use='optional' />
 			<xsd:attribute name='citation' type='xsd:string' use='optional' />
+			<xsd:attribute name='logo' type='xsd:string' use='optional'/>
 			<xsd:attributeGroup ref='Meta' />
 		</xsd:complexType>
 	</xsd:element>
@@ -57,6 +58,7 @@
 	<xsd:element name='Lemma'>
 		<xsd:complexType>
 			<xsd:sequence>
+				<xsd:element ref='Pronunciation' minOccurs='0' maxOccurs='unbounded'/>
 				<xsd:element ref='Tag' minOccurs='0' maxOccurs='unbounded' />
 			</xsd:sequence>
 
@@ -69,6 +71,7 @@
 	<xsd:element name='Form'>
 		<xsd:complexType>
 			<xsd:sequence>
+				<xsd:element ref='Pronunciation' minOccurs='0' maxOccurs='unbounded'/>
 				<xsd:element ref='Tag' minOccurs='0' maxOccurs='unbounded' />
 			</xsd:sequence>
 
@@ -118,6 +121,8 @@
 			<xsd:attribute name='id' type='SynsetIDType' use='required' />
 			<xsd:attribute ref='ili' use='required' />
 			<xsd:attribute name='partOfSpeech' use='optional' type='PartOfSpeechType' />
+			<xsd:attribute name='members' type='LocalSenseIDREFSType' use='optional'/>
+			<xsd:attribute name='lexfile' type='xsd:string' use='optional'/>
 			<xsd:attribute ref='dc:subject' use='optional' />
 			<xsd:attribute name='lexicalized' type='xsd:boolean' default='true' use='optional' />
 			<xsd:attributeGroup ref='Meta' />
@@ -160,6 +165,15 @@
 			<xsd:attribute name='id' type='SyntacticBehaviourIDType' use='required' />
 			<xsd:attribute name='subcategorizationFrame' type='xsd:string' use='optional' />
 			<xsd:attribute name='sentenceTemplate' type='xsd:string' use='optional' />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name='Pronunciation'>
+		<xsd:complexType mixed='true'>
+			<xsd:attribute name='variety' type='xsd:string' use='optional'/>
+			<xsd:attribute name='notation' type='xsd:string' use='optional'/>
+			<xsd:attribute name='phonemic' type='xsd:boolean' default='true' use='optional'/>
+			<xsd:attribute name='audio' type='xsd:string' use='optional'/>
 		</xsd:complexType>
 	</xsd:element>
 
