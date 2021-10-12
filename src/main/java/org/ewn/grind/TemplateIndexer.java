@@ -74,7 +74,7 @@ public class TemplateIndexer
 				String templateList = senseElement.getAttribute(XmlNames.VERBTEMPLATES_ATTR);
 				if (templateList.isEmpty())
 					continue;
-				templateList = templateList.replace("ewn-st-", "");
+				templateList = templateList.replace("oewn-st-", "");
 				String[] templates = templateList.split("\\s+");
 				String line = String.format("%s %s", sensekey, Formatter.join(templates, ','));
 				lines.add(line);

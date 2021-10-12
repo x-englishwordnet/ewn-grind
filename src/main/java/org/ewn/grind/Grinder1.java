@@ -71,7 +71,7 @@ public class Grinder1
 		{
 			char pos = extraArg2.charAt(0);
 			long offset31 = Long.parseLong(extraArg3);
-			synsetId = String.format("ewn-%08d-%c", offset31, pos);
+			synsetId = String.format("oewn-%08d-%c", offset31, pos);
 		}
 		else
 		{
