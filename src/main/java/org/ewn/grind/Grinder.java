@@ -63,6 +63,12 @@ public class Grinder
 			iArg++; // current: move to next
 			Flags.LEXID_COMPAT = true;
 		}
+		if (nArg > 0 && "-compat:verbframe".equals(args[iArg])) // if left and is "-compat:verbframe"
+		{
+			nArg--; // left: decrement
+			iArg++; // current: move to next
+			Flags.VERBFRAME_COMPAT = true;
+		}
 
 		// Input
 		String filename = args[iArg];

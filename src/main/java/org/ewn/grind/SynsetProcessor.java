@@ -94,14 +94,13 @@ public abstract class SynsetProcessor
 	/**
 	 * Constructor
 	 *
-	 * @param doc              W3C document
+	 * @param doc W3C document
 	 * @param sensesBySynsetId map of sense elements indexed with key=synsetId
-	 * @param synsetsById      synset elements mapped by id
-	 * @param sensesById       sense elements mapped by id
-	 * @param offsetFunction   function that, when applied to a synsetId, yields the synset offset in the data files. May be dummy constant function.
+	 * @param synsetsById synset elements mapped by id
+	 * @param sensesById sense elements mapped by id
+	 * @param offsetFunction function that, when applied to a synsetId, yields the synset offset in the data files. May be dummy constant function.
 	 */
-	public SynsetProcessor(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById,
-			ToLongFunction<String> offsetFunction)
+	public SynsetProcessor(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById, ToLongFunction<String> offsetFunction)
 	{
 		this.doc = doc;
 		this.sensesBySynsetId = sensesBySynsetId;
@@ -117,7 +116,9 @@ public abstract class SynsetProcessor
 	static class XMLRelation implements Comparable<XMLRelation>
 	{
 		public final boolean isSenseRelation;
+
 		public final String relType;
+
 		public final String target;
 
 		XMLRelation(boolean isSenseRelation, String relType, String target)
@@ -129,7 +130,8 @@ public abstract class SynsetProcessor
 
 		// identity
 
-		@Override public boolean equals(Object other)
+		@Override
+		public boolean equals(Object other)
 		{
 			if (this == other)
 				return true;
@@ -139,14 +141,16 @@ public abstract class SynsetProcessor
 			return isSenseRelation == that.isSenseRelation && Objects.equals(relType, that.relType) && Objects.equals(target, that.target);
 		}
 
-		@Override public int hashCode()
+		@Override
+		public int hashCode()
 		{
 			return Objects.hash(isSenseRelation, relType, target);
 		}
 
 		// order
 
-		@Override public int compareTo(XMLRelation other)
+		@Override
+		public int compareTo(XMLRelation other)
 		{
 			int c = Boolean.compare(this.isSenseRelation, other.isSenseRelation);
 			if (c != 0)
@@ -159,7 +163,8 @@ public abstract class SynsetProcessor
 
 		// string
 
-		@Override public String toString()
+		@Override
+		public String toString()
 		{
 			return (this.isSenseRelation ? "SenseRelation" : "SynsetRelation") + " relType=" + this.relType + " target=" + this.target;
 		}
@@ -206,7 +211,7 @@ public abstract class SynsetProcessor
 	 * Get data and yield line
 	 *
 	 * @param synsetElement synset element
-	 * @param offset        allocated offset for the synset
+	 * @param offset allocated offset for the synset
 	 * @return line
 	 */
 	protected String getData(Element synsetElement, long offset)
@@ -299,11 +304,19 @@ public abstract class SynsetProcessor
 				String[] syntacticBehaviours = syntacticBehaviour.split("\\s+");
 				for (String syntacticBehaviourId : syntacticBehaviours)
 				{
-					//String frameNum = syntacticBehaviourId.substring(7);
-					//Frame frame = new Frame(Integer.parseInt(frameNum), memberIndex);
-					
-					Frame frame = new Frame(Coder.codeFrameId(syntacticBehaviourId), memberIndex);
-					frames.add(frame);
+					try
+					{
+						// String frameNum = syntacticBehaviourId.substring(7);
+						// Frame frame = new Frame(Integer.parseInt(frameNum), memberIndex);
+						Frame frame = new Frame(Coder.codeFrameId(syntacticBehaviourId), memberIndex);
+						frames.add(frame);
+					}
+					catch (CompatException e)
+					{
+						String cause = e.getCause().getMessage();
+						int count = this.incompats.computeIfAbsent(cause, (c) -> 0) + 1;
+						this.incompats.put(cause, count);
+					}
 				}
 			}
 
@@ -347,7 +360,7 @@ public abstract class SynsetProcessor
 				{
 					String cause = e.getClass().getName() + ' ' + e.getMessage();
 					System.err.printf("Illegal relation %s id=%s offset=%d%n", cause, synsetElement.getAttribute("id"), offset);
-					//throw e;
+					// throw e;
 					continue;
 				}
 				relations.add(relation);
@@ -362,15 +375,14 @@ public abstract class SynsetProcessor
 			verbframesData = ' ' + verbframesData;
 		assert definitionElements != null;
 		String definitionsData = Formatter.join(definitionElements, "; ", false, Element::getTextContent);
-		String examplesData =
-				exampleElements == null || exampleElements.isEmpty() ? "" : "; " + Formatter.join(exampleElements, ' ', false, Element::getTextContent);
+		String examplesData = exampleElements == null || exampleElements.isEmpty() ? "" : "; " + Formatter.join(exampleElements, ' ', false, Element::getTextContent);
 		return String.format(SYNSET_FORMAT, offset, lexfilenum, pos, membersData, relatedData, verbframesData, definitionsData, examplesData);
 	}
 
 	/**
 	 * Collect lemmas that are member of this synset
 	 *
-	 * @param synsetElement    synset element
+	 * @param synsetElement synset element
 	 * @param sensesBySynsetId senses by synsetId
 	 * @return ordered set of lemma members
 	 */
@@ -401,17 +413,16 @@ public abstract class SynsetProcessor
 	/**
 	 * Build relation
 	 *
-	 * @param type                relation type
-	 * @param pos                 part of speech
-	 * @param lemmaIndex          lemmaIndex
-	 * @param targetSenseElement  target sense element
+	 * @param type relation type
+	 * @param pos part of speech
+	 * @param lemmaIndex lemmaIndex
+	 * @param targetSenseElement target sense element
 	 * @param targetSynsetElement target synset element
-	 * @param targetSynsetId      target synsetid
+	 * @param targetSynsetId target synsetid
 	 * @return relation
 	 * @throws CompatException when relation is not legacy compatible
 	 */
-	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId)
-			throws CompatException
+	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId) throws CompatException
 	{
 		// target synset members
 		Members targetMembers = buildMembers(targetSynsetElement, sensesBySynsetId);

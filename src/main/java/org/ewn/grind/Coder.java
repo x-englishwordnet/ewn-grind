@@ -320,6 +320,8 @@ public class Coder
 
 	// V E R B F R A M E
 
+	private static int LAST_COMPAT_VERBFRAME = 35;
+
 	private static final Map<String, Integer> FRAME_TO_NUM = new HashMap<>();
 
 	static
@@ -364,17 +366,6 @@ public class Coder
 		FRAME_TO_NUM.put("Somebody ----s for something", 37);
 		FRAME_TO_NUM.put("Somebody ----s on somebody", 38);
 		FRAME_TO_NUM.put("Somebody ----s out of somebody", 39);
-	}
-
-	/**
-	 * Code verb frame
-	 *
-	 * @param frame frame text
-	 * @return code
-	 */
-	static int codeFrame(String frame)
-	{
-		return FRAME_TO_NUM.get(frame.trim());
 	}
 
 	private static final Map<String, Integer> FRAMEID_TO_NUM = new HashMap<>();
@@ -426,12 +417,35 @@ public class Coder
 	/**
 	 * Code verb frame
 	 *
-	 * @param frame frame id
+	 * @param frame0 frame text
 	 * @return code
 	 */
-	static int codeFrameId(String id)
+	static int codeFrame(String frame0) throws CompatException
 	{
-		return FRAMEID_TO_NUM.get(id.trim());
+		String frame = frame0.trim();
+		Integer n = FRAME_TO_NUM.get(frame);
+		if (n == null)
+			throw new IllegalArgumentException(frame0);
+		if (Flags.VERBFRAME_COMPAT && n > LAST_COMPAT_VERBFRAME)
+			throw new CompatException(new IllegalArgumentException(frame0)); // NOT DEFINED IN PWN
+		return n;		
+	}
+
+	/**
+	 * Code verb frame
+	 *
+	 * @param frameid0 frame id
+	 * @return code
+	 */
+	static int codeFrameId(String frameid0) throws CompatException
+	{
+		String frameid = frameid0.trim();
+		Integer n = FRAMEID_TO_NUM.get(frameid);
+		if (n == null)
+			throw new IllegalArgumentException(frameid0);
+		if (Flags.VERBFRAME_COMPAT && n > LAST_COMPAT_VERBFRAME)
+			throw new CompatException(new IllegalArgumentException(frameid0)); // NOT DEFINED IN PWN
+		return n;
 	}
 
 	// L E X F I L E

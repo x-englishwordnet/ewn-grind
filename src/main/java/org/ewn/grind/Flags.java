@@ -21,6 +21,11 @@ public class Flags
 	public static  boolean POINTER_COMPAT = false;
 
 	/**
+	 * Compat mode switch that does not allow verbframes beyond those used in PWN.
+	 */
+	public static  boolean VERBFRAME_COMPAT = false;
+
+	/**
 	 * Character set for output files.
 	 */
 	public static final Charset charSet = StandardCharsets.UTF_8;
