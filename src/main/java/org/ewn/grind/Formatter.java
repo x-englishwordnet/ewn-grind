@@ -86,6 +86,33 @@ class Formatter
 	}
 
 	/**
+	 * Join and quote items
+	 *
+	 * @param items  collection of items of type T
+	 * @param delim  delimiter
+	 * @param escape whether to escape
+	 * @param f      string function to represent item
+	 * @return joined string representation of items
+	 */
+	static <T> String joinAndQuote(Collection<T> items, char delim, boolean escape, Function<T, String> f)
+	{
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+		for (T item : items)
+		{
+			if (first)
+				first = false;
+			else
+				sb.append(delim);
+			String value = f.apply(item);
+			sb.append('"');
+			sb.append(escape ? escape(value) : value);
+			sb.append('"');
+		}
+		return sb.toString();
+	}
+
+	/**
 	 * Join items
 	 *
 	 * @param items  collection of items of type T

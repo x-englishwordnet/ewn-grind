@@ -375,7 +375,7 @@ public abstract class SynsetProcessor
 			verbframesData = ' ' + verbframesData;
 		assert definitionElements != null;
 		String definitionsData = Formatter.join(definitionElements, "; ", false, Element::getTextContent);
-		String examplesData = exampleElements == null || exampleElements.isEmpty() ? "" : "; " + Formatter.join(exampleElements, ' ', false, Element::getTextContent);
+		String examplesData = exampleElements == null || exampleElements.isEmpty() ? "" : "; " + Formatter.joinAndQuote(exampleElements, ' ', false, Element::getTextContent);
 		return String.format(SYNSET_FORMAT, offset, lexfilenum, pos, membersData, relatedData, verbframesData, definitionsData, examplesData);
 	}
 
