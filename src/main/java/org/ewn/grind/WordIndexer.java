@@ -32,8 +32,7 @@ public class WordIndexer
 	 * XPath for adj lexical entry elements
 	 */
 	public static final String ADJ_LEXENTRIES_XPATH = String.format("/%s/%s/%s[%s/@%s='a' or %s/@%s='s']", //
-			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.LEMMA_TAG,
-			XmlNames.POS_ATTR);
+			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR, XmlNames.LEMMA_TAG, XmlNames.POS_ATTR);
 
 	/**
 	 * XPath for adv lexical entry elements
@@ -59,9 +58,9 @@ public class WordIndexer
 	/**
 	 * Constructor
 	 *
-	 * @param doc         W3C document
+	 * @param doc W3C document
 	 * @param synsetsById map of synset elements indexed by their synset id key
-	 * @param offsets     offsets indexed by synset id key
+	 * @param offsets offsets indexed by synset id key
 	 */
 	public WordIndexer(Document doc, Map<String, Element> synsetsById, Map<String, Long> offsets)
 	{
@@ -89,7 +88,7 @@ public class WordIndexer
 	/**
 	 * Make index
 	 *
-	 * @param ps    print stream
+	 * @param ps print stream
 	 * @param xpath xpath for lexical entry nodes
 	 * @throws XPathExpressionException xpath
 	 */

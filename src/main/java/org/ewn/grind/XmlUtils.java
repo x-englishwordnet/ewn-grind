@@ -1,11 +1,10 @@
 package org.ewn.grind;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -16,12 +15,12 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * XML utilities
@@ -133,7 +132,7 @@ class XmlUtils
 			assert node.getNodeType() == Node.ELEMENT_NODE;
 			return (Element) node;
 		}
-		throw new IllegalArgumentException("Element " + element.getAttribute("id") + " has not a unique child with tag " + tag + " count="  + nodeList.getLength());
+		throw new IllegalArgumentException("Element " + element.getAttribute("id") + " has not a unique child with tag " + tag + " count=" + nodeList.getLength());
 	}
 
 	/**
@@ -179,6 +178,20 @@ class XmlUtils
 			return elements;
 		}
 		return null;
+	}
+
+	/**
+	 * Get parent element
+	 *
+	 * @param element child element
+	 * @return parent element
+	 */
+	// @Nullable
+	static Element getParentElement(Element element)
+	{
+		Node lexEntryNode = element.getParentNode();
+		assert lexEntryNode.getNodeType() == Node.ELEMENT_NODE;
+		return (Element) lexEntryNode;
 	}
 
 	/**

@@ -129,6 +129,7 @@
     <pattern value="org.ewn.grind.SenseIndexer" method="makeIndexBoth" />
     <pattern value="org.ewn.grind.SenseIndexer" method="makeIndexLowerMultiKey" />
     <pattern value="org.ewn.grind.SenseIndexer" />
+    <pattern value="org.ewn.grind.SenseIndexer" method="makeIndexCased" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

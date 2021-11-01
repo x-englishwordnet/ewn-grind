@@ -14,8 +14,7 @@ public class Data
 	}
 
 	/**
-	 * Synset member lemma. Members are ordered lemmas.
-	 * Lexid (from lexicographer file should not exceed 15 in compat mode)
+	 * Synset member lemma. Members are ordered lemmas. Lexid (from lexicographer file should not exceed 15 in compat mode)
 	 */
 	static class Member
 	{
@@ -33,7 +32,7 @@ public class Data
 			{
 				this.lexid = lexid % 16; // 16 -> 0
 				if (lexid > 16)
-					//throw new RuntimeException("Out of range lexid" + lemma + " " + lexid);
+					// throw new RuntimeException("Out of range lexid" + lemma + " " + lexid);
 					System.err.printf("Out of range lexid %s: %d tweaked to %d%n", lemma, lexid, this.lexid);
 			}
 			else
@@ -46,7 +45,8 @@ public class Data
 			return String.format(Flags.LEXID_COMPAT ? "%s %1X" : "%s %X", lemma, lexid);
 		}
 
-		@Override public String toString()
+		@Override
+		public String toString()
 		{
 			return String.format("Member %s lexid:%X order:%d", lemma, lexid, order);
 		}
@@ -65,12 +65,14 @@ public class Data
 			this.position = position;
 		}
 
-		@Override public String toWndbString()
+		@Override
+		public String toWndbString()
 		{
 			return String.format(Flags.LEXID_COMPAT ? "%s(%s) %1X" : "%s(%s) %X", lemma, position, lexid);
 		}
 
-		@Override public String toString()
+		@Override
+		public String toString()
 		{
 			return String.format("Adj Member %s(%s) %X %d", lemma, position, lexid, order);
 		}
@@ -126,10 +128,10 @@ public class Data
 		/**
 		 * Constructor
 		 *
-		 * @param type          type of relation @see Coder.codeRelation
-		 * @param pos           source part of speech
-		 * @param targetPos     target part of speech
-		 * @param targetOffset  relation target offset
+		 * @param type type of relation @see Coder.codeRelation
+		 * @param pos source part of speech
+		 * @param targetPos target part of speech
+		 * @param targetOffset relation target offset
 		 * @param sourceWordNum word number in source synset
 		 * @param targetWordNum word number in target synset
 		 */
@@ -149,7 +151,8 @@ public class Data
 			return String.format("%s %08d %c %02x%02x", ptrSymbol, targetOffset, targetPos, sourceWordNum, targetWordNum);
 		}
 
-		@Override public String toString()
+		@Override
+		public String toString()
 		{
 			return String.format("Relation %s %08d %c %02x%02x", ptrSymbol, targetOffset, targetPos, sourceWordNum, targetWordNum);
 		}
@@ -167,7 +170,7 @@ public class Data
 		/**
 		 * Constructor
 		 *
-		 * @param frameNum  frame number
+		 * @param frameNum frame number
 		 * @param memberNum 1-based lemma member number in synset this frame applies to
 		 */
 		public Frame(int frameNum, int memberNum)
@@ -182,7 +185,8 @@ public class Data
 			return String.format("+ %02d %02x", frameNum, memberNum);
 		}
 
-		@Override public String toString()
+		@Override
+		public String toString()
 		{
 			return String.format("Frame %02d %02x", frameNum, memberNum);
 		}
@@ -207,10 +211,9 @@ public class Data
 		}
 
 		/**
-		 * Join frames.
-		 * If a frame applies to all words, then frame num is zeroed
+		 * Join frames. If a frame applies to all words, then frame num is zeroed
 		 *
-		 * @param pos          part of speech
+		 * @param pos part of speech
 		 * @param membersCount synset member count
 		 * @return formatted verb frames
 		 */

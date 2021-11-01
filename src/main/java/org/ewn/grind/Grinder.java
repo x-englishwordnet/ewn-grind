@@ -26,10 +26,10 @@ public class Grinder
 	 * Main entry point
 	 *
 	 * @param args command-line arguments [-compat:lexid] [-compat:pointer] mergedXml [outputDir]
-	 * @throws SAXException                 sax
+	 * @throws SAXException sax
 	 * @throws ParserConfigurationException parser configuration
-	 * @throws IOException                  io
-	 * @throws XPathExpressionException     xpath
+	 * @throws IOException io
+	 * @throws XPathExpressionException xpath
 	 */
 	public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException, XPathExpressionException
 	{
@@ -99,6 +99,13 @@ public class Grinder
 		Map<String, List<Element>> sensesBySynsetId = XmlUtils.makeElementMultiMap(doc, XmlNames.SENSE_TAG, XmlNames.SYNSET_ATTR);
 		Map<String, Element> synsetsById = XmlUtils.makeElementMap(doc, XmlNames.SYNSET_TAG, XmlNames.ID_ATTR);
 		Map<String, Element> sensesById = XmlUtils.makeElementMap(doc, XmlNames.SENSE_TAG, XmlNames.ID_ATTR);
+		Map<String, int[]> verbTemplates = VerbTemplatesFactory.makeVerbTemplatesMap(".");
+		Map<String, Integer> tagCounts = TagCountsFactory.makeTagCountsMap(".");
+
+		/*
+		 * for (Element senseElement : sensesById.values()) { try { int order = XmlExtractor.getOrder(senseElement, synsetsById); } catch (Exception e) {
+		 * e.printStackTrace(); } }
+		 */
 
 		// Compute synset offsets
 		Map<String, Long> offsets = new OffsetFactory(doc, sensesBySynsetId, synsetsById, sensesById).compute();
@@ -110,9 +117,9 @@ public class Grinder
 		// Process
 		data(dir, doc, sensesBySynsetId, synsetsById, sensesById, offsets);
 		indexWords(dir, doc, synsetsById, offsets);
-		indexSenses(dir, doc, offsets);
+		indexSenses(dir, doc, offsets, tagCounts);
 		morphs(dir, doc);
-		templates(dir, doc);
+		templates(dir, doc, verbTemplates);
 
 		// Timing
 		final long endTime = System.currentTimeMillis();
@@ -122,13 +129,13 @@ public class Grinder
 	/**
 	 * Grind data.{noun|verb|adj|adv}
 	 *
-	 * @param dir              output directory
-	 * @param doc              parsed XML W3C document
+	 * @param dir output directory
+	 * @param doc parsed XML W3C document
 	 * @param sensesBySynsetId sense elements mapped by synsetId (whose 'synset' attribute = synsetId)
-	 * @param synsetsById      synset elements mapped by synsetId
-	 * @param sensesById       sense elements mapped by synsetId
-	 * @param offsets          offsets mapped by synsetId
-	 * @throws IOException              io
+	 * @param synsetsById synset elements mapped by synsetId
+	 * @param sensesById sense elements mapped by synsetId
+	 * @param offsets offsets mapped by synsetId
+	 * @throws IOException io
 	 * @throws XPathExpressionException xpath
 	 */
 	public static void data(File dir, Document doc, //
@@ -163,11 +170,11 @@ public class Grinder
 	}
 
 	/**
-	 * @param dir         output directory
-	 * @param doc         parsed XML document
+	 * @param dir output directory
+	 * @param doc parsed XML document
 	 * @param synsetsById synset elements mapped by synsetId
-	 * @param offsets     offsets mapped by synsetId
-	 * @throws IOException              io
+	 * @param offsets offsets mapped by synsetId
+	 * @throws IOException io
 	 * @throws XPathExpressionException xpath
 	 */
 	public static void indexWords(File dir, Document doc, //
@@ -198,32 +205,31 @@ public class Grinder
 	/**
 	 * Grind index.sense
 	 *
-	 * @param dir     output directory
-	 * @param doc     parsed XML document
+	 * @param dir output directory
+	 * @param doc parsed XML document
 	 * @param offsets offsets mapped by synsetId
+	 * @param tagCounts mapped by sensekey
 	 * @throws IOException io
 	 */
 	public static void indexSenses(File dir, Document doc, //
-			Map<String, Long> offsets) throws IOException
+			Map<String, Long> offsets, Map<String, Integer> tagCounts) throws IOException
 	{
+		/*
+		 * try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense.cased")), true, Flags.charSet.name())) { new SenseIndexer(doc,
+		 * offsets).makeIndexCased(ps); }
+		 */
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense")), true, Flags.charSet.name()))
 		{
-			new SenseIndexer(doc, offsets).makeIndexCased(ps);
-		}
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense.pools")), true, Flags.charSet.name()))
-		{
-			new SenseIndexer(doc, offsets).makeIndexLowerMultiValue(ps);
+			new SenseIndexer(doc, offsets, tagCounts).makeIndexLowerMultiValue(ps);
 		}
 		/*
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense.both")), true, Flags.charSet.name()))
-		{
-			new SenseIndexer(doc, offsets).makeIndexBoth(ps);
-		}
-		*/
-		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense.legacy")), true, Flags.charSet.name()))
-		{
-			new SenseIndexer(doc, offsets).makeIndexLegacy(ps);
-		}
+		 * try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense.both")), true, Flags.charSet.name())) { new SenseIndexer(doc,
+		 * offsets).makeIndexBoth(ps); }
+		 */
+		/*
+		 * try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "index.sense.legacy")), true, Flags.charSet.name())) { new SenseIndexer(doc,
+		 * offsets).makeIndexLegacy(ps); }
+		 */
 	}
 
 	/**
@@ -231,7 +237,7 @@ public class Grinder
 	 *
 	 * @param dir output directory
 	 * @param doc parsed XML document
-	 * @throws IOException              io
+	 * @throws IOException io
 	 * @throws XPathExpressionException xpath
 	 */
 	public static void morphs(File dir, Document doc) throws IOException, XPathExpressionException
@@ -260,12 +266,12 @@ public class Grinder
 	 *
 	 * @param dir output directory
 	 * @param doc parsed XML document
-	 * @throws IOException              io
+	 * @throws IOException io
 	 * @throws XPathExpressionException xpath
 	 */
-	public static void templates(File dir, Document doc) throws IOException, XPathExpressionException
+	public static void templates(File dir, Document doc, Map<String, int[]> verbTemplates) throws IOException, XPathExpressionException
 	{
-		TemplateIndexer indexer = new TemplateIndexer(doc);
+		TemplateIndexer indexer = new TemplateIndexer(doc, verbTemplates);
 		try (PrintStream ps = new PrintStream(new FileOutputStream(new File(dir, "sentidx.vrb")), true, Flags.charSet.name()))
 		{
 			indexer.makeIndex(ps);

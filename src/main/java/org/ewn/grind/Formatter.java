@@ -48,10 +48,33 @@ class Formatter
 	}
 
 	/**
+	 * Join array of ints
+	 *
+	 * @param items array of ints
+	 * @param delim delimiter
+	 * @param format format
+	 * @return joined string representation of items
+	 */
+	static String join(int[] items, @SuppressWarnings("SameParameterValue") char delim, String format)
+	{
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+		for (int item : items)
+		{
+			if (first)
+				first = false;
+			else
+				sb.append(delim);
+			sb.append(String.format(format, item));
+		}
+		return sb.toString();
+	}
+
+	/**
 	 * Join items
 	 *
-	 * @param items  collection of items of type T
-	 * @param delim  delimiter
+	 * @param items collection of items of type T
+	 * @param delim delimiter
 	 * @param escape whether to escape
 	 * @return joined string representation of items
 	 */
@@ -63,10 +86,10 @@ class Formatter
 	/**
 	 * Join items
 	 *
-	 * @param items  collection of items of type T
-	 * @param delim  delimiter
+	 * @param items collection of items of type T
+	 * @param delim delimiter
 	 * @param escape whether to escape
-	 * @param f      string function to represent item
+	 * @param f string function to represent item
 	 * @return joined string representation of items
 	 */
 	static <T> String join(Collection<T> items, char delim, boolean escape, Function<T, String> f)
@@ -88,13 +111,13 @@ class Formatter
 	/**
 	 * Join and quote items
 	 *
-	 * @param items  collection of items of type T
-	 * @param delim  delimiter
+	 * @param items collection of items of type T
+	 * @param delim delimiter
 	 * @param escape whether to escape
-	 * @param f      string function to represent item
+	 * @param f string function to represent item
 	 * @return joined string representation of items
 	 */
-	static <T> String joinAndQuote(Collection<T> items, char delim, boolean escape, Function<T, String> f)
+	static <T> String joinAndQuote(Collection<T> items, @SuppressWarnings("SameParameterValue") char delim, @SuppressWarnings("SameParameterValue") boolean escape, Function<T, String> f)
 	{
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
@@ -115,10 +138,10 @@ class Formatter
 	/**
 	 * Join items
 	 *
-	 * @param items  collection of items of type T
-	 * @param delim  string delimiter
+	 * @param items collection of items of type T
+	 * @param delim string delimiter
 	 * @param escape whether to escape
-	 * @param f      string function to represent item
+	 * @param f string function to represent item
 	 * @return joined string representation of items
 	 */
 	static <T> String join(Collection<T> items, String delim, boolean escape, Function<T, String> f)
@@ -140,9 +163,9 @@ class Formatter
 	/**
 	 * Join items, prefix with count
 	 *
-	 * @param items       collection of items of type T
+	 * @param items collection of items of type T
 	 * @param countFormat format of count field
-	 * @param f           string function to represent item
+	 * @param f string function to represent item
 	 * @return joined string representation of items preceded by count
 	 */
 	static <T> String joinNum(Collection<T> items, String countFormat, Function<T, String> f)

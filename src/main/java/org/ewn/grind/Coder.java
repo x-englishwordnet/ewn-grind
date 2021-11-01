@@ -9,6 +9,7 @@ import java.util.*;
  */
 public class Coder
 {
+
 	private Coder()
 	{
 	}
@@ -112,57 +113,57 @@ public class Coder
 			*/
 			switch (type)
 			//@formatter:off
-				{
-					case ANTONYM:
-						return "!";
-					case HYPERNYM:
-						return "@";
-					case INSTANCE_HYPERNYM:
-						return "@i";
-					case HYPONYM:
-						return "~";
-					case INSTANCE_HYPONYM:
-						return "~i";
-					case HOLO_MEMBER:
-						return "#m";
-					case HOLO_SUBSTANCE:
-						return "#s";
-					case HOLO_PART:
-						return "#p";
-					case MERO_MEMBER:
-						return "%m";
-					case MERO_SUBSTANCE:
-						return "%s";
-					case MERO_PART:
-						return "%p";
-					case ATTRIBUTE:
-						return "=";
-					case PERTAINYM:
-						return "\\"; // NOT DEFINED IN PWN
-					case ALSO:
-						return "^";  // NOT DEFINED IN PWN
-					case DERIVATION:
-						return "+";
-					case DOMAIN_TOPIC:
-						return ";c";
-					case HAS_DOMAIN_TOPIC:
-						return "-c";
-					case DOMAIN_REGION:
-						return ";r";
-					case HAS_DOMAIN_REGION:
-						return "-r";
-					case DOMAIN_USAGE:
-						return ";u";
-					case HAS_DOMAIN_USAGE:
-						return "-u";
+                {
+                    case ANTONYM:
+                        return "!";
+                    case HYPERNYM:
+                        return "@";
+                    case INSTANCE_HYPERNYM:
+                        return "@i";
+                    case HYPONYM:
+                        return "~";
+                    case INSTANCE_HYPONYM:
+                        return "~i";
+                    case HOLO_MEMBER:
+                        return "#m";
+                    case HOLO_SUBSTANCE:
+                        return "#s";
+                    case HOLO_PART:
+                        return "#p";
+                    case MERO_MEMBER:
+                        return "%m";
+                    case MERO_SUBSTANCE:
+                        return "%s";
+                    case MERO_PART:
+                        return "%p";
+                    case ATTRIBUTE:
+                        return "=";
+                    case PERTAINYM:
+                        return "\\"; // NOT DEFINED IN PWN
+                    case ALSO:
+                        return "^";  // NOT DEFINED IN PWN
+                    case DERIVATION:
+                        return "+";
+                    case DOMAIN_TOPIC:
+                        return ";c";
+                    case HAS_DOMAIN_TOPIC:
+                        return "-c";
+                    case DOMAIN_REGION:
+                        return ";r";
+                    case HAS_DOMAIN_REGION:
+                        return "-r";
+                    case DOMAIN_USAGE:
+                        return ";u";
+                    case HAS_DOMAIN_USAGE:
+                        return "-u";
 //					case SIMILAR:
 //						if (Flags.POINTER_COMPAT)
 //							throw new IllegalArgumentException(type + " for " + pos); // NOT DEFINED IN PWN
 //						return SIMILAR;
-					default:
-						break;
-				}
-				//@formatter:on
+                    default:
+                        break;
+                }
+                //@formatter:on
 			break;
 
 		case 'v':
@@ -183,44 +184,44 @@ public class Coder
 			*/
 			switch (type)
 			//@formatter:off
-				{
-					case ANTONYM:
-						return "!";
-					case HYPERNYM:
-						return "@";
-					case HYPONYM:
-						return "~";
-					case ENTAILS:
-						return "*";
-					case CAUSES:
-						return ">";
-					case ALSO:
-						return "^";
-					case VERB_GROUP:
-						return "$"; // verb group
-					case DERIVATION:
-						return "+";
-					case DOMAIN_TOPIC:
-						return ";c";
-					case DOMAIN_REGION:
-						return ";r";
-					case DOMAIN_USAGE:
-						return ";u";
-					case IS_ENTAILED:
-						if (Flags.POINTER_COMPAT)
-							throw new CompatException(new IllegalArgumentException(type)); // NOT DEFINED IN PWN
-						return IS_ENTAILED_PTR;
-					case IS_CAUSED:
-						if (Flags.POINTER_COMPAT)
-							throw new CompatException(new IllegalArgumentException(type)); // NOT DEFINED IN PWN
-						return IS_CAUSED_PTR;
-					default:
-						break;
-				}
-				break;
+                {
+                    case ANTONYM:
+                        return "!";
+                    case HYPERNYM:
+                        return "@";
+                    case HYPONYM:
+                        return "~";
+                    case ENTAILS:
+                        return "*";
+                    case CAUSES:
+                        return ">";
+                    case ALSO:
+                        return "^";
+                    case VERB_GROUP:
+                        return "$"; // verb group
+                    case DERIVATION:
+                        return "+";
+                    case DOMAIN_TOPIC:
+                        return ";c";
+                    case DOMAIN_REGION:
+                        return ";r";
+                    case DOMAIN_USAGE:
+                        return ";u";
+                    case IS_ENTAILED:
+                        if (Flags.POINTER_COMPAT)
+                            throw new CompatException(new IllegalArgumentException(type)); // NOT DEFINED IN PWN
+                        return IS_ENTAILED_PTR;
+                    case IS_CAUSED:
+                        if (Flags.POINTER_COMPAT)
+                            throw new CompatException(new IllegalArgumentException(type)); // NOT DEFINED IN PWN
+                        return IS_CAUSED_PTR;
+                    default:
+                        break;
+                }
+                break;
 
-			case 'a':
-			case 's':
+            case 'a':
+            case 's':
 			/*
 			@formatter:off
 			!    Antonym
@@ -236,39 +237,39 @@ public class Coder
 			*/
 			switch (type)
 			//@formatter:off
-				{
-					case ANTONYM:
-						return "!";
-					case SIMILAR:
-						return "&";
-					case PARTICIPLE:
-						return "<";
-					case PERTAINYM:
-						return "\\";
-					case ATTRIBUTE:
-						return "=";
-					case ALSO:
-						return "^"; // NOT DEFINED IN PWN
-					case DERIVATION:
-						return "+"; // NOT DEFINED IN PWN
+                {
+                    case ANTONYM:
+                        return "!";
+                    case SIMILAR:
+                        return "&";
+                    case PARTICIPLE:
+                        return "<";
+                    case PERTAINYM:
+                        return "\\";
+                    case ATTRIBUTE:
+                        return "=";
+                    case ALSO:
+                        return "^"; // NOT DEFINED IN PWN
+                    case DERIVATION:
+                        return "+"; // NOT DEFINED IN PWN
 
-					case DOMAIN_TOPIC:
-						return ";c";
-					case DOMAIN_REGION:
-						return ";r";
-					case DOMAIN_USAGE:
-						return ";u";
+                    case DOMAIN_TOPIC:
+                        return ";c";
+                    case DOMAIN_REGION:
+                        return ";r";
+                    case DOMAIN_USAGE:
+                        return ";u";
 
-					case HAS_DOMAIN_TOPIC:
-						return "-c"; //NS
-					case HAS_DOMAIN_REGION:
-						return "-r"; //NS
-					case HAS_DOMAIN_USAGE:
-						return "-u"; //NS
-					default:
-						break;
-				}
-				//@formatter:on
+                    case HAS_DOMAIN_TOPIC:
+                        return "-c"; //NS
+                    case HAS_DOMAIN_REGION:
+                        return "-r"; //NS
+                    case HAS_DOMAIN_USAGE:
+                        return "-u"; //NS
+                    default:
+                        break;
+                }
+                //@formatter:on
 			break;
 
 		case 'r':
@@ -283,33 +284,33 @@ public class Coder
 			 */
 			switch (type)
 			//@formatter:off
-				{
-					case ANTONYM:
-						return "!";
-					case PERTAINYM:
-						return "\\"; // NS
-					case ALSO:
-						return "^";
-					case DERIVATION:
-						return "+";
+                {
+                    case ANTONYM:
+                        return "!";
+                    case PERTAINYM:
+                        return "\\"; // NS
+                    case ALSO:
+                        return "^";
+                    case DERIVATION:
+                        return "+";
 
-					case DOMAIN_TOPIC:
-						return ";c";
-					case DOMAIN_REGION:
-						return ";r";
-					case DOMAIN_USAGE:
-						return ";u";
+                    case DOMAIN_TOPIC:
+                        return ";c";
+                    case DOMAIN_REGION:
+                        return ";r";
+                    case DOMAIN_USAGE:
+                        return ";u";
 
-					case HAS_DOMAIN_TOPIC:
-						return "-c"; //NS
-					case HAS_DOMAIN_REGION:
-						return "-r"; //NS
-					case HAS_DOMAIN_USAGE:
-						return "-u"; //NS
-					default:
-						break;
-				}
-				//@formatter:on
+                    case HAS_DOMAIN_TOPIC:
+                        return "-c"; //NS
+                    case HAS_DOMAIN_REGION:
+                        return "-r"; //NS
+                    case HAS_DOMAIN_USAGE:
+                        return "-u"; //NS
+                    default:
+                        break;
+                }
+                //@formatter:on
 			break;
 
 		default:
@@ -320,7 +321,7 @@ public class Coder
 
 	// V E R B F R A M E
 
-	private static int LAST_COMPAT_VERBFRAME = 35;
+	private static final int LAST_COMPAT_VERBFRAME = 35;
 
 	private static final Map<String, Integer> FRAME_TO_NUM = new HashMap<>();
 
@@ -428,7 +429,7 @@ public class Coder
 			throw new IllegalArgumentException(frame0);
 		if (Flags.VERBFRAME_COMPAT && n > LAST_COMPAT_VERBFRAME)
 			throw new CompatException(new IllegalArgumentException(frame0)); // NOT DEFINED IN PWN
-		return n;		
+		return n;
 	}
 
 	/**

@@ -100,7 +100,7 @@ public abstract class SynsetProcessor
 	 * @param sensesById sense elements mapped by id
 	 * @param offsetFunction function that, when applied to a synsetId, yields the synset offset in the data files. May be dummy constant function.
 	 */
-	public SynsetProcessor(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById, ToLongFunction<String> offsetFunction)
+	protected SynsetProcessor(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById, ToLongFunction<String> offsetFunction)
 	{
 		this.doc = doc;
 		this.sensesBySynsetId = sensesBySynsetId;
@@ -185,13 +185,12 @@ public abstract class SynsetProcessor
 
 	private Member buildMember(Element senseElement)
 	{
-		// order attribute
-		String orderAttr = senseElement.getAttribute(XmlNames.ORDER_ATTR);
-		int order = orderAttr.isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(orderAttr);
+		// order
+		int order = XmlExtractor.getOrder(senseElement, synsetsById);
 
-		// lexid attribute
-		int lexid = Integer.parseInt(senseElement.getAttribute(XmlNames.LEXID_ATTR));
-		String adjPosition = senseElement.getAttribute(XmlNames.ADJPOSITION_ATTR);
+		// lexid
+		int lexid = XmlExtractor.getLexid(senseElement);
+		String adjPosition = XmlExtractor.getAdjPosition(senseElement);
 
 		// lexical entry element
 		Node lexEntryNode = senseElement.getParentNode();
@@ -274,7 +273,7 @@ public abstract class SynsetProcessor
 			catch (CompatException e)
 			{
 				String cause = e.getCause().getMessage();
-				int count = this.incompats.computeIfAbsent(cause, (c) -> 0) + 1;
+				int count = this.incompats.computeIfAbsent(cause, c -> 0) + 1;
 				this.incompats.put(cause, count);
 				continue;
 			}
@@ -298,23 +297,21 @@ public abstract class SynsetProcessor
 			int memberIndex = members.indexOf(member) + 1;
 
 			// verb frames attribute
-			String syntacticBehaviour = senseElement.getAttribute(XmlNames.VERBFRAMES_ATTR);
-			if (!syntacticBehaviour.isEmpty())
+			String vframes = XmlExtractor.getVerbFrames(senseElement);
+			if (!vframes.isEmpty())
 			{
-				String[] syntacticBehaviours = syntacticBehaviour.split("\\s+");
-				for (String syntacticBehaviourId : syntacticBehaviours)
+				String[] vframeIds = vframes.split("\\s+");
+				for (String vframeId : vframeIds)
 				{
 					try
 					{
-						// String frameNum = syntacticBehaviourId.substring(7);
-						// Frame frame = new Frame(Integer.parseInt(frameNum), memberIndex);
-						Frame frame = new Frame(Coder.codeFrameId(syntacticBehaviourId), memberIndex);
+						Frame frame = new Frame(Coder.codeFrameId(vframeId), memberIndex);
 						frames.add(frame);
 					}
 					catch (CompatException e)
 					{
 						String cause = e.getCause().getMessage();
-						int count = this.incompats.computeIfAbsent(cause, (c) -> 0) + 1;
+						int count = this.incompats.computeIfAbsent(cause, c -> 0) + 1;
 						this.incompats.put(cause, count);
 					}
 				}
@@ -352,7 +349,7 @@ public abstract class SynsetProcessor
 				catch (CompatException e)
 				{
 					String cause = e.getCause().getMessage();
-					int count = this.incompats.computeIfAbsent(cause, (c) -> 0) + 1;
+					int count = this.incompats.computeIfAbsent(cause, c -> 0) + 1;
 					this.incompats.put(cause, count);
 					continue;
 				}
@@ -384,9 +381,10 @@ public abstract class SynsetProcessor
 	 *
 	 * @param synsetElement synset element
 	 * @param sensesBySynsetId senses by synsetId
+	 * @param synsetsById synsets by synsetId
 	 * @return ordered set of lemma members
 	 */
-	public static Members buildMembers(Element synsetElement, Map<String, List<Element>> sensesBySynsetId)
+	public static Members buildMembers(Element synsetElement, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById)
 	{
 		Members members = new Members();
 		String synsetId = synsetElement.getAttribute(XmlNames.ID_ATTR);
@@ -400,13 +398,12 @@ public abstract class SynsetProcessor
 			Element lemmaElement = XmlUtils.getUniqueChildElement(lexEntryElement, XmlNames.LEMMA_TAG);
 			assert lemmaElement != null;
 
-			int lexid = Integer.parseInt(senseElement.getAttribute(XmlNames.LEXID_ATTR));
-			int order = Integer.parseInt(senseElement.getAttribute(XmlNames.ORDER_ATTR));
+			int lexid = XmlExtractor.getLexid(senseElement);
+			int order = XmlExtractor.getOrder(senseElement, synsetsById);
 			String lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 			Member member = new Member(lemma, lexid, order);
 			members.add(member);
 		}
-		assert !members.isEmpty();
 		return members;
 	}
 
@@ -425,7 +422,7 @@ public abstract class SynsetProcessor
 	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId) throws CompatException
 	{
 		// target synset members
-		Members targetMembers = buildMembers(targetSynsetElement, sensesBySynsetId);
+		Members targetMembers = buildMembers(targetSynsetElement, sensesBySynsetId, synsetsById);
 
 		// target synset member
 		Node targetLexEntryNode = targetSenseElement.getParentNode();
@@ -433,8 +430,8 @@ public abstract class SynsetProcessor
 		Element targetLexEntryElement = (Element) targetLexEntryNode;
 		Element targetLemmaElement = XmlUtils.getUniqueChildElement(targetLexEntryElement, XmlNames.LEMMA_TAG);
 		assert targetLemmaElement != null;
-		int targetLexid = Integer.parseInt(targetSenseElement.getAttribute(XmlNames.LEXID_ATTR));
-		int targetOrder = Integer.parseInt(targetSenseElement.getAttribute(XmlNames.ORDER_ATTR));
+		int targetLexid = XmlExtractor.getLexid(targetSenseElement);
+		int targetOrder = XmlExtractor.getOrder(targetSenseElement, synsetsById);
 		String targetLemma = targetLemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR);
 		Member targetMember = new Member(targetLemma, targetLexid, targetOrder);
 

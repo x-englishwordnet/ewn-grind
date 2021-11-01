@@ -1,16 +1,15 @@
 package org.ewn.grind;
 
-import java.io.PrintStream;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-import javax.xml.xpath.XPathExpressionException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import javax.xml.xpath.XPathExpressionException;
+import java.io.PrintStream;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * This class produces the index.{noun|verb|adj|adv}.exc files

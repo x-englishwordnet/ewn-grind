@@ -1,19 +1,19 @@
 package org.ewn.grind;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class produces the sentidx.vrb file
@@ -36,18 +36,25 @@ public class TemplateIndexer
 	private final Document doc;
 
 	/**
+	 * Verb templates map indexed by sensekey
+	 */
+	private final Map<String, int[]> verbTemplates;
+
+	/**
 	 * Constructor
 	 *
 	 * @param doc W3C document
+	 * @param verbTemplates verb templates map indexed by sensekey
 	 */
-	public TemplateIndexer(Document doc)
+	public TemplateIndexer(Document doc, Map<String, int[]> verbTemplates)
 	{
 		super();
 		this.doc = doc;
+		this.verbTemplates = verbTemplates;
 	}
 
 	/**
-	 * Make index.sense
+	 * Make 'index.sense'
 	 *
 	 * @param ps print stream
 	 * @throws XPathExpressionException xpath
@@ -70,13 +77,11 @@ public class TemplateIndexer
 			assert senseElements != null;
 			for (Element senseElement : senseElements)
 			{
-				String sensekey = senseElement.getAttribute(XmlNames.SENSEKEY_ATTR);
-				String templateList = senseElement.getAttribute(XmlNames.VERBTEMPLATES_ATTR);
-				if (templateList.isEmpty())
+				String sensekey = XmlExtractor.getSensekey(senseElement);
+				String vtemplates = XmlExtractor.getVerbTemplates(senseElement, verbTemplates);
+				if (vtemplates.isEmpty())
 					continue;
-				templateList = templateList.replace("oewn-st-", "");
-				String[] templates = templateList.split("\\s+");
-				String line = String.format("%s %s", sensekey, Formatter.join(templates, ','));
+				String line = String.format("%s %s", sensekey, vtemplates.replaceAll("\\s+", ","));
 				lines.add(line);
 				m++;
 			}
@@ -109,8 +114,11 @@ public class TemplateIndexer
 		// XML document
 		Document doc = XmlUtils.getDocument(filename, false);
 
+		// verb templates
+		Map<String, int[]> verbTemplates = VerbTemplatesFactory.makeVerbTemplatesMap(".");
+
 		// Process
-		TemplateIndexer indexer = new TemplateIndexer(doc);
+		TemplateIndexer indexer = new TemplateIndexer(doc, verbTemplates);
 		indexer.makeIndex(System.out);
 
 		// Timing

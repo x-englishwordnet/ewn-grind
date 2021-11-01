@@ -1,16 +1,15 @@
 package org.ewn.grind;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.xpath.XPathExpressionException;
-
 import org.ewn.grind.Data.Relation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import javax.xml.xpath.XPathExpressionException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class computes file offsets that serve as synset id in the WNDB format. It does so by iterating over synset elements and yielding a dummy line string of
@@ -95,8 +94,7 @@ public class OffsetFactory extends SynsetProcessor
 	private static final int DUMMY_NUM = 0;
 
 	@Override
-	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId)
-			throws CompatException
+	protected Relation buildLexRelation(String type, char pos, int lemmaIndex, Element targetSenseElement, Element targetSynsetElement, String targetSynsetId) throws CompatException
 	{
 		char targetPos = targetSynsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
 		return new Relation(type, pos, targetPos, dummyOfs, DUMMY_NUM, DUMMY_NUM);

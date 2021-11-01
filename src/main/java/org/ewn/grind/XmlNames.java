@@ -44,31 +44,21 @@ public class XmlNames
 
 	static final String N_ATTR = "n";
 
-	static final String ORDER_ATTR = "order";
-
 	static final String POS_ATTR = "partOfSpeech";
 
 	static final String WRITTENFORM_ATTR = "writtenForm";
 
 	static final String SYNSET_ATTR = "synset";
 
+	static final String MEMBERS_ATTR = "members";
+
 	static final String TARGET_ATTR = "target";
 
 	static final String RELTYPE_ATTR = "relType";
 
-	static final String LEXID_ATTR = "lexid";
-
 	static final String LEXFILE_ATTR = "subject";
-
-	static final String SENSEKEY_ATTR = "sensekey";
-
-	static final String SENSEKEY_LEGACY_ATTR = "identifier";
-
-	static final String VERBFRAMES_ATTR = "verbFrames";
-
-	static final String VERBTEMPLATES_ATTR = "verbTemplates";
 
 	static final String ADJPOSITION_ATTR = "adjposition"; // "adjPosition"
 
-	static final String TAGCOUNT_ATTR = "tagCnt";
+	static final String VERBFRAMES_ATTR = "subcat";
 }

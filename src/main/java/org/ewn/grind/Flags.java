@@ -18,12 +18,12 @@ public class Flags
 	/**
 	 * Compat mode switch that does not allow pointers beyond those used in PWN.
 	 */
-	public static  boolean POINTER_COMPAT = false;
+	public static boolean POINTER_COMPAT = false;
 
 	/**
 	 * Compat mode switch that does not allow verbframes beyond those used in PWN.
 	 */
-	public static  boolean VERBFRAME_COMPAT = false;
+	public static boolean VERBFRAME_COMPAT = false;
 
 	/**
 	 * Character set for output files.

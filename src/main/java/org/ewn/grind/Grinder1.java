@@ -1,16 +1,15 @@
 package org.ewn.grind;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-
 import org.ewn.grind.Memory.Unit;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Main class that generates one line of the WN database in the WNDB format as per wndb(5WN)
@@ -23,11 +22,8 @@ public class Grinder1
 	/**
 	 * Main entry point
 	 *
-	 * @param args command-line arguments ([0] merged XML filename,[1] pos, [2] offset)
-	 * # 1 input XML file
-	 * # 2 SYNSETID | -sense | -offset
-	 * # 3 SENSEID | POS (n|v|a|r|s)
-	 * # 4 OFFSET (ie 1740)
+	 * @param args command-line arguments ([0] merged XML filename,[1] pos, [2] offset) # 1 input XML file # 2 SYNSETID | -sense | -offset # 3 SENSEID | POS
+	 *        (n|v|a|r|s) # 4 OFFSET (ie 1740)
 	 * @throws SAXException sax
 	 * @throws ParserConfigurationException parser configuration
 	 * @throws IOException io
