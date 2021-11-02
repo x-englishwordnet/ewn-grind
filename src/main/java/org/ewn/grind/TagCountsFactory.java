@@ -10,7 +10,7 @@ public class TagCountsFactory
 	public static void parseTagCounts(String dir, Map<String, Integer> map) throws IOException
 	{
 		// iterate on lines
-		final File file = new File(dir, "data-tagcounts.txt");
+		final File file = new File(dir, "tag.cnt");
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), Flags.charSet)))
 		{
 			long valueCount = 0;
