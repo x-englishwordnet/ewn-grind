@@ -174,7 +174,7 @@ public class SenseIndexer
 			String synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR);
 			String nth = senseElement.getAttribute(XmlNames.N_ATTR);
 			long offset = offsets.get(synsetId);
-			int senseNum = Integer.parseInt(nth);
+			int senseNum = Integer.parseInt(nth) + 1;
 			int tagCount = XmlExtractor.getTagCount(senseElement, tagCounts);
 
 			// data
