@@ -4,9 +4,13 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Map <sensekey, tag count> factory
+ * 
+ * @author Bernard Bou
+ */
 public class TagCountsFactory
 {
-
 	public static void parseTagCounts(String dir, Map<String, Integer> map) throws IOException
 	{
 		// iterate on lines

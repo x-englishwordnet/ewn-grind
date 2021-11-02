@@ -4,9 +4,13 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Map <sensekey, array of template indices> factory
+ * 
+ * @author Bernard Bou
+ */
 public class VerbTemplatesFactory
 {
-
 	public static void parseVerbTemplates(String dir, Map<String, int[]> map) throws IOException
 	{
 		// iterate on lines
