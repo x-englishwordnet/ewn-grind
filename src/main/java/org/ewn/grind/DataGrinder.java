@@ -48,8 +48,8 @@ public class DataGrinder extends SynsetProcessor
 	 */
 	public void makeData(PrintStream ps, String xpath) throws XPathExpressionException
 	{
-		ps.print(Formatter.PRINCETON_HEADER);
-		long offset = Formatter.PRINCETON_HEADER.getBytes(Flags.charSet).length;
+		ps.print(Formatter.OEWN_HEADER);
+		long offset = Formatter.OEWN_HEADER.getBytes(Flags.charSet).length;
 		Element previous = null;
 
 		// iterate synset elements

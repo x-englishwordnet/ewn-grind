@@ -96,7 +96,7 @@ public class WordIndexer
 	{
 		Map<String, Integer> incompats = new HashMap<>();
 
-		ps.print(Formatter.PRINCETON_HEADER);
+		ps.print(Formatter.OEWN_HEADER);
 
 		// collect lines in a set to avoid duplicate lines that arise from lower casing of lemma
 		Map<String, IndexData> indexEntries = new TreeMap<>();

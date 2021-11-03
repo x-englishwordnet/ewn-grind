@@ -50,7 +50,7 @@ public class OffsetFactory extends SynsetProcessor
 	 */
 	public void compute(String xpath, Map<String, Long> offsets) throws XPathExpressionException
 	{
-		long offset = Formatter.PRINCETON_HEADER.getBytes(Flags.charSet).length;
+		long offset = Formatter.OEWN_HEADER.getBytes(Flags.charSet).length;
 
 		// iterate synset elements
 		NodeList synsetNodes = XmlUtils.getXPathNodeList(xpath, doc);
