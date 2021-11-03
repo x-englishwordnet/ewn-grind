@@ -29,9 +29,21 @@ public class XmlExtractor
 		lemma = lemma.replace("-sl-", "/");
 		lemma = lemma.replace("-cm-", ",");
 		lemma = lemma.replace("-ex-", "!");
+		lemma = lemma.replace("-cl-", ":");
+		lemma = lemma.replace("-sp-", "_");
 
 		String tail = sk.substring(b + 2);
 		tail = tail.replace(".", ":");
+		tail = tail.replace("-ap-", "'");
+		tail = tail.replace("-ap-", "'");
+		tail = tail.replace("-lb-", "(");
+		tail = tail.replace("-rb-", ")");
+		tail = tail.replace("-sl-", "/");
+		tail = tail.replace("-cm-", ",");
+		tail = tail.replace("-ex-", "!");
+		tail = tail.replace("-cl-", ":");
+		tail = tail.replace("-sp-", "_");
+		
 		return lemma + '%' + tail;
 
 		// return senseElement.getAttribute(XmlNames.SENSEKEY_ATTR);
