@@ -94,11 +94,11 @@ public abstract class SynsetProcessor
 	/**
 	 * Constructor
 	 *
-	 * @param doc W3C document
+	 * @param doc              W3C document
 	 * @param sensesBySynsetId map of sense elements indexed with key=synsetId
-	 * @param synsetsById synset elements mapped by id
-	 * @param sensesById sense elements mapped by id
-	 * @param offsetFunction function that, when applied to a synsetId, yields the synset offset in the data files. May be dummy constant function.
+	 * @param synsetsById      synset elements mapped by id
+	 * @param sensesById       sense elements mapped by id
+	 * @param offsetFunction   function that, when applied to a synsetId, yields the synset offset in the data files. May be dummy constant function.
 	 */
 	protected SynsetProcessor(Document doc, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById, Map<String, Element> sensesById, ToLongFunction<String> offsetFunction)
 	{
@@ -134,9 +134,13 @@ public abstract class SynsetProcessor
 		public boolean equals(Object other)
 		{
 			if (this == other)
+			{
 				return true;
+			}
 			if (other == null || getClass() != other.getClass())
+			{
 				return false;
+			}
 			XMLRelation that = (XMLRelation) other;
 			return isSenseRelation == that.isSenseRelation && Objects.equals(relType, that.relType) && Objects.equals(target, that.target);
 		}
@@ -154,10 +158,14 @@ public abstract class SynsetProcessor
 		{
 			int c = Boolean.compare(this.isSenseRelation, other.isSenseRelation);
 			if (c != 0)
+			{
 				return c;
+			}
 			c = this.relType.compareTo(other.relType);
 			if (c != 0)
+			{
 				return c;
+			}
 			return this.relType.compareTo(other.relType);
 		}
 
@@ -210,7 +218,7 @@ public abstract class SynsetProcessor
 	 * Get data and yield line
 	 *
 	 * @param synsetElement synset element
-	 * @param offset allocated offset for the synset
+	 * @param offset        allocated offset for the synset
 	 * @return line
 	 */
 	protected String getData(Element synsetElement, long offset)
@@ -369,7 +377,9 @@ public abstract class SynsetProcessor
 		String relatedData = Formatter.joinNum(relations, "%03d", Relation::toWndbString);
 		String verbframesData = frames.toWndbString(pos, members.size());
 		if (!verbframesData.isEmpty())
+		{
 			verbframesData = ' ' + verbframesData;
+		}
 		assert definitionElements != null;
 		String definitionsData = Formatter.join(definitionElements, "; ", false, Element::getTextContent);
 		String examplesData = exampleElements == null || exampleElements.isEmpty() ? "" : "; " + Formatter.joinAndQuote(exampleElements, ' ', false, Element::getTextContent);
@@ -379,9 +389,9 @@ public abstract class SynsetProcessor
 	/**
 	 * Collect lemmas that are member of this synset
 	 *
-	 * @param synsetElement synset element
+	 * @param synsetElement    synset element
 	 * @param sensesBySynsetId senses by synsetId
-	 * @param synsetsById synsets by synsetId
+	 * @param synsetsById      synsets by synsetId
 	 * @return ordered set of lemma members
 	 */
 	public static Members buildMembers(Element synsetElement, Map<String, List<Element>> sensesBySynsetId, Map<String, Element> synsetsById)
@@ -410,12 +420,12 @@ public abstract class SynsetProcessor
 	/**
 	 * Build relation
 	 *
-	 * @param type relation type
-	 * @param pos part of speech
-	 * @param lemmaIndex lemmaIndex
-	 * @param targetSenseElement target sense element
+	 * @param type                relation type
+	 * @param pos                 part of speech
+	 * @param lemmaIndex          lemmaIndex
+	 * @param targetSenseElement  target sense element
 	 * @param targetSynsetElement target synset element
-	 * @param targetSynsetId target synsetid
+	 * @param targetSynsetId      target synsetid
 	 * @return relation
 	 * @throws CompatException when relation is not legacy compatible
 	 */
@@ -451,7 +461,14 @@ public abstract class SynsetProcessor
 	protected int buildLexfileNum(Element synsetElement)
 	{
 		String lexfile = synsetElement.getAttributeNS(XmlNames.NS_DC, XmlNames.LEXFILE_ATTR);
-		return Coder.codeLexFile(lexfile);
+		try
+		{
+			return Coder.codeLexFile(lexfile);
+		}
+		catch (Exception e)
+		{
+			throw new IllegalArgumentException("Lexfile " + lexfile + " in " + synsetElement.getAttribute(XmlNames.ID_ATTR));
+		}
 	}
 
 	/**

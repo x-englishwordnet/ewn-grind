@@ -128,8 +128,16 @@ public class WordIndexer
 			// senses
 			List<Element> senseElements = XmlUtils.getChildElementsSortedBy(lexEntryElement, XmlNames.SENSE_TAG, (element1, element2) -> {
 				String nAttr1 = element1.getAttribute(XmlNames.N_ATTR);
-				int n1 = Integer.parseInt(nAttr1);
 				String nAttr2 = element2.getAttribute(XmlNames.N_ATTR);
+				if (nAttr1.isEmpty())
+				{
+					throw new IllegalArgumentException(element1.getAttribute(XmlNames.ID_ATTR) + " has no 'n' attr");
+				}
+				if (nAttr2.isEmpty())
+				{
+					throw new IllegalArgumentException(element2.getAttribute(XmlNames.ID_ATTR) + " has no 'n' attr");
+				}
+				int n1 = Integer.parseInt(nAttr1);
 				int n2 = Integer.parseInt(nAttr2);
 				return Integer.compare(n1, n2);
 			});
@@ -145,10 +153,15 @@ public class WordIndexer
 				{
 					// check ordering
 					String nAttr = senseElement.getAttribute(XmlNames.N_ATTR);
+					if (nAttr.isEmpty())
+					{
+						// current wn.xml has no 'n'
+						throw new IllegalArgumentException("LexEntry " + lexEntryElement.getAttribute(XmlNames.ID_ATTR) + " with no 'n' attribute");
+					}
 					int rank = Integer.parseInt(nAttr);
 					if (previousRank >= rank)
 					{
-						throw new IllegalArgumentException(lexEntryElement.getAttribute(XmlNames.ID_ATTR) + " " + " previous=" + previousRank + " current=" + rank);
+						throw new IllegalArgumentException("LexEntry " + lexEntryElement.getAttribute(XmlNames.ID_ATTR) + " " + " previous=" + previousRank + " current=" + rank);
 					}
 					previousRank = rank;
 

@@ -46,6 +46,12 @@ class XmlUtils
 		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 		builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 		builderFactory.setNamespaceAware(true);
+
+		// for DTD-based
+		builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
+		builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+
+		builderFactory.setValidating(withSchema);
 		if (withSchema)
 		{
 			SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);

@@ -5,4 +5,5 @@
 /out
 /out_compat
 /out_contrib/
-
+/out_official/
+_*.*
