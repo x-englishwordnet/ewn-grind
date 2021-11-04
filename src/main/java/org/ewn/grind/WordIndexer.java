@@ -126,59 +126,69 @@ public class WordIndexer
 			data.pos = pos;
 
 			// senses
-			NodeList senseNodes = lexEntryElement.getElementsByTagName(XmlNames.SENSE_TAG);
-			int nSenses = senseNodes.getLength();
-			assert nSenses >= 1;
-			for (int j = 0; j < nSenses; j++)
+			List<Element> senseElements = XmlUtils.getChildElementsSortedBy(lexEntryElement, XmlNames.SENSE_TAG, (element1, element2) -> {
+				String nAttr1 = element1.getAttribute(XmlNames.N_ATTR);
+				int n1 = Integer.parseInt(nAttr1);
+				String nAttr2 = element2.getAttribute(XmlNames.N_ATTR);
+				int n2 = Integer.parseInt(nAttr2);
+				return Integer.compare(n1, n2);
+			});
+
+			if (senseElements == null)
 			{
-				Node senseNode = senseNodes.item(j);
-				assert senseNode.getNodeType() == Node.ELEMENT_NODE;
-				Element senseElement = (Element) senseNode;
-
-				// order
-				String nAttr = senseElement.getAttribute(XmlNames.N_ATTR);
-				int rank = Integer.parseInt(nAttr);
-				if (rank != j)
+				throw new IllegalArgumentException("LexicalEntry " + lexEntryElement.getAttribute(XmlNames.ID_ATTR) + " has no Sense");
+			}
+			else
+			{
+				int previousRank = -1;
+				for (Element senseElement : senseElements)
 				{
-					throw new IllegalArgumentException(lexEntryElement.getAttribute(XmlNames.ID_ATTR) + " " + senseElement.getAttribute(XmlNames.ID_ATTR) + " nth=" + j + " actual=" + rank);
-				}
-
-				// synsetid
-				String synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR);
-				data.synsetIds.add(synsetId);
-
-				// target synset element
-				Element synsetElement = synsetsById.get(synsetId);
-
-				// synset relations
-				NodeList synsetRelationNodes = synsetElement.getElementsByTagName(XmlNames.SYNSETRELATION_TAG);
-				int nSynsetRelations = synsetRelationNodes.getLength();
-				for (int k = 0; k < nSynsetRelations; k++)
-				{
-					Node synsetRelationNode = synsetRelationNodes.item(k);
-					assert synsetRelationNode.getNodeType() == Node.ELEMENT_NODE;
-					Element synsetRelationElement = (Element) synsetRelationNode;
-
-					String type = synsetRelationElement.getAttribute(XmlNames.RELTYPE_ATTR);
-					String pointer;
-					try
+					// check ordering
+					String nAttr = senseElement.getAttribute(XmlNames.N_ATTR);
+					int rank = Integer.parseInt(nAttr);
+					if (previousRank >= rank)
 					{
-						pointer = Coder.codeRelation(type, pos.charAt(0));
+						throw new IllegalArgumentException(lexEntryElement.getAttribute(XmlNames.ID_ATTR) + " " + " previous=" + previousRank + " current=" + rank);
 					}
-					catch (CompatException e)
+					previousRank = rank;
+
+					// synsetid
+					String synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR);
+					data.synsetIds.add(synsetId);
+
+					// target synset element
+					Element synsetElement = synsetsById.get(synsetId);
+
+					// synset relations
+					NodeList synsetRelationNodes = synsetElement.getElementsByTagName(XmlNames.SYNSETRELATION_TAG);
+					int nSynsetRelations = synsetRelationNodes.getLength();
+					for (int k = 0; k < nSynsetRelations; k++)
 					{
-						String cause = e.getCause().getMessage();
-						int count = incompats.computeIfAbsent(cause, (c) -> 0) + 1;
-						incompats.put(cause, count);
-						continue;
+						Node synsetRelationNode = synsetRelationNodes.item(k);
+						assert synsetRelationNode.getNodeType() == Node.ELEMENT_NODE;
+						Element synsetRelationElement = (Element) synsetRelationNode;
+
+						String type = synsetRelationElement.getAttribute(XmlNames.RELTYPE_ATTR);
+						String pointer;
+						try
+						{
+							pointer = Coder.codeRelation(type, pos.charAt(0));
+						}
+						catch (CompatException e)
+						{
+							String cause = e.getCause().getMessage();
+							int count = incompats.computeIfAbsent(cause, (c) -> 0) + 1;
+							incompats.put(cause, count);
+							continue;
+						}
+						catch (IllegalArgumentException e)
+						{
+							String cause = e.getClass().getName() + ' ' + e.getMessage();
+							System.err.printf("Illegal relation %s id=%s%n", cause, synsetElement.getAttribute("id"));
+							throw e;
+						}
+						data.relationPointers.add(pointer);
 					}
-					catch (IllegalArgumentException e)
-					{
-						String cause = e.getClass().getName() + ' ' + e.getMessage();
-						System.err.printf("Illegal relation %s id=%s%n", cause, synsetElement.getAttribute("id"));
-						throw e;
-					}
-					data.relationPointers.add(pointer);
 				}
 			}
 

@@ -6,6 +6,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,12 +19,6 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * XML utilities
@@ -36,12 +34,12 @@ class XmlUtils
 	/**
 	 * Build W3C Document from file
 	 *
-	 * @param filePath file path
+	 * @param filePath   file path
 	 * @param withSchema whether to validate document when building it (long)
 	 * @return W3C Document
-	 * @throws SAXException sax
+	 * @throws SAXException                 sax
 	 * @throws ParserConfigurationException parser configuration
-	 * @throws IOException io
+	 * @throws IOException                  io
 	 */
 	static Document getDocument(String filePath, @SuppressWarnings("SameParameterValue") boolean withSchema) throws SAXException, ParserConfigurationException, IOException
 	{
@@ -119,7 +117,7 @@ class XmlUtils
 	 * Get first child element
 	 *
 	 * @param element parent element
-	 * @param tag child tag
+	 * @param tag     child tag
 	 * @return first child element having 'tag' tag
 	 */
 	// @Nullable
@@ -139,7 +137,7 @@ class XmlUtils
 	 * Get first child element
 	 *
 	 * @param element parent element
-	 * @param tag child tag
+	 * @param tag     child tag
 	 * @return first child element having 'tag' tag
 	 */
 	// @Nullable
@@ -159,7 +157,7 @@ class XmlUtils
 	 * Get child elements
 	 *
 	 * @param element parent element
-	 * @param tag child tag
+	 * @param tag     child tag
 	 * @return list of child elements having 'tag' tag
 	 */
 	// @Nullable
@@ -175,6 +173,33 @@ class XmlUtils
 				assert node.getNodeType() == Node.ELEMENT_NODE;
 				elements.add((Element) node);
 			}
+			return elements;
+		}
+		return null;
+	}
+
+	/**
+	 * Get sorted child elements
+	 *
+	 * @param element    parent element
+	 * @param tag        child tag
+	 * @param comparator sort comparator
+	 * @return list of child elements having 'tag' tag and sorted by comparator
+	 */
+	// @Nullable
+	static List<Element> getChildElementsSortedBy(Element element, String tag, Comparator<Element> comparator)
+	{
+		NodeList nodeList = element.getElementsByTagName(tag);
+		if (nodeList.getLength() > 0)
+		{
+			List<Element> elements = new ArrayList<>();
+			for (int i = 0; i < nodeList.getLength(); i++)
+			{
+				Node node = nodeList.item(i);
+				assert node.getNodeType() == Node.ELEMENT_NODE;
+				elements.add((Element) node);
+			}
+			elements.sort(comparator);
 			return elements;
 		}
 		return null;
@@ -198,7 +223,7 @@ class XmlUtils
 	 * Get node list satisfying XPath expression
 	 *
 	 * @param expr XPath expression
-	 * @param doc W3C Document
+	 * @param doc  W3C Document
 	 * @return node list satisfying XPath expression
 	 * @throws XPathExpressionException xpath
 	 */
