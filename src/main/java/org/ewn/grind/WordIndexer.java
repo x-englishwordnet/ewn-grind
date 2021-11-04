@@ -5,9 +5,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.xml.xpath.XPathExpressionException;
 import java.io.PrintStream;
 import java.util.*;
+
+import javax.xml.xpath.XPathExpressionException;
 
 /**
  * This class produces the index.{noun|verb|adj|adv} files
@@ -58,9 +59,9 @@ public class WordIndexer
 	/**
 	 * Constructor
 	 *
-	 * @param doc W3C document
+	 * @param doc         W3C document
 	 * @param synsetsById map of synset elements indexed by their synset id key
-	 * @param offsets offsets indexed by synset id key
+	 * @param offsets     offsets indexed by synset id key
 	 */
 	public WordIndexer(Document doc, Map<String, Element> synsetsById, Map<String, Long> offsets)
 	{
@@ -80,7 +81,9 @@ public class WordIndexer
 		public String getPos()
 		{
 			if ("s".equals(pos))
+			{
 				return "a";
+			}
 			return pos;
 		}
 	}
@@ -88,7 +91,7 @@ public class WordIndexer
 	/**
 	 * Make index
 	 *
-	 * @param ps print stream
+	 * @param ps    print stream
 	 * @param xpath xpath for lexical entry nodes
 	 * @throws XPathExpressionException xpath
 	 */
@@ -131,6 +134,14 @@ public class WordIndexer
 				Node senseNode = senseNodes.item(j);
 				assert senseNode.getNodeType() == Node.ELEMENT_NODE;
 				Element senseElement = (Element) senseNode;
+
+				// order
+				String nAttr = senseElement.getAttribute(XmlNames.N_ATTR);
+				int rank = Integer.parseInt(nAttr);
+				if (rank != j)
+				{
+					throw new IllegalArgumentException(lexEntryElement.getAttribute(XmlNames.ID_ATTR) + " " + senseElement.getAttribute(XmlNames.ID_ATTR) + " nth=" + j + " actual=" + rank);
+				}
 
 				// synsetid
 				String synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR);
