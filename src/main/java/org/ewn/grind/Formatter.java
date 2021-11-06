@@ -144,9 +144,16 @@ class Formatter
 				sb.append(delim);
 			}
 			String value = f.apply(item);
-			sb.append('"');
-			sb.append(escape ? escape(value) : value);
-			sb.append('"');
+			if (value.matches("\".*\""))
+			{
+				sb.append(escape ? escape(value) : value);
+			}
+			else
+			{
+				sb.append('"');
+				sb.append(escape ? escape(value) : value);
+				sb.append('"');
+			}
 		}
 		return sb.toString();
 	}
