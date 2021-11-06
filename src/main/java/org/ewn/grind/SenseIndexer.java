@@ -13,6 +13,11 @@ public class SenseIndexer
 {
 	// sense_key synset_offset sense_number tag_cnt
 
+	/**
+	 * Format in data file
+	 */
+	private static final String SENSE_FORMAT = "%s %08d %d %d  ";
+
 	static final Comparator<String> lexicalComparatorLowerFirst = (s1, s2) -> {
 		int c = s1.compareToIgnoreCase(s2);
 		if (c != 0)
@@ -115,7 +120,7 @@ public class SenseIndexer
 			int senseNum = Integer.parseInt(nth);
 			int tagCount = XmlExtractor.getTagCount(senseElement, tagCounts);
 
-			String line = String.format("%s %08d %d %d", sensekey, offset, senseNum, tagCount);
+			String line = String.format(SENSE_FORMAT, sensekey, offset, senseNum, tagCount);
 			lines.add(line);
 		}
 		for (String line : lines)
@@ -223,7 +228,7 @@ public class SenseIndexer
 			int tagCount = XmlExtractor.getTagCount(senseElement, tagCounts);
 
 			String sensekeyLower = sensekey.toLowerCase();
-			String line = String.format("%s %08d %d %d", sensekeyLower, offset, senseNum, tagCount);
+			String line = String.format(SENSE_FORMAT, sensekeyLower, offset, senseNum, tagCount);
 			lines.add(line);
 		}
 		for (String line : lines)
@@ -261,13 +266,13 @@ public class SenseIndexer
 
 			// lowercase first
 			String sensekeyLower = sensekey.toLowerCase();
-			String line = String.format("%s %08d %d %d", sensekeyLower, offset, senseNum, tagCount);
+			String line = String.format(SENSE_FORMAT, sensekeyLower, offset, senseNum, tagCount);
 			lines.add(line);
 
 			// cased second if needed
 			if (!sensekey.equals(sensekeyLower))
 			{
-				String line2 = String.format("%s %08d %d %d", sensekey, offset, senseNum, tagCount);
+				String line2 = String.format(SENSE_FORMAT, sensekey, offset, senseNum, tagCount);
 				lines.add(line2);
 			}
 		}

@@ -19,7 +19,7 @@ public abstract class SynsetProcessor
 	/**
 	 * Format in data file
 	 */
-	public static final String SYNSET_FORMAT = "%08d %02d %c %s %s%s | %s%s\n";
+	private static final String SYNSET_FORMAT = "%08d %02d %c %s %s%s | %s%s  \n";
 	// offset
 	// lexfilenum
 	// pos

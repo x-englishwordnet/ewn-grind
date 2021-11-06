@@ -18,6 +18,18 @@ import javax.xml.xpath.XPathExpressionException;
 public class WordIndexer
 {
 	/**
+	 * Format in data file
+	 */
+	private static final String WORD_FORMAT = "%s %s %d %s %d %d %s  ";
+	// lemma
+	// pos
+	// synset_cnt
+	// ptrs=p_cnt  [ptr_symbol...]
+	// ofs=sense_cnt
+	// tagsense_cnt (0)
+	// synset_offset  [synset_offset...]
+
+	/**
 	 * XPath for noun lexical entry elements
 	 */
 	public static final String NOUN_LEXENTRIES_XPATH = String.format("/%s/%s/%s[%s/@%s='n']", //
@@ -245,8 +257,8 @@ public class WordIndexer
 			int nSenses = data.synsetIds.size();
 
 			String ptrs = Formatter.joinNum(data.relationPointers, "%d", String::toString);
-			String ofs = String.format("%d %d %s", nSenses, 0, Formatter.join(data.synsetIds, ' ', false, s -> String.format("%08d", offsets.get(s))));
-			String line = String.format("%s %s %d %s %s", key, data.getPos(), nSenses, ptrs, ofs);
+			String ofs = Formatter.join(data.synsetIds, ' ', false, s -> String.format("%08d", offsets.get(s)));
+			String line = String.format(WORD_FORMAT, key, data.getPos(), nSenses, ptrs, nSenses, 0, ofs);
 			ps.println(line);
 			count++;
 		}
