@@ -32,7 +32,7 @@ class Formatter
 	 * @param delim delimiter
 	 * @return joined string representation of items
 	 */
-	static <T> Object join(T[] items, @SuppressWarnings("SameParameterValue") char delim)
+	static <T> String join(T[] items, @SuppressWarnings("SameParameterValue") char delim)
 	{
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
