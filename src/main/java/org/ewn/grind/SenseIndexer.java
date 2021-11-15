@@ -117,7 +117,7 @@ public class SenseIndexer
 			String synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR);
 			String nth = senseElement.getAttribute(XmlNames.N_ATTR);
 			long offset = offsets.get(synsetId);
-			int senseNum = Integer.parseInt(nth);
+			int senseNum = Integer.parseInt(nth) + 1;
 			int tagCount = XmlExtractor.getTagCount(senseElement, tagCounts);
 
 			String line = String.format(SENSE_FORMAT, sensekey, offset, senseNum, tagCount);
@@ -224,7 +224,7 @@ public class SenseIndexer
 			String synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR);
 			String nth = senseElement.getAttribute(XmlNames.N_ATTR);
 			long offset = offsets.get(synsetId);
-			int senseNum = Integer.parseInt(nth);
+			int senseNum = Integer.parseInt(nth) + 1;
 			int tagCount = XmlExtractor.getTagCount(senseElement, tagCounts);
 
 			String sensekeyLower = sensekey.toLowerCase();
@@ -261,7 +261,7 @@ public class SenseIndexer
 			String synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR);
 			String nth = senseElement.getAttribute(XmlNames.N_ATTR);
 			long offset = offsets.get(synsetId);
-			int senseNum = Integer.parseInt(nth);
+			int senseNum = Integer.parseInt(nth) + 1;
 			int tagCount = XmlExtractor.getTagCount(senseElement, tagCounts);
 
 			// lowercase first
