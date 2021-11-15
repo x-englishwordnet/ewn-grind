@@ -198,6 +198,8 @@ public abstract class SynsetProcessor
 
 		// lexid
 		int lexid = XmlExtractor.getLexid(senseElement);
+
+		// adj position
 		String adjPosition = XmlExtractor.getAdjPosition(senseElement);
 
 		// lexical entry element
