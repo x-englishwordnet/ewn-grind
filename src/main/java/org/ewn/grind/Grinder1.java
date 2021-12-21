@@ -1,15 +1,19 @@
 package org.ewn.grind;
 
 import org.ewn.grind.Memory.Unit;
+import org.oewntk.parse.DataParser1;
+import org.oewntk.pojos.ParsePojoException;
+import org.oewntk.pojos.Synset;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 
 /**
  * Main class that generates one line of the WN database in the WNDB format as per wndb(5WN)
@@ -23,11 +27,11 @@ public class Grinder1
 	 * Main entry point
 	 *
 	 * @param args command-line arguments ([0] merged XML filename,[1] pos, [2] offset) # 1 input XML file # 2 SYNSETID | -sense | -offset # 3 SENSEID | POS
-	 *        (n|v|a|r|s) # 4 OFFSET (ie 1740)
-	 * @throws SAXException sax
+	 *             (n|v|a|r|s) # 4 OFFSET (ie 1740)
+	 * @throws SAXException                 sax
 	 * @throws ParserConfigurationException parser configuration
-	 * @throws IOException io
-	 * @throws XPathExpressionException xpath
+	 * @throws IOException                  io
+	 * @throws XPathExpressionException     xpath
 	 */
 	public static void main(String[] args) throws SAXException, ParserConfigurationException, IOException, XPathExpressionException
 	{
@@ -90,13 +94,13 @@ public class Grinder1
 	/**
 	 * Grind data for this synset
 	 *
-	 * @param synsetElement synset element
-	 * @param offset offset
-	 * @param doc parsed XML W3C document
+	 * @param synsetElement    synset element
+	 * @param offset           offset
+	 * @param doc              parsed XML W3C document
 	 * @param sensesBySynsetId sense elements mapped by synsetId (whose 'synset' attribute = synsetId)
-	 * @param synsetsById synset elements mapped by synsetId
-	 * @param sensesById sense elements mapped by synsetId
-	 * @param offsets offsets mapped by synsetId
+	 * @param synsetsById      synset elements mapped by synsetId
+	 * @param sensesById       sense elements mapped by synsetId
+	 * @param offsets          offsets mapped by synsetId
 	 */
 	public static void data(Element synsetElement, long offset, Document doc, //
 			Map<String, List<Element>> sensesBySynsetId, //
@@ -109,5 +113,14 @@ public class Grinder1
 		DataGrinder factory = new DataGrinder(doc, sensesBySynsetId, synsetsById, sensesById, offsets);
 		String line = factory.getData(synsetElement, offset);
 		System.out.println(line);
+		try
+		{
+			Synset s = DataParser1.parseSynset(line, false);
+			System.out.println(s.toPrettyString());
+		}
+		catch (ParsePojoException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

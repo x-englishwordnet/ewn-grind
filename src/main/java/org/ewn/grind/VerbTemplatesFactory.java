@@ -47,7 +47,6 @@ public class VerbTemplatesFactory
 			}
 			System.err.println("Map VerbTemplate[sensekey] " + valueCount);
 		}
-
 	}
 
 	public static Map<String, int[]> makeVerbTemplatesMap(String dir) throws IOException
