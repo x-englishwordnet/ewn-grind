@@ -104,6 +104,7 @@ public class XmlExtractor
 				.replace("-cm-", ",") //
 				.replace("-ex-", "!") //
 				.replace("-cl-", ":") //
+				.replace("-pl-", "+") //
 				.replace("-sp-", "_");
 
 		String tail = sk.substring(b + 2) //
@@ -115,6 +116,7 @@ public class XmlExtractor
 				.replace("-cm-", ",") //
 				.replace("-ex-", "!") //
 				.replace("-cl-", ":") //
+				.replace("-pl-", "+") //
 				.replace("-sp-", "_");
 
 		return lemma + '%' + tail;
@@ -123,9 +125,9 @@ public class XmlExtractor
 	static public void main(String[] args)
 	{
 		for (String id : new String[]{ //
-				"a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i__1:23:45::",  //
-				"a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i__1:23:45::a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i", //
-				"oewn-a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i__1:23:45::a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i", //
+				"a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i-pl-j__1:23:45::",  //
+				"a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i__1:23:45::a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i-pl-j", //
+				"oewn-a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i__1:23:45::a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i-pl-j", //
 		})
 		{
 			System.out.printf("%s -> %s%n", id, toSensekey(id));
